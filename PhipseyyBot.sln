@@ -1,0 +1,49 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhipseyyBot", "PhipseyyBot\PhipseyyBot.csproj", "{F18F9D8A-5EB2-45C9-8E1F-67A114B853CF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{5F779238-F6F9-4758-9C5F-C91D9308EF9B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Phipseyy.Discord", "Phipseyy.Discord\Phipseyy.Discord.csproj", "{BD2DDDF1-6910-429F-B38B-8E3C58ACE26A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Phipseyy.Common", "Phipseyy.Common\Phipseyy.Common.csproj", "{43DD7DFC-721D-430E-8DD8-81760BB25C6F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Phipseyy.Spotify", "Phipseyy.Spotify\Phipseyy.Spotify.csproj", "{AF788548-4F64-4E57-92F8-B2BBAA51D0B4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Phipsey.Twitch", "Phipsey.Twitch\Phipsey.Twitch.csproj", "{E0BD0953-AD5F-4CF0-96C0-A975B6282D30}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F18F9D8A-5EB2-45C9-8E1F-67A114B853CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F18F9D8A-5EB2-45C9-8E1F-67A114B853CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F18F9D8A-5EB2-45C9-8E1F-67A114B853CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F18F9D8A-5EB2-45C9-8E1F-67A114B853CF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BD2DDDF1-6910-429F-B38B-8E3C58ACE26A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BD2DDDF1-6910-429F-B38B-8E3C58ACE26A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BD2DDDF1-6910-429F-B38B-8E3C58ACE26A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BD2DDDF1-6910-429F-B38B-8E3C58ACE26A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{43DD7DFC-721D-430E-8DD8-81760BB25C6F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{43DD7DFC-721D-430E-8DD8-81760BB25C6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{43DD7DFC-721D-430E-8DD8-81760BB25C6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{43DD7DFC-721D-430E-8DD8-81760BB25C6F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AF788548-4F64-4E57-92F8-B2BBAA51D0B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF788548-4F64-4E57-92F8-B2BBAA51D0B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF788548-4F64-4E57-92F8-B2BBAA51D0B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF788548-4F64-4E57-92F8-B2BBAA51D0B4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E0BD0953-AD5F-4CF0-96C0-A975B6282D30}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E0BD0953-AD5F-4CF0-96C0-A975B6282D30}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E0BD0953-AD5F-4CF0-96C0-A975B6282D30}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E0BD0953-AD5F-4CF0-96C0-A975B6282D30}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{F18F9D8A-5EB2-45C9-8E1F-67A114B853CF} = {5F779238-F6F9-4758-9C5F-C91D9308EF9B}
+		{BD2DDDF1-6910-429F-B38B-8E3C58ACE26A} = {5F779238-F6F9-4758-9C5F-C91D9308EF9B}
+		{43DD7DFC-721D-430E-8DD8-81760BB25C6F} = {5F779238-F6F9-4758-9C5F-C91D9308EF9B}
+		{AF788548-4F64-4E57-92F8-B2BBAA51D0B4} = {5F779238-F6F9-4758-9C5F-C91D9308EF9B}
+		{E0BD0953-AD5F-4CF0-96C0-A975B6282D30} = {5F779238-F6F9-4758-9C5F-C91D9308EF9B}
+	EndGlobalSection
+EndGlobal
