@@ -1,15 +1,14 @@
-﻿using System;
-using Serilog;
+﻿using Serilog;
 
 namespace Phipseyy.Common.Modules;
 
 public class PhipseyLogger
 {
-    public static void SetupLogger(string OutputDir)
+    public static void SetupLogger(string outputDir)
     {
         Log.Logger = new LoggerConfiguration()
             .WriteTo.Console(outputTemplate:"{Message}{NewLine}{Exception}")
-            .WriteTo.File(AppContext.BaseDirectory+OutputDir, rollingInterval: RollingInterval.Day,
+            .WriteTo.File(AppContext.BaseDirectory+outputDir, rollingInterval: RollingInterval.Day,
                 outputTemplate:"[{Timestamp:yyyy.MM.dd}] - {Message}{NewLine}{Exception}")
             .CreateLogger();
 

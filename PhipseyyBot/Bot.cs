@@ -1,7 +1,4 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using Phipsey.Twitch;
+﻿using Phipsey.Twitch;
 using Phipseyy.Common.Services;
 using Phipseyy.Discord;
 using Phipseyy.Spotify;

@@ -1,8 +1,4 @@
-﻿using System.Threading.Tasks;
-using Phipseyy.Common;
-using Phipseyy.Common.Modules;
-using Serilog;
-using Serilog.Core;
+﻿using Phipseyy.Common.Modules;
 
 namespace PhipseyyBot;
 

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using SpotifyAPI.Web.Auth;
+﻿using SpotifyAPI.Web.Auth;
 using SpotifyAPI.Web;
 using Newtonsoft.Json;
 using Phipseyy.Common.Services;
@@ -49,7 +44,7 @@ public class SpotifyBot
         var json = await File.ReadAllTextAsync(_credentialsPath);
         var token = JsonConvert.DeserializeObject<PKCETokenResponse>(json);
 
-        var authenticator = new PKCEAuthenticator(_clientId!, token!);
+        var authenticator = new PKCEAuthenticator(_clientId, token!);
         // TODO: Combine spotifyCred with the config.JSON
         authenticator.TokenRefreshed += (_, tokenResponse) => File.WriteAllText(_credentialsPath, JsonConvert.SerializeObject(tokenResponse));
 
@@ -70,14 +65,14 @@ public class SpotifyBot
         {
             await Server.Stop();
             var token = await new OAuthClient().RequestToken(
-                new PKCETokenRequest(_clientId!, response.Code, Server.BaseUri, verifier)
+                new PKCETokenRequest(_clientId, response.Code, Server.BaseUri, verifier)
             );
 
             await File.WriteAllTextAsync(_credentialsPath, JsonConvert.SerializeObject(token));
             await Start();
         };
 
-        var request = new LoginRequest(Server.BaseUri, _clientId!, LoginRequest.ResponseType.Code)
+        var request = new LoginRequest(Server.BaseUri, _clientId, LoginRequest.ResponseType.Code)
         {
             CodeChallenge = challenge,
             CodeChallengeMethod = "S256",
