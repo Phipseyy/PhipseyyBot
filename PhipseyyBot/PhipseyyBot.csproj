@@ -15,7 +15,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Phipsey.Twitch\Phipsey.Twitch.csproj" />
+      <ProjectReference Include="..\Phipseyy.Twitch\Phipseyy.Twitch.csproj" />
       <ProjectReference Include="..\Phipseyy.Common\Phipseyy.Common.csproj" />
       <ProjectReference Include="..\Phipseyy.Discord\Phipseyy.Discord.csproj" />
       <ProjectReference Include="..\Phipseyy.Spotify\Phipseyy.Spotify.csproj" />

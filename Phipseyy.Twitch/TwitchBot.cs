@@ -11,7 +11,7 @@ using TwitchLib.Communication.Models;
 using static System.DateTime;
 using Serilog;
 
-namespace Phipsey.Twitch;
+namespace Phipseyy.Twitch;
 
 public class TwitchBot
 {

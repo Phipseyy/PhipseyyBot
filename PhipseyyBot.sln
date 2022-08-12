@@ -10,7 +10,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Phipseyy.Common", "Phipseyy
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Phipseyy.Spotify", "Phipseyy.Spotify\Phipseyy.Spotify.csproj", "{AF788548-4F64-4E57-92F8-B2BBAA51D0B4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Phipsey.Twitch", "Phipsey.Twitch\Phipsey.Twitch.csproj", "{E0BD0953-AD5F-4CF0-96C0-A975B6282D30}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Phipseyy.Twitch", "Phipseyy.Twitch\Phipseyy.Twitch.csproj", "{E0BD0953-AD5F-4CF0-96C0-A975B6282D30}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
