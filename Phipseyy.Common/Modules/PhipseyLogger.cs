@@ -1,4 +1,5 @@
-﻿using Serilog;
+﻿using System;
+using Serilog;
 
 namespace Phipseyy.Common.Modules;
 

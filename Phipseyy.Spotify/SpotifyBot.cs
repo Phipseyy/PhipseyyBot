@@ -1,4 +1,9 @@
-﻿using SpotifyAPI.Web.Auth;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
+using SpotifyAPI.Web.Auth;
 using SpotifyAPI.Web;
 using Newtonsoft.Json;
 using Phipseyy.Common.Services;

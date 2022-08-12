@@ -1,4 +1,6 @@
-﻿using Phipseyy.Common.Services;
+﻿using System;
+using System.Threading.Tasks;
+using Phipseyy.Common.Services;
 using Phipseyy.Discord;
 using Phipseyy.Spotify;
 using TwitchLib.PubSub;
