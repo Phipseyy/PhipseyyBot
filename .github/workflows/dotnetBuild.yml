@@ -1,9 +1,9 @@
-name: .NET
+name: ReleaseAndBuild
 
 on:
   push:
     tags:
-      - "v*.*.*"
+      - '*'
     branches: [ "master" ]
   pull_request:
     branches: [ "master" ]
@@ -14,6 +14,9 @@ jobs:
     name: build_release
     
     runs-on: ubuntu-latest
+    
+    permissions:
+      contents: write
 
     steps:
     - uses: actions/checkout@v3
@@ -31,13 +34,13 @@ jobs:
     - name: Test
       run: dotnet test --no-build --verbosity normal
 
-    - name: Publish Linux ARM64
+    - name: Publish Linux-ARM64
       run: dotnet publish PhipseyyBot -r linux-arm64 -p:PublishSingleFile=true --self-contained 
       
-    - name: Publish WinX64
+    - name: Publish Win-X64
       run: dotnet publish PhipseyyBot -r win-x64 -p:PublishSingleFile=true --self-contained
       
-    - name: Upload Build Linux-x64 Artifact
+    - name: Upload Build Linux-ARM64 Artifact
       uses: actions/upload-artifact@v2
       with:
         name: Artifact_linux-x64
