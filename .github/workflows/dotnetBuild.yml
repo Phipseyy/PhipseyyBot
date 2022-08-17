@@ -1,9 +1,9 @@
-name: .NET
+name: BuildAndRelease
 
 on:
   push:
     tags:
-      - "v*.*.*"
+      -"v*"
     branches: [ "master" ]
   pull_request:
     branches: [ "master" ]
@@ -15,6 +15,9 @@ jobs:
     
     runs-on: ubuntu-latest
 
+    permissions:
+      contents: write
+      
     steps:
     - uses: actions/checkout@v3
     - name: Setup .NET
@@ -56,4 +59,11 @@ jobs:
         files: |
           /home/runner/work/PhipseyyBot/PhipseyyBot/PhipseyyBot/bin/Debug/net6.0/linux-arm64/publish/
           /home/runner/work/PhipseyyBot/PhipseyyBot/PhipseyyBot/bin/Debug/net6.0/win-x64/publish/
+          
+    - name: Build      
+    - uses: actions/checkout@v2
+    - uses: ncipollo/release-action@v1
+      with:
+        artifacts: "/home/runner/work/PhipseyyBot/PhipseyyBot/PhipseyyBot/bin/Debug/net6.0/linux-arm64/publish/, /home/runner/work/PhipseyyBot/PhipseyyBot/PhipseyyBot/bin/Debug/net6.0/win-x64/publish/"
+        token: ${{ secrets.YOUR_GITHUB_TOKEN }}
    
