@@ -136,7 +136,6 @@ public class TwitchBot
         _pubSub.ListenToVideoPlayback(_twitchId);
         _pubSub.ListenToChannelPoints(_twitchId);
         _pubSub.SendTopics(_twitchToken);
-            
     }
 
     /* --- Client Events --- */
