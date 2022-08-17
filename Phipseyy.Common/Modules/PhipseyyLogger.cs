@@ -2,7 +2,7 @@
 
 namespace Phipseyy.Common.Modules;
 
-public class PhipseyLogger
+public static class PhipseyyLogger
 {
     public static void SetupLogger(string outputDir)
     {

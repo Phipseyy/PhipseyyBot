@@ -1,5 +1,4 @@
 ﻿using Discord;
-using Discord.Commands;
 using Discord.Net;
 using Discord.WebSocket;
 using Phipseyy.Common.Services;
@@ -15,24 +14,25 @@ public class DiscordBot
     private readonly string _customStatus;
 
     private DiscordSocketClient BotClient { get; set; }
-    public CommandService Commands { get; set; }
-    public IServiceProvider Services { get; set; }
+    //public CommandService Commands { get; set; }
+    //public IServiceProvider Services { get; set; }
 
     public DiscordBot(SettingsHandler settings)
     {
         _discordToken = settings.DiscordToken;
         _customStatus = settings.DiscordStatus;
         _twitchName = settings.TwitchUsername;
-    }
-
-    public async Task RunBot()
-    {
         BotClient = new DiscordSocketClient(new DiscordSocketConfig
         {
             DefaultRetryMode = RetryMode.AlwaysRetry,
             LogLevel = LogSeverity.Info,
             ConnectionTimeout = int.MaxValue
         });
+    }
+
+    public async Task RunBot()
+    {
+        
         await BotClient.LoginAsync(TokenType.Bot, _discordToken);
         await BotClient.StartAsync();
 
@@ -46,7 +46,7 @@ public class DiscordBot
         await Task.Delay(-1);
     }
 
-    private async Task OnReactionAdded(Cacheable<IUserMessage, ulong> arg1, Cacheable<IMessageChannel, ulong> arg2, SocketReaction arg3)
+    private static async Task OnReactionAdded(Cacheable<IUserMessage, ulong> arg1, Cacheable<IMessageChannel, ulong> arg2, SocketReaction arg3)
     {
         //if(arg1.Id.Equals(Settings.lastchannel))
         {
@@ -60,7 +60,7 @@ public class DiscordBot
     /// </summary>
     /// <param name="message"></param>
     private static void LogDiscord(string message)
-        =>  Log.Information($"[Discord] {message}");
+        =>  Log.Information("[Discord] {Message}", message);
 
     /// <summary>
     /// Sends EVERY message to the console

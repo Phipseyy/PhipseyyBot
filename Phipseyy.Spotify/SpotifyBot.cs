@@ -11,17 +11,17 @@ namespace Phipseyy.Spotify;
 
 public class SpotifyBot
 {
-    private static SpotifyClient _spotify;
-    private static string _credentialsPath;
-    private static string _clientId;
-    private static EmbedIOAuthServer Server;
+    private static SpotifyClient _spotify = null!;
+    private static string _credentialsPath = null!;
+    private static string _clientId = null!;
+    private static EmbedIOAuthServer _server = null!;
 
     public SpotifyBot(SettingsHandler settings, string path)
     { 
         _clientId = settings.SpotifyClientId;
         _credentialsPath = path;
-        var uri = new Uri("http://localhost:5000/callback");
-        Server = new EmbedIOAuthServer(uri, 5000);
+        var uri = new Uri($"http://localhost:5000/callback");
+        _server = new EmbedIOAuthServer(uri, 5000);
     }
 
     public async Task RunBot()
@@ -60,19 +60,19 @@ public class SpotifyBot
     {
         var (verifier, challenge) = PKCEUtil.GenerateCodes();
 
-        await Server.Start();
-        Server.AuthorizationCodeReceived += async (_, response) =>
+        await _server.Start();
+        _server.AuthorizationCodeReceived += async (_, response) =>
         {
-            await Server.Stop();
+            await _server.Stop();
             var token = await new OAuthClient().RequestToken(
-                new PKCETokenRequest(_clientId, response.Code, Server.BaseUri, verifier)
+                new PKCETokenRequest(_clientId, response.Code, _server.BaseUri, verifier)
             );
 
             await File.WriteAllTextAsync(_credentialsPath, JsonConvert.SerializeObject(token));
             await Start();
         };
 
-        var request = new LoginRequest(Server.BaseUri, _clientId, LoginRequest.ResponseType.Code)
+        var request = new LoginRequest(_server.BaseUri, _clientId, LoginRequest.ResponseType.Code)
         {
             CodeChallenge = challenge,
             CodeChallengeMethod = "S256",
@@ -123,17 +123,5 @@ public class SpotifyBot
         var request = _spotify.Player.GetCurrentlyPlaying(new PlayerCurrentlyPlayingRequest());
         var fullTrack = (FullTrack)request.Result.Item;
         return $"{fullTrack.Name} - {Join(',', fullTrack.Artists.ToList().Select(a=>a.Name).ToArray())} {fullTrack.ExternalUrls["spotify"]}";
-    }
-
-    public async Task<string> GetSongNameAsync(string url)
-    {
-        var search = await _spotify.Search.Item(new SearchRequest(SearchRequest.Types.All, UrlToUri(url)));
-            
-
-
-
-
-        return "";
-
     }
 }

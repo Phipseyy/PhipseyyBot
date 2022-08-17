@@ -15,23 +15,22 @@ namespace Phipseyy.Twitch;
 
 public class TwitchBot
 {
-    private readonly string _twitchName;
     private readonly string _twitchId;
     private readonly string _twitchToken;
 
     private readonly DiscordBot _discordBot;
     private readonly SpotifyBot _spotifyManager;
-    private static TwitchClient _client;
-    private static TwitchPubSub _pubSub;
+    private static TwitchClient _client = null!;
+    private static TwitchPubSub _pubSub = null!;
 
     // Spotify Song Request - RewardID
     private const string SpotifySr = "8b993ff7-a3bd-4d0c-89d4-261e5cbad132";
 
     public TwitchBot(DiscordBot discordBot, SpotifyBot spotifyManager, SettingsHandler settings)
     {
+        var twitchName = settings.TwitchUsername;
         _discordBot = discordBot;
         _spotifyManager = spotifyManager;
-        _twitchName = settings.TwitchUsername;
         _twitchId = settings.TwitchId;
         _twitchToken = settings.TwitchAccessToken;
             
@@ -39,7 +38,7 @@ public class TwitchBot
         _pubSub = new TwitchPubSub();
 
         //initialize Client
-        var credentials = new ConnectionCredentials(_twitchName, _twitchToken);
+        var credentials = new ConnectionCredentials(twitchName, _twitchToken);
         var clientOptions = new ClientOptions
         {
             MessagesAllowedInPeriod = 750,

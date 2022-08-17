@@ -1,41 +1,43 @@
 ﻿using Newtonsoft.Json;
 using Microsoft.Extensions.Configuration;
+using Phipseyy.Common.Exceptions;
 
 namespace Phipseyy.Common.Services;
 
 public class SettingsHandler
 {
-    private readonly ConfigurationBuilder _config;
-    public string DiscordToken { get; private set; }
-    public string DiscordStatus { get; private set; }
-    public string TwitchUsername { get; private set; }
-    public string TwitchId { get; private set; }
-    public string TwitchAccessToken { get; private set; }
-    public string TwitchRefreshToken { get; private set; }
-    public string TwitchClientId { get; private set; }
-    public string SpotifyClientId { get; private set; }
+    public string DiscordToken { get; }
+    public string DiscordStatus { get; }
+    public string TwitchUsername { get; }
+    public string TwitchId { get; }
+    public string TwitchAccessToken { get; }
+    public string SpotifyClientId { get; }
 
     public SettingsHandler(string configPath)
     {
-        _config = new ConfigurationBuilder();
-        _config.SetBasePath(AppContext.BaseDirectory);
-        _config.AddJsonFile("config.json");
-        _config.Build();
+        var config = new ConfigurationBuilder();
+        config.SetBasePath(AppContext.BaseDirectory);
+            
+        if (File.Exists(AppContext.BaseDirectory))
+            config.AddJsonFile("config.json");
+        else
+            throw new ConfigFileNotFound();
+            
+        config.Build();
 
 
         using (var r = new StreamReader(configPath))
-        {
+        { 
             var json = r.ReadToEnd();
             var items = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
-            DiscordToken = items["DiscordToken"];
+            DiscordToken = items!["DiscordToken"];
             DiscordStatus = items["DiscordStatus"];
             TwitchUsername = items["TwitchUsername"];
             TwitchId = items["TwitchID"];
             TwitchAccessToken = items["TwitchAccesstoken"];
-            TwitchRefreshToken = items["TwitchRefreshToken"];
-            TwitchClientId = items["TwitchClientID"];
             SpotifyClientId = items["SpotifyClientID"];
         }
+        
     }
 
     //TODO: Handling Errors / Mistakes

@@ -1,15 +1,25 @@
 ﻿using Phipseyy.Common.Modules;
+using Serilog;
 
 namespace PhipseyyBot;
 
-public class Program
+public static class Program
 {
     
-    public static Task Main(string[] args) => new Program().MainAsync();
+    public static Task Main(string[] args) => MainAsync();
 
-    private async Task MainAsync()
+    private static async Task MainAsync()
     {
-        PhipseyLogger.SetupLogger("/Logs/Bot.log");
-        await Bot.StartupBot();
+        try
+        {
+            PhipseyyLogger.SetupLogger("/Logs/Bot.log");
+            await Bot.StartupBot();
+        }
+        catch (Exception e)
+        {
+            // ReSharper disable once TemplateIsNotCompileTimeConstantProblem
+            Log.Fatal(e.Message);
+            await Task.Delay(-1);
+        }
     }
 }
