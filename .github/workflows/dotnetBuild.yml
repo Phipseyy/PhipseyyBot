@@ -52,18 +52,12 @@ jobs:
         name: Artifact_win-x64
         path: /home/runner/work/PhipseyyBot/PhipseyyBot/PhipseyyBot/bin/Debug/net6.0/win-x64/publish/
         
-    - name: Release
-      uses: softprops/action-gh-release@v1
-      if: startsWith(github.ref, 'refs/tags/')
-      with:
-        files: |
-          /home/runner/work/PhipseyyBot/PhipseyyBot/PhipseyyBot/bin/Debug/net6.0/linux-arm64/publish/
-          /home/runner/work/PhipseyyBot/PhipseyyBot/PhipseyyBot/bin/Debug/net6.0/win-x64/publish/
           
-    - name: Build      
+    - name: Buildeeeee      
     - uses: actions/checkout@v2
     - uses: ncipollo/release-action@v1
       with:
         artifacts: "/home/runner/work/PhipseyyBot/PhipseyyBot/PhipseyyBot/bin/Debug/net6.0/linux-arm64/publish/, /home/runner/work/PhipseyyBot/PhipseyyBot/PhipseyyBot/bin/Debug/net6.0/win-x64/publish/"
+        bodyFile: "body.md"
         token: ${{ secrets.YOUR_GITHUB_TOKEN }}
    
