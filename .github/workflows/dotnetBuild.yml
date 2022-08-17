@@ -20,8 +20,8 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore
     - name: Build Linux ARM64
-      run: dotnet publish -r linux-arm64 -p:PublishSingleFile=true --self-contained 
+      run: dotnet publish PhipseyyBot -r linux-arm64 -p:PublishSingleFile=true --self-contained 
     - name: Build
-      run: dotnet publish -p:PublishSingleFile=true --self-contained 
+      run: dotnet publish PhipseyyBot -p:PublishSingleFile=true --self-contained 
     - name: Test
       run: dotnet test --no-build --verbosity normal
