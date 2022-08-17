@@ -57,5 +57,5 @@ jobs:
       if: startsWith(github.ref, 'refs/tags/')
       with:
         files: |
-          PhipseyyBot
+          PhipseyyBot*
    
