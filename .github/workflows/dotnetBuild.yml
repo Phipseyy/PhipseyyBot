@@ -21,7 +21,7 @@ jobs:
       run: dotnet restore
     - name: Build Linux ARM64
       run: dotnet publish PhipseyyBot -r linux-arm64 -p:PublishSingleFile=true --self-contained 
-    - name: Build
-      run: dotnet publish PhipseyyBot -p:PublishSingleFile=true --self-contained 
+    - name: Build WinX64
+      run: dotnet publish PhipseyyBot -r win-x64 -p:PublishSingleFile=true --self-contained
     - name: Test
       run: dotnet test --no-build --verbosity normal
