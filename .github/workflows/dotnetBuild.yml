@@ -33,11 +33,6 @@ jobs:
         tag_name: V0.0.${{ github.run_number }}
         release_name: Release V0.0.${{ github.run_number }}
         
-    - name: Archive site content
-      uses: thedoctor0/zip-release@master
-      with:
-        filename: linux-x64.zip
-        exclusions: '*.pdb*'
         
     - name: Upload release asset
       uses: actions/upload-release-asset@v1
@@ -45,9 +40,9 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create-new-release.outputs.upload_url }}
-        asset_path: ./linux-x64.zip
-        asset_name: linux-x64.zip
-        asset_content_type: application/zip
+        asset_path: /home/runner/work/PhipseyyBot/PhipseyyBot/PhipseyyBot/bin/Debug/net6.0/linux-arm64/publish/PhipseyyBot
+        asset_name: PhipseyyBot
+        asset_content_type: application/octet-stream
     
   build-project:
     name: build_release
