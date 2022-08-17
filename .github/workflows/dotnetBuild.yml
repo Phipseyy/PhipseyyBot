@@ -3,7 +3,7 @@ name: BuildAndRelease
 on:
   push:
     tags:
-      -"v*"
+      - "v*"
     branches: [ "master" ]
   pull_request:
     branches: [ "master" ]
