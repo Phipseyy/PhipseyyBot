@@ -2,8 +2,6 @@ name: .NET
 
 on:
   push:
-    tags:
-      - "v*.*.*"
     branches: [ "master" ]
   pull_request:
     branches: [ "master" ]
@@ -11,7 +9,8 @@ on:
 
 jobs:
   build:
-
+    name: build_release
+    
     runs-on: ubuntu-latest
 
     steps:
@@ -20,30 +19,39 @@ jobs:
       uses: actions/setup-dotnet@v2
       with:
         dotnet-version: 6.0.x
+        
     - name: Restore dependencies
       run: dotnet restore
+      
     - name: Build
       run: dotnet build PhipseyyBot --no-restore
+      
     - name: Test
       run: dotnet test --no-build --verbosity normal
+
     - name: Publish Linux ARM64
       run: dotnet publish PhipseyyBot -r linux-arm64 -p:PublishSingleFile=true --self-contained 
+      
     - name: Publish WinX64
       run: dotnet publish PhipseyyBot -r win-x64 -p:PublishSingleFile=true --self-contained
+      
     - name: Upload Build Linux-x64 Artifact
       uses: actions/upload-artifact@v2
       with:
         name: Artifact_linux-x64
         path: /home/runner/work/PhipseyyBot/PhipseyyBot/PhipseyyBot/bin/Debug/net6.0/linux-arm64/publish/
+        
     - name: Upload Build Win-x64 Artifact
       uses: actions/upload-artifact@v2
       with:
         name: Artifact_win-x64
         path: /home/runner/work/PhipseyyBot/PhipseyyBot/PhipseyyBot/bin/Debug/net6.0/win-x64/publish/
-    - name: Push Release
-      uses: softprops/action-gh-release@v0.1.14
+        
+    - name: Release
+      uses: softprops/action-gh-release@v1
       if: startsWith(github.ref, 'refs/tags/')
       with:
         files: |
           /home/runner/work/PhipseyyBot/PhipseyyBot/PhipseyyBot/bin/Debug/net6.0/linux-arm64/publish/
           /home/runner/work/PhipseyyBot/PhipseyyBot/PhipseyyBot/bin/Debug/net6.0/win-x64/publish/
+   
