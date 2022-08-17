@@ -18,7 +18,7 @@ jobs:
     - name: Download site content
       uses: actions/download-artifact@v2
       with:
-        name: site-build
+        name: Artifact_linux-x64
       
     - name: View content
       run: ls -R
