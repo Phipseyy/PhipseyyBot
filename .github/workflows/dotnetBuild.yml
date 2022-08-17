@@ -31,9 +31,9 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: Artifact_linux-x64
-        path: PhipseyyBot/PhipseyyBot/bin/Release/net6.0/publish/linux-x64/
+        path: /home/runner/work/PhipseyyBot/PhipseyyBot/PhipseyyBot/bin/Debug/net6.0/linux-arm64/publish/
     - name: Upload Build Win-x64 Artifact
       uses: actions/upload-artifact@v2
       with:
         name: Artifact_win-x64
-        path: PhipseyyBot/PhipseyyBot/bin/Release/net6.0/publish/win-x64/
+        path: /home/runner/work/PhipseyyBot/PhipseyyBot/PhipseyyBot/bin/Debug/net6.0/win-x64/publish/
