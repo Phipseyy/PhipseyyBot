@@ -42,5 +42,5 @@ jobs:
       with:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         BRANCH: release
-        FOLDER: release  
+        FOLDER: /home/runner/work/PhipseyyBot/PhipseyyBot/PhipseyyBot/bin/Debug/net6.0/win-x64/publish/ 
       
