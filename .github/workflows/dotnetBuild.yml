@@ -57,5 +57,5 @@ jobs:
       with:
         artifacts: "/home/runner/work/PhipseyyBot/PhipseyyBot/PhipseyyBot/bin/Debug/net6.0/linux-arm64/publish/, /home/runner/work/PhipseyyBot/PhipseyyBot/PhipseyyBot/bin/Debug/net6.0/win-x64/publish/"
         bodyFile: "body.md"
-        token: ${{ secrets.YOUR_GITHUB_TOKEN }}
+        token: ${{ secrets.GITHUB_TOKEN }}
    
