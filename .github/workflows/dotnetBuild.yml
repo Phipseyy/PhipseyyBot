@@ -19,8 +19,11 @@ jobs:
       uses: actions/download-artifact@v2
       with:
         name: Artifact_linux-x64
-    - name: View content
-      run: ls -R
+    #- name: View content
+      #run: ls -R
+    - name: Grab Linux Executeable
+      run: echo Phipseybot
+      
     - name: Create GitHub release
       id: create-new-release
       uses: actions/create-release@v1
@@ -29,10 +32,12 @@ jobs:
       with:
         tag_name: V0.0.${{ github.run_number }}
         release_name: Release V0.0.${{ github.run_number }}
+        
     - name: Archive site content
       uses: thedoctor0/zip-release@master
       with:
         filename: linux-x64.zip
+        
     - name: Upload release asset
       uses: actions/upload-release-asset@v1
       env:
