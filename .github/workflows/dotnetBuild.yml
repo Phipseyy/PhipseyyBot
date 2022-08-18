@@ -10,11 +10,9 @@ on:
     
 
 jobs:    
-  build-project:
-    name: build_release
-    
+  build-bot:
+    name: Build Bot
     runs-on: ubuntu-latest
-    
     permissions:
       contents: write
 
@@ -59,10 +57,11 @@ jobs:
       run: cp /home/runner/work/PhipseyyBot/PhipseyyBot/config_example.json /home/runner/work/PhipseyyBot/PhipseyyBot/PhipseyyBot/bin/Debug/net6.0/win-x64/publish/
 
 
-  release-project:
+  release-bot:
     name: Create Release
     runs-on: ubuntu-latest
-    needs: build-project
+    needs: build-bot
+
     steps:
     - name: Create GitHub release
       id: create-new-release
@@ -73,7 +72,14 @@ jobs:
         tag_name: V0.0.${{ github.run_number }}
         release_name: Release V0.0.${{ github.run_number }}
         
-    ### Linux files
+  linux-upload:
+    name: Add Linux files to release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    needs: [build-bot, release-bot]
+    
+    steps:
     - name: Download Linux-ARM64 Artifact
       uses: actions/download-artifact@v2
       with:
@@ -95,7 +101,13 @@ jobs:
         asset_name: linux-x64.zip
         asset_content_type: application/zip
         
-    ##### Windows files
+  windows-upload:
+    name: Add Windows files to release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    needs: [build-bot, release-bot]
+    steps:
     - name: Download Win-X64 Artifact
       uses: actions/download-artifact@v2
       with:
