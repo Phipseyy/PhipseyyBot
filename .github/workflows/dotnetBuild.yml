@@ -50,7 +50,7 @@ jobs:
         path: /home/runner/work/PhipseyyBot/PhipseyyBot/PhipseyyBot/bin/Debug/net6.0/linux-arm64/publish/
         
     - name: Copy config.json
-      run: cp /home/runner/work/PhipseyyBot/PhipseyyBot/config_example.json /home/runner/work/PhipseyyBot/PhipseyyBot/PhipseyyBot/bin/Debug/net6.0/linux-arm64/publish/PhipseyyBot
+      run: cp /home/runner/work/PhipseyyBot/PhipseyyBot/config_example.json ./PhipseyyBot/bin/Debug/net6.0/linux-arm64/publish
         
     - name: Upload Build Win-X64 Artifact
       uses: actions/upload-artifact@v2
@@ -59,7 +59,7 @@ jobs:
         path: /home/runner/work/PhipseyyBot/PhipseyyBot/PhipseyyBot/bin/Debug/net6.0/win-x64/publish/
         
     - name: Copy config.json
-      run: cp /home/runner/work/PhipseyyBot/PhipseyyBot/config_example.json /home/runner/work/PhipseyyBot/PhipseyyBot/PhipseyyBot/bin/Debug/net6.0/win-x64/publish/
+      run: cp /home/runner/work/PhipseyyBot/PhipseyyBot/config_example.json ./PhipseyyBot/bin/Debug/net6.0/win-x64/publish
 
     - name: Check dir
       run: |
@@ -100,9 +100,6 @@ jobs:
       run: |
         pwd
         ls -R      
-  
-    - name: Copy config.json
-      run: cp /home/runner/work/PhipseyyBot/PhipseyyBot/config_example.json /home/runner/work/PhipseyyBot/PhipseyyBot
         
     - name: Zip Linux-ARM64
       uses: thedoctor0/zip-release@master
@@ -138,9 +135,6 @@ jobs:
       run: |
         pwd
         ls -R
-        
-    - name: Copy config.json for Win-X64
-      run: cp /home/runner/work/PhipseyyBot/PhipseyyBot/config_example.json /home/runner/work/PhipseyyBot/PhipseyyBot
       
     - name: Check dir
       run: cd ./home/runner/work/PhipseyyBot/
