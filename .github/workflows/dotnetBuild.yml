@@ -51,7 +51,7 @@ jobs:
         path: /home/runner/work/PhipseyyBot/PhipseyyBot/PhipseyyBot/bin/Debug/net6.0/win-x64/publish/
 
     - name: Copy config.json for Win-X64
-      run: cp /home/runner/work/PhipseyyBot/PhipseyyBot/config_example.json /home/runner/work/PhipseyyBot/PhipseyyBot/PhipseyyBot/bin/Debug/net6.0/win-x64/publish/
+      run: cp /home/runner/work/PhipseyyBot/PhipseyyBot/config_example.json /home/runner/work/PhipseyyBot/PhipseyyBot
 
 
   release-bot:
@@ -84,10 +84,10 @@ jobs:
         name: Artifact_linux-x64
         
     - name: Check dir
-      run: pwd
+      run: cd ./home/runner/work/PhipseyyBot/
       
     - name: Check dir
-      run: ls
+      run: ls -R
         
     - name: Zip Linux-ARM64
       uses: thedoctor0/zip-release@master
@@ -120,10 +120,10 @@ jobs:
         name: Artifact_win-x64
         
     - name: Check dir
-      run: pwd
+      run: cd ./home/runner/work/PhipseyyBot/
       
     - name: Check dir
-      run: ls
+      run: ls -R
         
     - name: Zip Win-X64
       uses: thedoctor0/zip-release@master
