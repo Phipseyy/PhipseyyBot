@@ -22,11 +22,6 @@ jobs:
       uses: actions/setup-dotnet@v2
       with:
         dotnet-version: 6.0.x
-    
-    - name: Check dir
-      run: |
-        pwd
-        ls -R
       
     - name: Restore dependencies
       run: dotnet restore
@@ -40,8 +35,14 @@ jobs:
     - name: Publish Linux-ARM64
       run: dotnet publish PhipseyyBot -r linux-arm64 -p:PublishSingleFile=true --self-contained 
       
+    - name: Copy config.json
+      run: cp /home/runner/work/PhipseyyBot/PhipseyyBot/config_example.json ./PhipseyyBot/bin/Debug/net6.0/linux-arm64/publish
+      
     - name: Publish Win-X64
       run: dotnet publish PhipseyyBot -r win-x64 -p:PublishSingleFile=true --self-contained
+      
+    - name: Copy config.json
+      run: cp /home/runner/work/PhipseyyBot/PhipseyyBot/config_example.json ./PhipseyyBot/bin/Debug/net6.0/win-x64/publish
       
     - name: Upload Build Linux-ARM64 Artifact
       uses: actions/upload-artifact@v2
@@ -49,22 +50,11 @@ jobs:
         name: Artifact_linux-x64
         path: /home/runner/work/PhipseyyBot/PhipseyyBot/PhipseyyBot/bin/Debug/net6.0/linux-arm64/publish/
         
-    - name: Copy config.json
-      run: cp /home/runner/work/PhipseyyBot/PhipseyyBot/config_example.json ./PhipseyyBot/bin/Debug/net6.0/linux-arm64/publish
-        
     - name: Upload Build Win-X64 Artifact
       uses: actions/upload-artifact@v2
       with:
         name: Artifact_win-x64
         path: /home/runner/work/PhipseyyBot/PhipseyyBot/PhipseyyBot/bin/Debug/net6.0/win-x64/publish/
-        
-    - name: Copy config.json
-      run: cp /home/runner/work/PhipseyyBot/PhipseyyBot/config_example.json ./PhipseyyBot/bin/Debug/net6.0/win-x64/publish
-
-    - name: Check dir
-      run: |
-        pwd
-        ls -R
 
 
   release-bot:
