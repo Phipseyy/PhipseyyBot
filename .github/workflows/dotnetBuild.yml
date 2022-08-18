@@ -22,7 +22,12 @@ jobs:
       uses: actions/setup-dotnet@v2
       with:
         dotnet-version: 6.0.x
-        
+    
+    - name: Check dir
+      run: |
+        pwd
+        ls -R
+      
     - name: Restore dependencies
       run: dotnet restore
       
@@ -68,6 +73,11 @@ jobs:
         tag_name: V0.0.${{ github.run_number }}
         release_name: Release V0.0.${{ github.run_number }}
         
+    - name: Check dir
+      run: |
+        pwd
+        ls -R
+        
         
   linux-upload:
     name: Add Linux files to release
@@ -82,14 +92,13 @@ jobs:
       with:
         name: Artifact_linux-x64
         
+    - name: Check dir
+      run: |
+        pwd
+        ls -R      
+  
     - name: Copy config.json
       run: cp /home/runner/work/PhipseyyBot/PhipseyyBot/config_example.json /home/runner/work/PhipseyyBot/PhipseyyBot
-      
-    - name: Check dir
-      run: cd ./home/runner/work/PhipseyyBot/
-      
-    - name: Check dir
-      run: ls -R
         
     - name: Zip Linux-ARM64
       uses: thedoctor0/zip-release@master
@@ -120,6 +129,11 @@ jobs:
       uses: actions/download-artifact@v2
       with:
         name: Artifact_win-x64
+        
+    - name: Check dir
+      run: |
+        pwd
+        ls -R
         
     - name: Copy config.json for Win-X64
       run: cp /home/runner/work/PhipseyyBot/PhipseyyBot/config_example.json /home/runner/work/PhipseyyBot/PhipseyyBot
