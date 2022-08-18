@@ -36,13 +36,13 @@ jobs:
       run: dotnet publish PhipseyyBot -r linux-arm64 -p:PublishSingleFile=true --self-contained 
       
     - name: Copy config.json
-      run: cp /home/runner/work/PhipseyyBot/PhipseyyBot/config_example.json ./PhipseyyBot/bin/Debug/net6.0/linux-arm64/publish
+      run: cp /home/runner/work/PhipseyyBot/PhipseyyBot/config.json ./PhipseyyBot/bin/Debug/net6.0/linux-arm64/publish
       
     - name: Publish Win-X64
       run: dotnet publish PhipseyyBot -r win-x64 -p:PublishSingleFile=true --self-contained
       
     - name: Copy config.json
-      run: cp /home/runner/work/PhipseyyBot/PhipseyyBot/config_example.json ./PhipseyyBot/bin/Debug/net6.0/win-x64/publish
+      run: cp /home/runner/work/PhipseyyBot/PhipseyyBot/config.json ./PhipseyyBot/bin/Debug/net6.0/win-x64/publish
       
     - name: Upload Build Linux-ARM64 Artifact
       uses: actions/upload-artifact@v2
