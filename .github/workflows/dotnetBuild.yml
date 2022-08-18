@@ -84,12 +84,7 @@ jobs:
     - name: Download Linux-ARM64 Artifact
       uses: actions/download-artifact@v2
       with:
-        name: Artifact_linux-x64
-        
-    - name: Check dir
-      run: |
-        pwd
-        ls -R      
+        name: Artifact_linux-x64   
         
     - name: Zip Linux-ARM64
       uses: thedoctor0/zip-release@master
@@ -102,7 +97,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        upload_url: ${{ steps.create-new-release.outputs.upload_url }}
+        upload_url: ${{ release-bot.steps.create-new-release.outputs.upload_url }}
         asset_path: ./linux-x64.zip
         asset_name: linux-x64.zip
         asset_content_type: application/zip
@@ -121,17 +116,6 @@ jobs:
       with:
         name: Artifact_win-x64
         
-    - name: Check dir
-      run: |
-        pwd
-        ls -R
-      
-    - name: Check dir
-      run: cd ./home/runner/work/PhipseyyBot/
-      
-    - name: Check dir
-      run: ls -R
-        
     - name: Zip Win-X64
       uses: thedoctor0/zip-release@master
       with:
@@ -143,7 +127,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        upload_url: ${{ steps.create-new-release.outputs.upload_url }}
+        upload_url: ${{ release-bot.steps.create-new-release.outputs.upload_url }}
         asset_path: ./win-x64.zip
         asset_name: win-x64.zip
         asset_content_type: application/zip
