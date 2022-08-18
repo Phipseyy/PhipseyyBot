@@ -46,26 +46,24 @@ jobs:
         name: Artifact_linux-x64
         path: /home/runner/work/PhipseyyBot/PhipseyyBot/PhipseyyBot/bin/Debug/net6.0/linux-arm64/publish/
         
-    - name: Upload Build Win-x64 Artifact
+    - name: Copy config.json for Linux-ARM64
+      run: cp /home/runner/work/PhipseyyBot/config_example.json /home/runner/work/PhipseyyBot/PhipseyyBot/PhipseyyBot/bin/Debug/net6.0/linux-arm64/publish/
+        
+    - name: Upload Build Win-X64 Artifact
       uses: actions/upload-artifact@v2
       with:
         name: Artifact_win-x64
         path: /home/runner/work/PhipseyyBot/PhipseyyBot/PhipseyyBot/bin/Debug/net6.0/win-x64/publish/
 
+    - name: Copy config.json for Win-X64
+      run: cp /home/runner/work/PhipseyyBot/config_example.json /home/runner/work/PhipseyyBot/PhipseyyBot/PhipseyyBot/bin/Debug/net6.0/win-x64/publish/
+
 
   release-project:
-    name: Release to Github
+    name: Create Release
     runs-on: ubuntu-latest
     needs: build-project
     steps:
-    - name: Download site content
-      uses: actions/download-artifact@v2
-      with:
-        name: Artifact_linux-x64
-        
-    - name: Grab Linux Executeable
-      run: echo PhipseyyBot
-      
     - name: Create GitHub release
       id: create-new-release
       uses: actions/create-release@v1
@@ -75,15 +73,50 @@ jobs:
         tag_name: V0.0.${{ github.run_number }}
         release_name: Release V0.0.${{ github.run_number }}
         
+    ### Linux files
+    - name: Download Linux-ARM64 Artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: Artifact_linux-x64
         
-    - name: Upload release asset
+    - name: Zip Linux-ARM64
+      uses: thedoctor0/zip-release@master
+      with:
+        filename: linux-x64.zip
+        exclusions: '*.pdb*'
+        
+    - name: Upload Linux-ARM64 asset
       uses: actions/upload-release-asset@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create-new-release.outputs.upload_url }}
-        asset_path: /home/runner/work/PhipseyyBot/PhipseyyBot/PhipseyyBot/bin/Debug/net6.0/linux-arm64/publish
-        asset_name: PhipseyyBot
-        asset_content_type: application/octet-stream
+        asset_path: ./linux-x64.zip
+        asset_name: linux-x64.zip
+        asset_content_type: application/zip
+        
+    ##### Windows files
+    - name: Download Win-X64 Artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: Artifact_win-x64
+        
+    - name: Zip Win-X64
+      uses: thedoctor0/zip-release@master
+      with:
+        filename: win-x64.zip
+        exclusions: '*.pdb*'
+        
+    - name: Upload Win-X64 asset
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create-new-release.outputs.upload_url }}
+        asset_path: ./win-x64.zip
+        asset_name: win-x64.zip
+        asset_content_type: application/zip
+        
+    
         
    
