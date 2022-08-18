@@ -68,8 +68,7 @@ jobs:
       with:
         tag_name: V0.0.${{ github.run_number }}
         release_name: Release V0.0.${{ github.run_number }}
-    - name: geturl
-      run: echo ${{ steps.create-new-release.outputs.upload_url }}
+        
         
   linux-upload:
     name: Add Linux files to release
@@ -85,7 +84,7 @@ jobs:
         name: Artifact_linux-x64
         
     - name: Check dir
-      run: pwdir
+      run: pwd
       
     - name: Check dir
       run: ls
@@ -119,6 +118,12 @@ jobs:
       uses: actions/download-artifact@v2
       with:
         name: Artifact_win-x64
+        
+    - name: Check dir
+      run: pwd
+      
+    - name: Check dir
+      run: ls
         
     - name: Zip Win-X64
       uses: thedoctor0/zip-release@master
