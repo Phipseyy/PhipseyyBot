@@ -44,9 +44,6 @@ jobs:
         name: Artifact_linux-x64
         path: /home/runner/work/PhipseyyBot/PhipseyyBot/PhipseyyBot/bin/Debug/net6.0/linux-arm64/publish/
         
-    - name: Copy config.json for Linux-ARM64
-      run: cp /home/runner/work/PhipseyyBot/PhipseyyBot/config_example.json /home/runner/work/PhipseyyBot/PhipseyyBot/PhipseyyBot/bin/Debug/net6.0/linux-arm64/publish/
-        
     - name: Upload Build Win-X64 Artifact
       uses: actions/upload-artifact@v2
       with:
@@ -71,6 +68,8 @@ jobs:
       with:
         tag_name: V0.0.${{ github.run_number }}
         release_name: Release V0.0.${{ github.run_number }}
+    - name: geturl
+      run: echo ${{ steps.create-new-release.outputs.upload_url }}
         
   linux-upload:
     name: Add Linux files to release
@@ -84,6 +83,12 @@ jobs:
       uses: actions/download-artifact@v2
       with:
         name: Artifact_linux-x64
+        
+    - name: Check dir
+      run: pwdir
+      
+    - name: Check dir
+      run: ls
         
     - name: Zip Linux-ARM64
       uses: thedoctor0/zip-release@master
@@ -101,12 +106,14 @@ jobs:
         asset_name: linux-x64.zip
         asset_content_type: application/zip
         
+        
   windows-upload:
     name: Add Windows files to release
     runs-on: ubuntu-latest
     permissions:
       contents: write
     needs: [build-bot, release-bot]
+    
     steps:
     - name: Download Win-X64 Artifact
       uses: actions/download-artifact@v2
