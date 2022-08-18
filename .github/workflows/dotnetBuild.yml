@@ -50,8 +50,7 @@ jobs:
         name: Artifact_win-x64
         path: /home/runner/work/PhipseyyBot/PhipseyyBot/PhipseyyBot/bin/Debug/net6.0/win-x64/publish/
 
-    - name: Copy config.json for Win-X64
-      run: cp /home/runner/work/PhipseyyBot/PhipseyyBot/config_example.json /home/runner/work/PhipseyyBot/PhipseyyBot
+  
 
 
   release-bot:
@@ -83,6 +82,9 @@ jobs:
       with:
         name: Artifact_linux-x64
         
+    - name: Copy config.json
+      run: cp /home/runner/work/PhipseyyBot/PhipseyyBot/config_example.json /home/runner/work/PhipseyyBot/PhipseyyBot
+      
     - name: Check dir
       run: cd ./home/runner/work/PhipseyyBot/
       
@@ -119,6 +121,9 @@ jobs:
       with:
         name: Artifact_win-x64
         
+    - name: Copy config.json for Win-X64
+      run: cp /home/runner/work/PhipseyyBot/PhipseyyBot/config_example.json /home/runner/work/PhipseyyBot/PhipseyyBot
+      
     - name: Check dir
       run: cd ./home/runner/work/PhipseyyBot/
       
