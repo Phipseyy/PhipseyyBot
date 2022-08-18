@@ -47,7 +47,7 @@ jobs:
         path: /home/runner/work/PhipseyyBot/PhipseyyBot/PhipseyyBot/bin/Debug/net6.0/linux-arm64/publish/
         
     - name: Copy config.json for Linux-ARM64
-      run: cp /home/runner/work/PhipseyyBot/config_example.json /home/runner/work/PhipseyyBot/PhipseyyBot/PhipseyyBot/bin/Debug/net6.0/linux-arm64/publish/
+      run: cp /home/runner/work/PhipseyyBot/PhipseyyBot/config_example.json /home/runner/work/PhipseyyBot/PhipseyyBot/PhipseyyBot/bin/Debug/net6.0/linux-arm64/publish/
         
     - name: Upload Build Win-X64 Artifact
       uses: actions/upload-artifact@v2
@@ -56,7 +56,7 @@ jobs:
         path: /home/runner/work/PhipseyyBot/PhipseyyBot/PhipseyyBot/bin/Debug/net6.0/win-x64/publish/
 
     - name: Copy config.json for Win-X64
-      run: cp /home/runner/work/PhipseyyBot/config_example.json /home/runner/work/PhipseyyBot/PhipseyyBot/PhipseyyBot/bin/Debug/net6.0/win-x64/publish/
+      run: cp /home/runner/work/PhipseyyBot/PhipseyyBot/config_example.json /home/runner/work/PhipseyyBot/PhipseyyBot/PhipseyyBot/bin/Debug/net6.0/win-x64/publish/
 
 
   release-project:
