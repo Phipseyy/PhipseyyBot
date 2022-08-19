@@ -1,7 +1,10 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿#nullable disable
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Primitives;
 using PhipseyyBot.Common;
 using PhipseyyBot.Common.Yml;
 using Serilog;
+using TwitchLib.Api.Core.Common;
 
 namespace PhipseyyBot.Services;
 
@@ -9,7 +12,7 @@ public class BotCredsProvider
 {
     private const string CredsFileName = "creds.yml";
     private const string CredsExampleFileName = "creds_example.yml";
-    private string? CredsPath { get; }
+    private string CredsPath { get; }
     private string CredsExamplePath { get; }
 
     private readonly BotCredentials _creds = new();
@@ -18,10 +21,9 @@ public class BotCredsProvider
 
     private readonly object _reloadLock = new();
     private readonly IDisposable _changeToken;
-    
+
     public BotCredsProvider(string credPath = null)
     {
-
         if (!string.IsNullOrWhiteSpace(credPath))
         {
             CredsPath = credPath;
@@ -33,17 +35,8 @@ public class BotCredsProvider
             CredsExamplePath = Path.Combine(Directory.GetCurrentDirectory(), CredsExampleFileName);
         }
 
-        try
-        {
-            if (!File.Exists(CredsExamplePath))
-                File.WriteAllText(CredsExamplePath, Yaml.Serializer.Serialize(_creds));
-        }
-        catch
-        {
-            // this can fail in docker containers
-        }
-
-        MigrateCredentials();
+        if (!File.Exists(CredsExamplePath))
+            File.WriteAllText(CredsExamplePath, Yaml.Serializer.Serialize(_creds));
 
         if (!File.Exists(CredsPath))
         {
@@ -57,12 +50,29 @@ public class BotCredsProvider
             .AddEnvironmentVariables("PhipseyyBot_")
             .Build();
 
-        //_changeToken = ChangeToken.OnChange(() => _config.GetReloadToken(), Reload);
+        _changeToken = ChangeToken.OnChange(() => _config.GetReloadToken(), Reload);
     }
 
-    public void MigrateCredentials()
+    public void Reload()
     {
-        
-    }
+        lock (_reloadLock)
+        {
+            _config.Bind(_creds);
+            
+            if (string.IsNullOrWhiteSpace(_creds.DiscordToken))
+            {
+                Log.Fatal("DiscordToken is missing from creds.yml or Environment variables.\nAdd it and restart the bot");
+            }
 
+            
+        }
+    }
+    
+    public IBotCredentials GetCreds()
+    {
+        lock (_reloadLock)
+        {
+            return _creds;
+        }
+    }
 }
