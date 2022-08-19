@@ -1,4 +1,5 @@
 ﻿#nullable disable
+using System.Net.Mime;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Primitives;
 using Phipseyy.Common.Exceptions;
@@ -27,7 +28,7 @@ public class BotCredsProvider : IBotCredsProvider
 
     public BotCredsProvider(string credPath = null)
     {
-        CredsPath = !string.IsNullOrWhiteSpace(credPath) ? credPath : Path.Combine(Directory.GetCurrentDirectory(), CredsFileName);
+        CredsPath = !string.IsNullOrWhiteSpace(credPath) ? credPath : Path.Combine(AppContext.BaseDirectory, CredsFileName);
 
         if (!File.Exists(CredsPath))
         {
