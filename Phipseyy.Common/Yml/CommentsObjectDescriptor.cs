@@ -2,8 +2,7 @@
 using YamlDotNet.Core;
 using YamlDotNet.Serialization;
 
-
-namespace PhipseyyBot.Common.Yml;
+namespace Phipseyy.Common.Yml;
 
 public sealed class CommentsObjectDescriptor : IObjectDescriptor
 {

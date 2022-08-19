@@ -1,7 +1,7 @@
 ﻿using SpotifyAPI.Web.Auth;
 using SpotifyAPI.Web;
 using Newtonsoft.Json;
-using Phipseyy.Common.Services;
+using Phipseyy.Common;
 using Serilog;
 using static System.DateTime;
 using static System.String;
@@ -13,12 +13,13 @@ public class SpotifyBot
 {
     private static SpotifyClient _spotify = null!;
     private static string _credentialsPath = null!;
-    private static string _clientId = null!;
     private static EmbedIOAuthServer _server = null!;
 
-    public SpotifyBot(SettingsHandler settings, string path)
-    { 
-        _clientId = settings.SpotifyClientId;
+    private static IBotCredentials _creds = null!;
+
+    public SpotifyBot(IBotCredentials credentials, string path)
+    {
+        _creds = credentials;
         _credentialsPath = path;
         var uri = new Uri($"http://localhost:5000/callback");
         _server = new EmbedIOAuthServer(uri, 5000);
@@ -44,7 +45,7 @@ public class SpotifyBot
         var json = await File.ReadAllTextAsync(_credentialsPath);
         var token = JsonConvert.DeserializeObject<PKCETokenResponse>(json);
 
-        var authenticator = new PKCEAuthenticator(_clientId, token!);
+        var authenticator = new PKCEAuthenticator(_creds.SpotifyClientId, token!);
         // TODO: Combine spotifyCred with the config.JSON
         authenticator.TokenRefreshed += (_, tokenResponse) => File.WriteAllText(_credentialsPath, JsonConvert.SerializeObject(tokenResponse));
 
@@ -65,14 +66,14 @@ public class SpotifyBot
         {
             await _server.Stop();
             var token = await new OAuthClient().RequestToken(
-                new PKCETokenRequest(_clientId, response.Code, _server.BaseUri, verifier)
+                new PKCETokenRequest(_creds.SpotifyClientId, response.Code, _server.BaseUri, verifier)
             );
 
             await File.WriteAllTextAsync(_credentialsPath, JsonConvert.SerializeObject(token));
             await Start();
         };
 
-        var request = new LoginRequest(_server.BaseUri, _clientId, LoginRequest.ResponseType.Code)
+        var request = new LoginRequest(_server.BaseUri, _creds.SpotifyClientId, LoginRequest.ResponseType.Code)
         {
             CodeChallenge = challenge,
             CodeChallengeMethod = "S256",

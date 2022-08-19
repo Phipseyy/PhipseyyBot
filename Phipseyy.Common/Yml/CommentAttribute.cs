@@ -1,4 +1,4 @@
-﻿namespace PhipseyyBot.Common.Yml;
+﻿namespace Phipseyy.Common.Yml;
 
 [AttributeUsage(AttributeTargets.Property)]
 public class CommentAttribute : Attribute

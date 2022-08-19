@@ -1,26 +1,27 @@
-﻿using Phipseyy.Twitch;
+﻿#nullable disable
+using Phipseyy.Common;
+using Phipseyy.Twitch;
 using Phipseyy.Common.Services;
 using Phipseyy.Discord;
 using Phipseyy.Spotify;
-using PhipseyyBot.Services;
 using Serilog;
 
 namespace PhipseyyBot;
 
 public static class Bot
 {
+    private static IBotCredsProvider _credsProvider = null!;
+    private static IBotCredentials _creds = null!;
     public static Task StartupBot()
     {
         //Testing new Creds
-        var test = new BotCredsProvider();
-        var creds = test.GetCreds();
-        Log.Information(creds.TwitchUsername);
+        _credsProvider = new BotCredsProvider();
+        _creds = _credsProvider.GetCreds();
+        Log.Information(_creds.TwitchUsername);
 
-        var settings = new SettingsHandler(AppContext.BaseDirectory+ "/config.json");
-        
-        var discordBot = new DiscordBot(settings);
-        var spotifyBot = new SpotifyBot(settings, "spotifyCred.json");
-        var twitchBot = new TwitchBot(discordBot, spotifyBot, settings);
+        var discordBot = new DiscordBot(_creds);
+        var spotifyBot = new SpotifyBot(_creds, "spotifyCred.json");
+        var twitchBot = new TwitchBot(discordBot, spotifyBot, _creds);
 
         var dcBotThread = new Thread(discordBot.RunBot().GetAwaiter().GetResult);
         dcBotThread.Start();

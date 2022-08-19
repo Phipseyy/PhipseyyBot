@@ -1,27 +1,23 @@
 ﻿using Discord;
 using Discord.Net;
 using Discord.WebSocket;
-using Phipseyy.Common.Services;
 using Serilog;
+using Phipseyy.Common;
 
 
 namespace Phipseyy.Discord;
 
 public class DiscordBot
 {
-    private readonly string _discordToken;
-    private readonly string _twitchName;
-    private readonly string _customStatus;
+    private readonly IBotCredentials _creds;
 
     private DiscordSocketClient BotClient { get; set; }
     //public CommandService Commands { get; set; }
     //public IServiceProvider Services { get; set; }
 
-    public DiscordBot(SettingsHandler settings)
+    public DiscordBot(IBotCredentials credentials)
     {
-        _discordToken = settings.DiscordToken;
-        _customStatus = settings.DiscordStatus;
-        _twitchName = settings.TwitchUsername;
+        _creds = credentials;
         BotClient = new DiscordSocketClient(new DiscordSocketConfig
         {
             DefaultRetryMode = RetryMode.AlwaysRetry,
@@ -32,8 +28,7 @@ public class DiscordBot
 
     public async Task RunBot()
     {
-        
-        await BotClient.LoginAsync(TokenType.Bot, _discordToken);
+        await BotClient.LoginAsync(TokenType.Bot, _creds.DiscordToken);
         await BotClient.StartAsync();
 
         //Events
@@ -41,6 +36,7 @@ public class DiscordBot
         BotClient.Ready += ClientReady;
         BotClient.SlashCommandExecuted += SlashCommandExecuted;
         BotClient.ReactionAdded += OnReactionAdded;
+        
         LogDiscord(BotClient.LoginState.ToString());
 
         await Task.Delay(-1);
@@ -72,10 +68,10 @@ public class DiscordBot
         LogDiscord(message.ToString());
         return Task.CompletedTask;
     }
-
+    
     private async Task ClientReady()
     {
-        await BotClient.SetGameAsync(_customStatus, $"https://www.twitch.tv/{_twitchName}", ActivityType.Streaming);
+        await BotClient.SetGameAsync(_creds.DiscordStatus, $"https://www.twitch.tv/{_creds.TwitchUsername}", ActivityType.Streaming);
         LogDiscord("---Bot is Ready!---");
 
         var applicationCommandProperties = new List<ApplicationCommandProperties>();

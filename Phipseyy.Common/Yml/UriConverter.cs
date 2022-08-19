@@ -3,8 +3,7 @@ using YamlDotNet.Core;
 using YamlDotNet.Core.Events;
 using YamlDotNet.Serialization;
 
-
-namespace PhipseyyBot.Common.Yml;
+namespace Phipseyy.Common.Yml;
 
 public class UriConverter : IYamlTypeConverter
 {

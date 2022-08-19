@@ -1,6 +1,7 @@
 ﻿using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
-namespace PhipseyyBot.Common.Yml;
+
+namespace Phipseyy.Common.Yml;
 
 public static class Yaml
 {

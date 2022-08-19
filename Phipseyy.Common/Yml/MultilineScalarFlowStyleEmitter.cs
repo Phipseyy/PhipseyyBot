@@ -3,7 +3,7 @@ using YamlDotNet.Core;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.EventEmitters;
 
-namespace PhipseyyBot.Common.Yml;
+namespace Phipseyy.Common.Yml;
 
 public class MultilineScalarFlowStyleEmitter : ChainedEventEmitter
 {

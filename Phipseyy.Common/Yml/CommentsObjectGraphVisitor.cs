@@ -4,7 +4,7 @@ using YamlDotNet.Core.Events;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.ObjectGraphVisitors;
 
-namespace PhipseyyBot.Common.Yml;
+namespace Phipseyy.Common.Yml;
 
 public class CommentsObjectGraphVisitor : ChainedObjectGraphVisitor
 {

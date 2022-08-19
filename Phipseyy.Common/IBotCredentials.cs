@@ -1,4 +1,4 @@
-﻿namespace PhipseyyBot.Common;
+﻿namespace Phipseyy.Common;
 
 public interface IBotCredentials
 {
@@ -6,7 +6,7 @@ public interface IBotCredentials
     string DiscordStatus { get; }
     string TwitchUsername { get; }
     string TwitchId { get; }
-    string TwitchAccesstoken { get; }
+    string TwitchAccessToken { get; }
     string TwitchRefreshToken { get; }
     string TwitchClientId { get; }
     string SpotifyClientId { get; }

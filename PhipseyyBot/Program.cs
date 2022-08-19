@@ -6,7 +6,7 @@ namespace PhipseyyBot;
 public static class Program
 {
     
-    public static Task Main(string[] args) => MainAsync();
+    public static Task Main() => MainAsync();
 
     private static async Task MainAsync()
     {

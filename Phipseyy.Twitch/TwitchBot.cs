@@ -1,4 +1,4 @@
-﻿using Phipseyy.Common.Services;
+﻿using Phipseyy.Common;
 using Phipseyy.Discord;
 using Phipseyy.Spotify;
 using TwitchLib.PubSub;
@@ -15,8 +15,7 @@ namespace Phipseyy.Twitch;
 
 public class TwitchBot
 {
-    private readonly string _twitchId;
-    private readonly string _twitchToken;
+    private readonly IBotCredentials _creds;
 
     private readonly DiscordBot _discordBot;
     private readonly SpotifyBot _spotifyManager;
@@ -26,19 +25,17 @@ public class TwitchBot
     // Spotify Song Request - RewardID
     private const string SpotifySr = "8b993ff7-a3bd-4d0c-89d4-261e5cbad132";
 
-    public TwitchBot(DiscordBot discordBot, SpotifyBot spotifyManager, SettingsHandler settings)
+    public TwitchBot(DiscordBot discordBot, SpotifyBot spotifyManager, IBotCredentials credentials)
     {
-        var twitchName = settings.TwitchUsername;
+        _creds = credentials;
         _discordBot = discordBot;
         _spotifyManager = spotifyManager;
-        _twitchId = settings.TwitchId;
-        _twitchToken = settings.TwitchAccessToken;
-            
+
         //initialize PubSub
         _pubSub = new TwitchPubSub();
 
         //initialize Client
-        var credentials = new ConnectionCredentials(twitchName, _twitchToken);
+        var twitchCredentials = new ConnectionCredentials(_creds.TwitchUsername, _creds.TwitchAccessToken);
         var clientOptions = new ClientOptions
         {
             MessagesAllowedInPeriod = 750,
@@ -46,7 +43,7 @@ public class TwitchBot
         };
         var customClient = new WebSocketClient(clientOptions);
         _client = new TwitchClient(customClient);
-        _client.Initialize(credentials, "philted_");
+        _client.Initialize(twitchCredentials, _creds.TwitchUsername );
     }
 
     public async Task RunBot()
@@ -96,11 +93,17 @@ public class TwitchBot
     private static void PubSub_OnLog(object? sender, TwitchLib.PubSub.Events.OnLogArgs e)
         => LogTwitchPubSub(e.Data);
 
-    private void PubSubOn_OnPubSubServiceClosed(object? sender, EventArgs e) 
-        => _pubSub.Connect();
+    private void PubSubOn_OnPubSubServiceClosed(object? sender, EventArgs e)
+    {
+        LogTwitchPubSub("OnPubSubServiceClosed Triggered");
+        LogTwitchPubSub($"{e}");
+        _pubSub.Connect();
+    }
 
     private static void PubSubOn_OnPubSubServiceError(object? sender, OnPubSubServiceErrorArgs e)
     {
+        LogTwitchPubSub("OnPubSubServiceError Triggered");
+        LogTwitchPubSub($"{e}");
         LogTwitchPubSub(e.Exception.Message);
         try
         {
@@ -127,15 +130,15 @@ public class TwitchBot
     private void PubSub_OnStreamUp(object? sender, OnStreamUpArgs e)
     {
         LogTwitchPubSub("Stream is up now!");
-        _discordBot.SendTextMessage("Philted is now LIVE @everyone! \nhttps://www.twitch.tv/Philted_");
+        _discordBot.SendTextMessage($"{_creds.TwitchUsername} is now LIVE @everyone! \nhttps://www.twitch.tv/{_creds.TwitchUsername}");
     }
 
     private void PubSub_OnServiceConnected(object? sender, EventArgs e)
     {
         LogTwitchPubSub("---PubSub Connected!---");
-        _pubSub.ListenToVideoPlayback(_twitchId);
-        _pubSub.ListenToChannelPoints(_twitchId);
-        _pubSub.SendTopics(_twitchToken);
+        _pubSub.ListenToVideoPlayback(_creds.TwitchId);
+        _pubSub.ListenToChannelPoints(_creds.TwitchId);
+        _pubSub.SendTopics(_creds.TwitchAccessToken);
     }
 
     /* --- Client Events --- */
