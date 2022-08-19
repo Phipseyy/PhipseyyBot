@@ -2,6 +2,8 @@
 using Phipseyy.Common.Services;
 using Phipseyy.Discord;
 using Phipseyy.Spotify;
+using PhipseyyBot.Services;
+using Serilog;
 
 namespace PhipseyyBot;
 
@@ -9,6 +11,11 @@ public static class Bot
 {
     public static Task StartupBot()
     {
+        //Testing new Creds
+        var test = new BotCredsProvider();
+        var creds = test.GetCreds();
+        Log.Information(creds.TwitchUsername);
+
         var settings = new SettingsHandler(AppContext.BaseDirectory+ "/config.json");
         
         var discordBot = new DiscordBot(settings);
