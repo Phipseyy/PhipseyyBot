@@ -1,10 +1,10 @@
 ﻿#nullable disable
-using System.Net.Mime;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Primitives;
 using Phipseyy.Common.Exceptions;
 using Phipseyy.Common.Yml;
 using Serilog;
+using SpotifyAPI.Web;
 
 namespace Phipseyy.Common.Services;
 
@@ -12,6 +12,13 @@ public interface IBotCredsProvider
 {
     public IBotCredentials GetCreds();
     public void Reload();
+
+    public PKCETokenResponse GetSpotifyToken();
+
+    public void OverrideSpotifyTokenData(PKCETokenResponse response);
+    
+    public void OverrideSpotifyTokenData(AuthorizationCodeRefreshResponse response);
+
 }
 
 public class BotCredsProvider : IBotCredsProvider
@@ -74,7 +81,51 @@ public class BotCredsProvider : IBotCredsProvider
                 Log.Warning("SpotifyClientId is missing from creds.yml.The bot will not have a status message");
         }
     }
-    
+
+    public PKCETokenResponse GetSpotifyToken()
+    {
+        var token = new PKCETokenResponse();
+        lock (_reloadLock)
+        {
+            token.Scope = _creds.SpScope;
+            token.AccessToken = _creds.SpAccessToken;
+            token.CreatedAt = _creds.SpCreatedAt;
+            token.ExpiresIn = _creds.SpExpiresIn;
+            token.RefreshToken = _creds.SpRefreshToken;
+            token.TokenType = _creds.SpTokenType;
+        }
+        return token;
+    }
+
+    public void OverrideSpotifyTokenData(PKCETokenResponse response)
+    {
+        lock (_reloadLock)
+        {
+            _creds.SpScope = response.Scope;
+            _creds.SpAccessToken = response.AccessToken;
+            _creds.SpCreatedAt = response.CreatedAt;
+            _creds.SpExpiresIn = response.ExpiresIn;
+            _creds.SpRefreshToken = response.RefreshToken;
+            _creds.SpTokenType = response.TokenType;
+            File.WriteAllText(CredsPath, Yaml.Serializer.Serialize(_creds));
+        }
+    }
+
+    public void OverrideSpotifyTokenData(AuthorizationCodeRefreshResponse response)
+    {
+        lock (_reloadLock)
+        {
+            _creds.SpScope = response.Scope;
+            _creds.SpAccessToken = response.AccessToken;
+            _creds.SpCreatedAt = response.CreatedAt;
+            _creds.SpExpiresIn = response.ExpiresIn;
+            _creds.SpRefreshToken = response.RefreshToken;
+            _creds.SpTokenType = response.TokenType;
+            File.WriteAllText(CredsPath, Yaml.Serializer.Serialize(_creds));
+        }
+    }
+
+
     public IBotCredentials GetCreds()
     {
         lock (_reloadLock)

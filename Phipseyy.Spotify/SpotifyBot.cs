@@ -1,7 +1,7 @@
 ﻿using SpotifyAPI.Web.Auth;
 using SpotifyAPI.Web;
-using Newtonsoft.Json;
 using Phipseyy.Common;
+using Phipseyy.Common.Services;
 using Serilog;
 using static System.DateTime;
 using static System.String;
@@ -12,16 +12,16 @@ namespace Phipseyy.Spotify;
 public class SpotifyBot
 {
     private static SpotifyClient _spotify = null!;
-    private static string _credentialsPath = null!;
     private static EmbedIOAuthServer _server = null!;
 
+    private static IBotCredsProvider _credsProvider = null!;
     private static IBotCredentials _creds = null!;
 
-    public SpotifyBot(IBotCredentials credentials, string path)
+    public SpotifyBot()
     {
-        _creds = credentials;
-        _credentialsPath = path;
-        var uri = new Uri($"http://localhost:5000/callback");
+        _credsProvider = new BotCredsProvider();
+        _creds = _credsProvider.GetCreds();
+        var uri = new Uri("http://localhost:5000/callback");
         _server = new EmbedIOAuthServer(uri, 5000);
     }
 
@@ -33,7 +33,8 @@ public class SpotifyBot
 
     private static async Task Start()
     {
-        if (File.Exists(_credentialsPath))
+        var currentToken = _creds.SpAccessToken;
+        if (!IsNullOrEmpty(currentToken))
             await StartSpotify();
         else
             await StartAuthentication();
@@ -42,19 +43,43 @@ public class SpotifyBot
 
     private static async Task StartSpotify()
     {
-        var json = await File.ReadAllTextAsync(_credentialsPath);
-        var token = JsonConvert.DeserializeObject<PKCETokenResponse>(json);
+        try
+        {
+            var token = _credsProvider.GetSpotifyToken();
 
-        var authenticator = new PKCEAuthenticator(_creds.SpotifyClientId, token!);
-        // TODO: Combine spotifyCred with the config.JSON
-        authenticator.TokenRefreshed += (_, tokenResponse) => File.WriteAllText(_credentialsPath, JsonConvert.SerializeObject(tokenResponse));
+            var authenticator = new PKCEAuthenticator(_creds.SpotifyClientId, token!);
+            authenticator.TokenRefreshed += AuthenticatorOnTokenRefreshed;
+            var config = SpotifyClientConfig.CreateDefault().WithAuthenticator(authenticator);
 
-        var config = SpotifyClientConfig.CreateDefault().WithAuthenticator(authenticator);
+            _spotify = new SpotifyClient(config);
 
-        _spotify = new SpotifyClient(config);
+            var me = await _spotify.UserProfile.Current();
+            LogSpotify($"Welcome {me.DisplayName} ({me.Id}), you're authenticated!");
+        }
+        catch (APIUnauthorizedException e)
+        {
+            LogSpotify(e.Message);
+            LogSpotify("WE NEED A NEW TOKEN - TRYING TO CREATE ONE");
+            var newResponse = await new OAuthClient().RequestToken(
+                new AuthorizationCodeRefreshRequest(_creds.SpotifyClientId, _creds.SpotifyClientSecret, _creds.SpRefreshToken)
+            );
+            
+            _credsProvider.OverrideSpotifyTokenData(newResponse);
 
-        var me = await _spotify.UserProfile.Current();
-        LogSpotify($"Welcome {me.DisplayName} ({me.Id}), you're authenticated!");
+            _spotify = new SpotifyClient(newResponse.AccessToken);
+            var me = await _spotify.UserProfile.Current();
+            LogSpotify($"Welcome {me.DisplayName} ({me.Id}), you're authenticated!");
+        }
+        catch (Exception e)
+        {
+            LogSpotify(e.Message);
+            throw;
+        }
+    }
+
+    private static void AuthenticatorOnTokenRefreshed(object? sender, PKCETokenResponse e)
+    {
+        _credsProvider.OverrideSpotifyTokenData(e);
     }
 
     private static async Task StartAuthentication()
@@ -69,7 +94,7 @@ public class SpotifyBot
                 new PKCETokenRequest(_creds.SpotifyClientId, response.Code, _server.BaseUri, verifier)
             );
 
-            await File.WriteAllTextAsync(_credentialsPath, JsonConvert.SerializeObject(token));
+            _credsProvider.OverrideSpotifyTokenData(token); 
             await Start();
         };
 
@@ -121,8 +146,16 @@ public class SpotifyBot
 
     public string GetCurrentSong()
     {
-        var request = _spotify.Player.GetCurrentlyPlaying(new PlayerCurrentlyPlayingRequest());
-        var fullTrack = (FullTrack)request.Result.Item;
-        return $"{fullTrack.Name} - {Join(',', fullTrack.Artists.ToList().Select(a=>a.Name).ToArray())} {fullTrack.ExternalUrls["spotify"]}";
+        try
+        {
+            var request = _spotify.Player.GetCurrentlyPlaying(new PlayerCurrentlyPlayingRequest());
+            var fullTrack = (FullTrack)request.Result.Item;
+            return $"{fullTrack.Name} - {Join(',', fullTrack.Artists.ToList().Select(a=>a.Name).ToArray())} {fullTrack.ExternalUrls["spotify"]}";
+        }
+        catch (Exception e)
+        {
+            LogSpotify(e.Message);
+            return "";
+        }
     }
 }

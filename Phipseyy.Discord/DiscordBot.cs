@@ -1,8 +1,14 @@
 ﻿using Discord;
+using Discord.Commands;
+using Discord.Interactions;
 using Discord.Net;
 using Discord.WebSocket;
+using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 using Phipseyy.Common;
+using Phipseyy.Common.Services;
+using Phipseyy.Discord.Services;
+using RunMode = Discord.Commands.RunMode;
 
 
 namespace Phipseyy.Discord;
@@ -10,20 +16,29 @@ namespace Phipseyy.Discord;
 public class DiscordBot
 {
     private readonly IBotCredentials _creds;
+    private readonly CommandService _commands;
 
-    private DiscordSocketClient BotClient { get; set; }
-    //public CommandService Commands { get; set; }
-    //public IServiceProvider Services { get; set; }
+    private DiscordSocketClient BotClient { get; }
+    private IServiceProvider Services { get; }
 
-    public DiscordBot(IBotCredentials credentials)
+    public DiscordBot()
     {
-        _creds = credentials;
+        _creds = new BotCredsProvider().GetCreds();
+        
+        _commands = new CommandService(new CommandServiceConfig
+        {
+            CaseSensitiveCommands = false,
+            DefaultRunMode = RunMode.Sync
+        });
+        
         BotClient = new DiscordSocketClient(new DiscordSocketConfig
         {
             DefaultRetryMode = RetryMode.AlwaysRetry,
             LogLevel = LogSeverity.Info,
             ConnectionTimeout = int.MaxValue
         });
+
+        Services = InitializeServices();
     }
 
     public async Task RunBot()
@@ -34,23 +49,17 @@ public class DiscordBot
         //Events
         BotClient.Log += Logging;
         BotClient.Ready += ClientReady;
-        BotClient.SlashCommandExecuted += SlashCommandExecuted;
-        BotClient.ReactionAdded += OnReactionAdded;
-        
+
+        var commandHandler = Services.GetRequiredService<CommandHandler>();
+        await commandHandler.Initialize();
+
         LogDiscord(BotClient.LoginState.ToString());
 
         await Task.Delay(-1);
     }
-
-    private static async Task OnReactionAdded(Cacheable<IUserMessage, ulong> arg1, Cacheable<IMessageChannel, ulong> arg2, SocketReaction arg3)
-    {
-        //if(arg1.Id.Equals(Settings.lastchannel))
-        {
-            IUser user = arg3.User.Value;
-            await ((IGuildUser)user).AddRoleAsync(960586503011070012);
-        }
-    }
-
+    
+    /* ---Helpers--- */
+    
     /// <summary>
     /// Fancy Console Output
     /// </summary>
@@ -58,6 +67,20 @@ public class DiscordBot
     private static void LogDiscord(string message)
         =>  Log.Information("[Discord] {Message}", message);
 
+    private ServiceProvider InitializeServices()
+    {
+        var svcs = new ServiceCollection()
+            .AddSingleton(_creds) //just in case we need it at some point
+            .AddSingleton(BotClient)
+            .AddSingleton(_commands)
+            .AddSingleton<CommandHandler>()
+            .AddSingleton<InteractionService>();
+
+        return svcs.BuildServiceProvider();
+    }
+
+    /* ---Events--- */
+    
     /// <summary>
     /// Sends EVERY message to the console
     /// </summary>
@@ -94,24 +117,9 @@ public class DiscordBot
             exception.Errors.ToList().ForEach(error => LogDiscord("Client Ready Error: " + error.ToString()));
         }
     }
-
-    private async Task SlashCommandExecuted(SocketSlashCommand command)
-    {
-        switch (command.Data.Name)
-        {
-            case "role-handler":
-                await SendMessageWithReaction(command);
-                break;
-        }
-    }
-
-    private async Task SendMessageWithReaction(SocketSlashCommand command)
-    {
-        var message = await command.Channel.SendMessageAsync(command.Data.Options.ElementAt(0).Value.ToString());
-        Emote emote = Emote.Parse(command.Data.Options.ElementAt(2).Value.ToString());
-        await message.AddReactionAsync(emote);
-    }
-
+    
+    /* ---Methods--- */
+    
     public async void SendTextMessage(string message)
     {
         try
@@ -125,4 +133,21 @@ public class DiscordBot
             LogDiscord($"ERROR: {ex.Message}");
         }    
     }
+    
+    public async void SendStreamNotification(TwitchStreamData streamData)
+    {
+        try
+        {
+            var discordEmbed = streamData.GetDiscordEmbed();
+            // Watch out for the channelID
+            var channel = BotClient.GetChannel(960589669941252106) as IMessageChannel;
+            await Task.Run(() => channel?.SendMessageAsync($"Hey @everyone! {streamData.Username} is now live!", false, discordEmbed.Build()));
+        }
+        catch (Exception ex)
+        {
+            LogDiscord($"ERROR: {ex.Message}");
+        }    
+    }
+    
+    
 }

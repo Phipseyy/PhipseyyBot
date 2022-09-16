@@ -21,6 +21,17 @@ public sealed class BotCredentials : IBotCredentials
 
     [Comment("Spotify App Client ID -> https://developer.spotify.com/dashboard/")]
     public string SpotifyClientId { get; set; }
+    public string SpotifyClientSecret { get; set; }
+
+    [Comment("Spotify Token Data - DO NOT TOUCH / LEAVE EMPTY")]
+    public string SpAccessToken { get; set; }
+    public string SpTokenType { get; set; }
+    public int SpExpiresIn { get; set; }
+    public string SpScope { get; set; }
+    public string SpRefreshToken { get; set; }
+    public DateTime SpCreatedAt{ get; set; }
+    public bool SpIsExpired { get; set; }
+    
 
     public BotCredentials()
     {
@@ -32,5 +43,15 @@ public sealed class BotCredentials : IBotCredentials
         TwitchRefreshToken = string.Empty;
         TwitchClientId = string.Empty;
         SpotifyClientId = string.Empty;
+        SpotifyClientSecret = string.Empty;
+        
+        SpAccessToken = string.Empty;
+        SpTokenType = string.Empty;
+        SpExpiresIn = int.MinValue;
+        SpScope = string.Empty;
+        SpRefreshToken = string.Empty;
+        SpCreatedAt = DateTime.MinValue;
+        SpIsExpired = false;
+
     }
 }
