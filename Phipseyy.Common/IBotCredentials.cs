@@ -3,7 +3,7 @@
 public interface IBotCredentials
 {
     string DiscordToken { get; }
-    string DiscordStatus { get; }
+    string DiscordStatus { get; set; }
     string TwitchUsername { get; }
     string TwitchId { get; }
     string TwitchAccessToken { get; }

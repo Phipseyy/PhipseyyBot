@@ -1,5 +1,7 @@
 ﻿#nullable disable
+using System.Runtime.InteropServices;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Primitives;
 using Phipseyy.Common.Exceptions;
 using Phipseyy.Common.Yml;
@@ -26,12 +28,13 @@ public class BotCredsProvider : IBotCredsProvider
     private const string CredsFileName = "creds.yml";
     private string CredsPath { get; }
 
+    public event EventHandler ConfigfileEdited;
+
     private readonly BotCredentials _creds = new();
     private readonly IConfigurationRoot _config;
 
 
     private readonly object _reloadLock = new();
-    //private readonly IDisposable _changeToken;
 
     public BotCredsProvider(string credPath = null)
     {
@@ -50,7 +53,7 @@ public class BotCredsProvider : IBotCredsProvider
         ChangeToken.OnChange(() => _config.GetReloadToken(), Reload);
         Reload();
     }
-
+    
     public void Reload()
     {
         lock (_reloadLock)
@@ -79,6 +82,16 @@ public class BotCredsProvider : IBotCredsProvider
             
             if (string.IsNullOrWhiteSpace(_creds.SpotifyClientId))
                 Log.Warning("SpotifyClientId is missing from creds.yml.The bot will not have a status message");
+        }
+        ConfigfileEdited?.Invoke(this, EventArgs.Empty);
+    }
+
+
+    public void OverrideSettings(IBotCredentials creds)
+    {
+        lock (_reloadLock)
+        {
+            File.WriteAllText(CredsPath, Yaml.Serializer.Serialize(creds));
         }
     }
 
@@ -124,8 +137,7 @@ public class BotCredsProvider : IBotCredsProvider
             File.WriteAllText(CredsPath, Yaml.Serializer.Serialize(_creds));
         }
     }
-
-
+    
     public IBotCredentials GetCreds()
     {
         lock (_reloadLock)

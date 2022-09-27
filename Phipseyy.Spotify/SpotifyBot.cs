@@ -25,7 +25,7 @@ public class SpotifyBot
         _server = new EmbedIOAuthServer(uri, 5000);
     }
 
-    public async Task RunBot()
+    public static async Task RunBot()
     {
         await Start();
         await Task.Delay(-1);

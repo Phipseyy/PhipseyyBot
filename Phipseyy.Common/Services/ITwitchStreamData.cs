@@ -1,4 +1,6 @@
-﻿namespace Phipseyy.Common.Services;
+﻿using Discord;
+
+namespace Phipseyy.Common.Services;
 
 public interface ITwitchStreamData
 {
@@ -6,6 +8,8 @@ public interface ITwitchStreamData
     string Title { get; }
     string UrlToProfilePicture { get; }
     string UrlToPreview { get; }
+
+    string Game { get; }
 
 
 }

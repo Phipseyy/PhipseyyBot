@@ -2,16 +2,16 @@
 using Discord.Commands;
 using Discord.Interactions;
 
-namespace Phipseyy.Discord.Modules;
+namespace Phipseyy.Discord.Modules.Commands;
 
-[Name("Bruh-moment")]
+[Name("ping")]
 [SuppressMessage("ReSharper", "UnusedType.Global")]
 [SuppressMessage("ReSharper", "UnusedMember.Global")]
 public class Bruh : InteractionModuleBase<SocketInteractionContext>
 {
-    [SlashCommand("bruh-moment", "Respond with an epic bruh-moment.")]
+    [SlashCommand("ping", "Test command to see if the bot responds")]
     public async Task BruhMoment()
     {
-        await RespondAsync("Bruh");
+        await RespondAsync("Pong!");
     }
 }

@@ -1,7 +1,9 @@
-﻿// ReSharper disable UnusedParameter.Local
-using System.Reflection;
+﻿using System.Reflection;
+using Discord;
 using Discord.Interactions;
 using Discord.WebSocket;
+using Serilog;
+using static System.DateTime;
 
 namespace Phipseyy.Discord.Services;
 
@@ -25,8 +27,38 @@ public class CommandHandler
         _discord.InteractionCreated += InteractionCreated;
         _discord.ButtonExecuted += ButtonExecuted;
         _discord.Ready += Ready;
-        _commands.SlashCommandExecuted += (info, context, arg3) => Task.CompletedTask;
-        _commands.AutocompleteHandlerExecuted += (handler, context, arg3) => Task.CompletedTask;
+        _commands.SlashCommandExecuted += CommandsOnSlashCommandExecuted;
+        _commands.AutocompleteHandlerExecuted += (_, _, _) => Task.CompletedTask;
+    }
+
+    private static void LogCommandHandler(string message)
+        =>  Log.Warning($"[CommandHandler] {Now:HH:mm:ss} {message}");
+    
+    private async Task CommandsOnSlashCommandExecuted(SlashCommandInfo arg1, IInteractionContext arg2, IResult arg3)
+    {
+        if (!arg3.IsSuccess)
+        {
+            switch (arg3.Error)
+            {
+                case InteractionCommandError.UnmetPrecondition:
+                    await arg2.Interaction.RespondAsync($"Unmet Precondition: {arg3.ErrorReason}");
+                    LogCommandHandler($"Command execution failed: Unmet Precondition: {arg3.ErrorReason}");
+                    break;
+                case InteractionCommandError.BadArgs:
+                    await arg2.Interaction.RespondAsync("Invalid number or arguments");
+                    LogCommandHandler($"Command execution failed: Invalid number or arguments");
+                    break;
+                case InteractionCommandError.Exception:
+                    await arg2.Interaction.RespondAsync($"Command exception: {arg3.ErrorReason}");
+                    LogCommandHandler($"Command execution failed: {arg3.ErrorReason}");
+                    break;
+                case InteractionCommandError.Unsuccessful:
+                    await arg2.Interaction.RespondAsync("Command could not be executed");
+                    LogCommandHandler($"Command could not be executed");
+                    break;
+            }
+
+        }
     }
 
     private async Task InteractionCreated(SocketInteraction arg)

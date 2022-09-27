@@ -10,14 +10,14 @@ public static class Bot
 
     public static Task StartupBot()
     {
-        var discordBot = new DiscordBot();
         var spotifyBot = new SpotifyBot();
+        var discordBot = new DiscordBot(spotifyBot);
         var twitchBot = new TwitchBot(discordBot, spotifyBot);
 
         var dcBotThread = new Thread(discordBot.RunBot().GetAwaiter().GetResult);
         dcBotThread.Start();
 
-        var spotifyThread = new Thread(spotifyBot.RunBot().GetAwaiter().GetResult);
+        var spotifyThread = new Thread(SpotifyBot.RunBot().GetAwaiter().GetResult);
         spotifyThread.Start();
 
         var twitchBotThread = new Thread(twitchBot.RunBot().GetAwaiter().GetResult);
