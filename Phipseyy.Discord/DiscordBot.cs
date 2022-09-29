@@ -58,22 +58,23 @@ public class DiscordBot
         //Events
         BotClient.Log += Logging;
         BotClient.Ready += ClientReady;
-        
+        BotClient.Connected += BotClientOnConnected;
+        BotClient.Disconnected += BotClientOnDisconnected;
+
         _credsProvider.ConfigfileEdited += CredsProviderOnConfigfileEdited;
         
         await BotClient.LoginAsync(TokenType.Bot, _creds.DiscordToken);
         await BotClient.StartAsync();
-        
+
         var commandHandler = Services.GetRequiredService<CommandHandler>();
         await commandHandler.Initialize();
         
         var pubSub = Services.GetRequiredService<PubSub>();
         await pubSub.InitializePubSub();
 
-        LogDiscord(BotClient.LoginState.ToString());
         await Task.Delay(-1);
     }
-    
+
     /* ---Helpers--- */
     
     /// <summary>
@@ -81,7 +82,7 @@ public class DiscordBot
     /// </summary>
     /// <param name="message"></param>
     private static void LogDiscord(string message)
-        =>  Log.Information("[Discord] {Message}", message);
+        =>  Log.Information($"[Discord] {message}");
 
     /* ---Events--- */
     
@@ -100,6 +101,29 @@ public class DiscordBot
     {
         await BotClient.SetGameAsync(_creds.DiscordStatus, $"https://www.twitch.tv/{_creds.TwitchUsername}", ActivityType.Streaming);
         LogDiscord("---Bot is Ready!---");
+    }
+
+    private async Task BotClientOnDisconnected(Exception arg)
+    {
+        try
+        {
+            LogDiscord("Client disconnected! Trying to reconnect in 10sec.");
+            await Task.Delay(10000);
+            await BotClient.StartAsync();
+            await Task.Delay(1000);
+            if (BotClient.ConnectionState != ConnectionState.Connected)
+                await BotClientOnDisconnected(arg);
+        }
+        catch (Exception e)
+        {
+            LogDiscord(e.Message);
+        }
+    }
+    
+    private Task BotClientOnConnected()
+    {
+        LogDiscord("Client connected!");
+        return Task.CompletedTask;
     }
     
     private async void CredsProviderOnConfigfileEdited(object? sender, EventArgs e)

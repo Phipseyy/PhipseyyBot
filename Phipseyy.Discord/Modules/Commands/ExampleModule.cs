@@ -12,6 +12,6 @@ public class Bruh : InteractionModuleBase<SocketInteractionContext>
     [SlashCommand("ping", "Test command to see if the bot responds")]
     public async Task BruhMoment()
     {
-        await RespondAsync("Pong!");
+        await RespondAsync($"Pong! {Context.Client.Latency}ms");
     }
 }

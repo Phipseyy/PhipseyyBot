@@ -63,16 +63,15 @@ public class PubSub
         _pubSub.Connect();
     }
 
-    private static void PubSubOn_OnPubSubServiceError(object sender, OnPubSubServiceErrorArgs e)
+    private static async void PubSubOn_OnPubSubServiceError(object sender, OnPubSubServiceErrorArgs e)
     {
         try
         {
-            LogTwitchPubSub("OnPubSubServiceError Triggered");
-            _discordBot.SendTextMessage("Oh no! OnPubSubServiceError Triggered!");
-            LogTwitchPubSub(e.Exception.Message);
-            _discordBot.SendTextMessage($"{e.Exception.Message}");
+            LogTwitchPubSub($"OnPubSubServiceError Triggered: {e.Exception.Message}\nRestarting Service in 10sec.");
+            _discordBot.SendTextMessage($"OnPubSubServiceError Triggered: {e.Exception.Message}\nRestarting Service in 10sec.");
 
             _pubSub.Disconnect();
+            await Task.Delay(10000);
             _pubSub.Connect();
         }
         catch (Exception exception)
