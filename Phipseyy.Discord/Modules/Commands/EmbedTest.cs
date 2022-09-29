@@ -24,7 +24,7 @@ public class EmbedTest : InteractionModuleBase<SocketInteractionContext>
         await RespondAsync("Done");
         await DeleteOriginalResponseAsync();
         await ReplyAsync(text: $"Hey @everyone! {twitchData.Username} is live again!", embed: twitchData.GetDiscordEmbed());
-        
+
     }
 
 }
