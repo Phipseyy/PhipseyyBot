@@ -151,10 +151,9 @@ public class DiscordBot
     {
         try
         {
-            var discordEmbed = streamData.GetDiscordEmbed();
-            // Watch out for the channelID
             var channel = BotClient.GetChannel(960589669941252106) as IMessageChannel;
-            await Task.Run(() => channel?.SendMessageAsync($"Hey @everyone! {streamData.Username} is now live!", false, discordEmbed.Build()));
+            await Task.Run(() 
+                => channel?.SendMessageAsync(text: $"Hey @everyone! {streamData.Username} is now live!", embed: streamData.GetDiscordEmbed()));
         }
         catch (Exception ex)
         {

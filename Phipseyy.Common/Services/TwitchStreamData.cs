@@ -1,4 +1,5 @@
 ﻿using Discord;
+using static System.DateTime;
 
 namespace Phipseyy.Common.Services;
 
@@ -19,21 +20,21 @@ public class TwitchStreamData : ITwitchStreamData
         UrlToPreview = $"https://static-cdn.jtvnw.net/previews-ttv/live_user_{Username.ToLower()}-1280x720.jpg";
     }
 
-    public EmbedBuilder GetDiscordEmbed()
+    public Embed GetDiscordEmbed()
     {
-        var embed = new EmbedBuilder
-        {
-            Title = Title
-        };
-        embed.WithAuthor(Username)
+        var embed = new EmbedBuilder()
+            .WithAuthor(Username, UrlToProfilePicture, $"https://twitch.tv/{Username}")
+            .WithTitle(Title)
             .WithFooter(footer => footer.Text = $"PhipseyyBot")
-            .WithColor(Color.DarkRed)
+            .WithColor(Color.Red)
             .WithImageUrl(UrlToPreview)
             .WithThumbnailUrl(UrlToProfilePicture)
             .WithUrl($"https://twitch.tv/{Username}")
             .WithCurrentTimestamp();
+        
+        embed.Description = $"Streaming: ``{Game}`` \nLive since: ``{Now:HH:mm:ss} CEST``";
 
-        return embed;
+        return embed.Build();
     }
 
 
