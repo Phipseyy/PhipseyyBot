@@ -21,7 +21,7 @@ public class SpotifyBot
     {
         _credsProvider = new BotCredsProvider();
         _creds = _credsProvider.GetCreds();
-        var uri = new Uri("http://localhost:5000/callback");
+        var uri = new Uri($"http://{_creds.ServerIp}:5000/callback");
         _server = new EmbedIOAuthServer(uri, 5000);
     }
 
@@ -33,8 +33,7 @@ public class SpotifyBot
 
     private static async Task Start()
     {
-        var currentToken = _creds.SpAccessToken;
-        if (!IsNullOrEmpty(currentToken))
+        if (!IsNullOrEmpty(_creds.SpAccessToken))
             await StartSpotify();
         else
             await StartAuthentication();
@@ -49,8 +48,8 @@ public class SpotifyBot
 
             var authenticator = new PKCEAuthenticator(_creds.SpotifyClientId, token!);
             authenticator.TokenRefreshed += AuthenticatorOnTokenRefreshed;
-            var config = SpotifyClientConfig.CreateDefault().WithAuthenticator(authenticator);
 
+            var config = SpotifyClientConfig.CreateDefault().WithAuthenticator(authenticator);
             _spotify = new SpotifyClient(config);
 
             var me = await _spotify.UserProfile.Current();
@@ -61,9 +60,10 @@ public class SpotifyBot
             LogSpotify(e.Message);
             LogSpotify("WE NEED A NEW TOKEN - TRYING TO CREATE ONE");
             var newResponse = await new OAuthClient().RequestToken(
-                new AuthorizationCodeRefreshRequest(_creds.SpotifyClientId, _creds.SpotifyClientSecret, _creds.SpRefreshToken)
+                new AuthorizationCodeRefreshRequest(_creds.SpotifyClientId, _creds.SpotifyClientSecret,
+                    _creds.SpRefreshToken)
             );
-            
+
             _credsProvider.OverrideSpotifyTokenData(newResponse);
 
             _spotify = new SpotifyClient(newResponse.AccessToken);
@@ -94,7 +94,7 @@ public class SpotifyBot
                 new PKCETokenRequest(_creds.SpotifyClientId, response.Code, _server.BaseUri, verifier)
             );
 
-            _credsProvider.OverrideSpotifyTokenData(token); 
+            _credsProvider.OverrideSpotifyTokenData(token);
             await Start();
         };
 
@@ -102,7 +102,11 @@ public class SpotifyBot
         {
             CodeChallenge = challenge,
             CodeChallengeMethod = "S256",
-            Scope = new List<string> { UserReadEmail, UserReadPrivate, PlaylistReadPrivate, PlaylistReadCollaborative, UserModifyPlaybackState, UserReadCurrentlyPlaying}
+            Scope = new List<string>
+            {
+                UserReadEmail, UserReadPrivate, PlaylistReadPrivate, PlaylistReadCollaborative, UserModifyPlaybackState,
+                UserReadCurrentlyPlaying
+            }
         };
 
         var uri = request.ToUri();
@@ -131,26 +135,25 @@ public class SpotifyBot
     {
         try
         {
-            if (url.Contains("open.spotify"))
-            {
-                PlayerAddToQueueRequest playerAddToQueueRequest = new PlayerAddToQueueRequest(UrlToUri(url));
-                _spotify.Player.AddToQueue(playerAddToQueueRequest);
-            }
+            if (!url.Contains("open.spotify")) 
+                return;
+            var playerAddToQueueRequest = new PlayerAddToQueueRequest(UrlToUri(url));
+            _spotify.Player.AddToQueue(playerAddToQueueRequest);
         }
         catch (Exception ex)
         {
             LogSpotify(ex.Message);
         }
-
     }
 
-    public string GetCurrentSong()
+    public static string GetCurrentSong()
     {
         try
         {
             var request = _spotify.Player.GetCurrentlyPlaying(new PlayerCurrentlyPlayingRequest());
             var fullTrack = (FullTrack)request.Result.Item;
-            return $"{fullTrack.Name} - {Join(',', fullTrack.Artists.ToList().Select(a=>a.Name).ToArray())} {fullTrack.ExternalUrls["spotify"]}";
+            return
+                $"{fullTrack.Name} - {Join(',', fullTrack.Artists.ToList().Select(a => a.Name).ToArray())} {fullTrack.ExternalUrls["spotify"]}";
         }
         catch (Exception e)
         {

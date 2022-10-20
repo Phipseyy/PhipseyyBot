@@ -14,7 +14,7 @@ namespace Phipseyy.Discord.Modules.Commands;
 public class GetTwitchId : InteractionModuleBase<SocketInteractionContext>
 {
 
-    [SlashCommand("get_twitchid", "Tries to grab the TwitchID from an Twitch Account using the name")]
+    [SlashCommand("get-twitchid", "Tries to grab the TwitchID from an Twitch Account using the name")]
     public async Task GetTwitchIdFromNameCommand(string name)
     {
         try

@@ -2,16 +2,16 @@
 
 public interface IBotCredentials
 {
+    string ServerIp { get; }
     string DiscordToken { get; }
     string DiscordStatus { get; set; }
     string TwitchUsername { get; }
-    string TwitchId { get; }
     string TwitchAccessToken { get; }
     string TwitchRefreshToken { get; }
     string TwitchClientId { get; }
     string SpotifyClientId { get; }
     string SpotifyClientSecret { get; }
-    
+
     string SpAccessToken { get; set; } 
     string SpTokenType { get; set; }
     int SpExpiresIn { get; set; }

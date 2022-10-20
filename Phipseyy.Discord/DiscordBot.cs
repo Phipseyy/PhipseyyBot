@@ -36,7 +36,8 @@ public class DiscordBot
         {
             DefaultRetryMode = RetryMode.AlwaysRetry,
             LogLevel = LogSeverity.Info,
-            ConnectionTimeout = int.MaxValue
+            ConnectionTimeout = int.MaxValue,
+            AlwaysDownloadUsers = true
         });
 
         var svcs = new ServiceCollection()
@@ -101,6 +102,7 @@ public class DiscordBot
     {
         await BotClient.SetGameAsync(_creds.DiscordStatus, $"https://www.twitch.tv/{_creds.TwitchUsername}", ActivityType.Streaming);
         LogDiscord("---Bot is Ready!---");
+        SendGlobalText("Poggies");
     }
 
     private async Task BotClientOnDisconnected(Exception arg)
@@ -160,6 +162,36 @@ public class DiscordBot
             LogDiscord($"ERROR: {ex.Message}");
         }    
     }
-    
-    
+
+    private async void SendGlobalText(string message)
+    {
+        foreach (var guild in BotClient.Guilds)
+        {
+            try
+            {
+                var channel = guild.TextChannels.FirstOrDefault(x => x!.Name == "log", null);
+
+                if (channel == null)
+                {
+                    var logChannel = await guild.CreateTextChannelAsync("log");
+                    await logChannel.SendMessageAsync(message);
+                }
+                else
+                {
+                    await channel.SendMessageAsync(message);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                LogDiscord(ex.Message);
+            }
+
+
+
+        }
+
+    }
+
+
 }

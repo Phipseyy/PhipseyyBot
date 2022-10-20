@@ -1,5 +1,6 @@
 ﻿#nullable disable
 using Phipseyy.Common;
+using Phipseyy.Common.Modules;
 using Phipseyy.Common.Services;
 using Phipseyy.Spotify;
 using Serilog;
@@ -60,7 +61,15 @@ public class PubSub
     private void PubSubOn_OnPubSubServiceClosed(object sender, EventArgs e)
     {
         LogTwitchPubSub("PubSubService got closed! Restarting...");
-        _pubSub.Connect();
+        try
+        {
+            _pubSub.Connect();
+        }
+        catch (Exception exception)
+        {
+            LogTwitchPubSub(exception.Message);
+            throw;
+        }
     }
 
     private static async void PubSubOn_OnPubSubServiceError(object sender, OnPubSubServiceErrorArgs e)
@@ -104,15 +113,15 @@ public class PubSub
                 }
             };
 
-            var usersData = api.Helix.Channels.GetChannelInformationAsync(e.ChannelId, _creds.TwitchAccessToken).Result
-                .Data[0];
-            var user = api.Helix.Search.SearchChannelsAsync(usersData.BroadcasterName, true).Result.Channels[0];
-
-
-            await _discordBot.SendStreamNotification(new TwitchStreamData(user.DisplayName,
+            var usersData = api.Helix.Channels.GetChannelInformationAsync(e.ChannelId, _creds.TwitchAccessToken).Result.Data.SingleOrDefault(x => x.BroadcasterId == e.ChannelId);
+            var user = api.Helix.Search.SearchChannelsAsync(usersData!.BroadcasterName).Result.Channels.SingleOrDefault(x => x.DisplayName == usersData.BroadcasterName);
+            var twitchData = new TwitchStreamData(user!.DisplayName,
                 user.Title,
                 user.ThumbnailUrl,
-                user.GameName));
+                user.GameName,
+                user.StartedAt);
+
+            await _discordBot.SendStreamNotification(twitchData);
         }
         catch (Exception exception)
         {
@@ -124,10 +133,14 @@ public class PubSub
     private void PubSub_OnServiceConnected(object sender, EventArgs e)
     {
         LogTwitchPubSub("---PubSub Connected!---");
-        _discordBot.SendTextMessage($"PubSub Service online!");
-        _pubSub.ListenToVideoPlayback(_creds.TwitchId);
-        _pubSub.ListenToChannelPoints(_creds.TwitchId);
+        _discordBot.SendTextMessage("PubSub Service online!");
+        _pubSub.ListenToVideoPlayback(TwitchConverter.GetTwitchIdFromName(_creds.TwitchUsername));
+        _pubSub.ListenToChannelPoints(TwitchConverter.GetTwitchIdFromName(_creds.TwitchUsername));
         _pubSub.SendTopics(_creds.TwitchAccessToken);
+        
+        
+        
+        
     }
     
 }

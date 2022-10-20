@@ -4,16 +4,16 @@ namespace Phipseyy.Common;
 
 public sealed class BotCredentials : IBotCredentials
 {
+    [Comment("Needed for the Server functions e.g Authentication")]
+    public string ServerIp { get; set; }
+    
     [Comment("DiscordBot token. Do not share with anyone ever -> https://discordapp.com/developers/applications/")]
     public string DiscordToken { get; set; }
     
     [Comment("Text which gets displayed as the status of the Bot")]
     public string DiscordStatus { get; set; }
     public string TwitchUsername { get; set; }
-    
-    [Comment("ID of the Twitch-Channel -> https://chrome.google.com/webstore/detail/twitch-username-and-user/laonpoebfalkjijglbjbnkfndibbcoon")]
-    public string TwitchId { get; set; }
-    
+
     [Comment("Twitch Access -> https://twitchtokengenerator.com/")]
     public string TwitchAccessToken { get; set; }
     public string TwitchRefreshToken { get; set; }
@@ -35,16 +35,16 @@ public sealed class BotCredentials : IBotCredentials
 
     public BotCredentials()
     {
+        ServerIp = string.Empty;
         DiscordToken = string.Empty;
         DiscordStatus = string.Empty;
         TwitchUsername = string.Empty;
-        TwitchId = string.Empty;
         TwitchAccessToken = string.Empty;
         TwitchRefreshToken = string.Empty;
         TwitchClientId = string.Empty;
         SpotifyClientId = string.Empty;
         SpotifyClientSecret = string.Empty;
-        
+
         SpAccessToken = string.Empty;
         SpTokenType = string.Empty;
         SpExpiresIn = int.MinValue;
@@ -52,6 +52,5 @@ public sealed class BotCredentials : IBotCredentials
         SpRefreshToken = string.Empty;
         SpCreatedAt = DateTime.MinValue;
         SpIsExpired = false;
-
     }
 }

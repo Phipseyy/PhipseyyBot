@@ -82,6 +82,6 @@ public class TwitchBot
     {
         //Twitch Commands
         if (e.ChatMessage.Message.Equals("!song"))
-            _client.SendMessage(_client.JoinedChannels[0], _spotifyManager.GetCurrentSong());
+            _client.SendMessage(_client.JoinedChannels[0], SpotifyBot.GetCurrentSong());
     }
 }

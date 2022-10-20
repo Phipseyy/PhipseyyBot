@@ -16,6 +16,8 @@ public class ClearChannel : InteractionModuleBase<SocketInteractionContext>
     {
         var messages = await Context.Channel.GetMessagesAsync().FlattenAsync();
         await ((ITextChannel)Context.Channel).DeleteMessagesAsync(messages);
-        await ReplyAsync("Cleared all channel messages which are not older than 14 days");
+        await RespondAsync("Cleared all channel messages which are not older than 14 days");
+        await Task.Delay(5000);
+        await DeleteOriginalResponseAsync();
     }
 }

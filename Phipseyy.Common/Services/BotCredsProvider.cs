@@ -1,7 +1,5 @@
 ﻿#nullable disable
-using System.Runtime.InteropServices;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Primitives;
 using Phipseyy.Common.Exceptions;
 using Phipseyy.Common.Yml;
@@ -67,10 +65,7 @@ public class BotCredsProvider : IBotCredsProvider
             
             if (string.IsNullOrWhiteSpace(_creds.TwitchUsername))
                 Log.Warning("TwitchUsername is missing from creds.yml. Add it and restart the bot");
-            
-            if (string.IsNullOrWhiteSpace(_creds.TwitchId))
-                Log.Warning("TwitchId is missing from creds.yml. Add it and restart the bot");
-            
+
             if (string.IsNullOrWhiteSpace(_creds.TwitchAccessToken))
                 Log.Warning("TwitchAccesstoken is missing from creds.yml. The bot will not have a status message");
             
