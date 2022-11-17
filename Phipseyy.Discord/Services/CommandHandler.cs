@@ -56,6 +56,16 @@ public class CommandHandler
                     await arg2.Interaction.RespondAsync("Command could not be executed");
                     LogCommandHandler($"Command could not be executed");
                     break;
+                case InteractionCommandError.UnknownCommand:
+                    break;
+                case InteractionCommandError.ConvertFailed:
+                    break;
+                case InteractionCommandError.ParseFailed:
+                    break;
+                case null:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
 
         }

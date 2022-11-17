@@ -18,17 +18,15 @@ public class TwitchBot
     private static IBotCredentials _creds;
 
     private static DiscordBot _discordBot;
-    private readonly SpotifyBot _spotifyManager;
     private static TwitchClient _client;
     
 
-    public TwitchBot(DiscordBot discordBot, SpotifyBot spotifyManager)
+    public TwitchBot(DiscordBot discordBot)
     {
         var credsProvider = new BotCredsProvider();
         _creds = credsProvider.GetCreds();
 
         _discordBot = discordBot;
-        _spotifyManager = spotifyManager;
         
 
         //initialize Client
@@ -50,14 +48,15 @@ public class TwitchBot
         _client.OnMessageReceived += Client_OnMessageReceived;
         _client.Connect();
 
-
         await Task.Delay(-1);
     }
 
     /* --- Help Functions --- */
     private static void LogTwitchClient(string message)
-        => Log.Information($"[TwitchClient] {Now:HH:mm:ss} {message}");
-    
+    { 
+        if(!message.Contains("PING") || !message.Contains("PONG"))
+            Log.Information($"[TwitchClient] {Now:HH:mm:ss} {message}");
+    }
 
     public static Task RestartServices()
     {
@@ -74,8 +73,7 @@ public class TwitchBot
 
     private void Client_OnJoinedChannel(object sender, OnJoinedChannelArgs e)
     {
-        LogTwitchClient("---Bot joined!---");
-        _discordBot.SendTextMessage("Connected!");
+        LogTwitchClient($"---Bot joined Twitch Channel {e.Channel}!---");
     }
 
     private void Client_OnMessageReceived(object sender, OnMessageReceivedArgs e)

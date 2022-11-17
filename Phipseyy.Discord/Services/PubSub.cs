@@ -1,5 +1,8 @@
 ﻿#nullable disable
+using Microsoft.Extensions.DependencyInjection;
 using Phipseyy.Common;
+using Phipseyy.Common.Db;
+using Phipseyy.Common.Db.Extensions;
 using Phipseyy.Common.Modules;
 using Phipseyy.Common.Services;
 using Phipseyy.Spotify;
@@ -14,7 +17,9 @@ namespace Phipseyy.Discord.Services;
 
 public class PubSub
 {
-    private static IBotCredentials _creds;
+    private readonly PhipseyyDbContext _dbContext;
+    private static ulong _guildId;
+    private readonly IBotCredentials _creds;
 
     private static DiscordBot _discordBot;
     private readonly SpotifyBot _spotifyManager;
@@ -23,19 +28,23 @@ public class PubSub
     // Spotify Song Request - RewardID
     private const string SpotifySr = "8b993ff7-a3bd-4d0c-89d4-261e5cbad132";
 
-    public PubSub(IBotCredentials creds, DiscordBot discordBot, SpotifyBot spotifyManager)
+    public PubSub(DiscordBot discordBot, SpotifyBot spotifyManager, ulong guildId, IServiceProvider serviceProvider)
     {
-        _creds = creds;
+        _dbContext = serviceProvider.GetRequiredService<PhipseyyDbContext>();
         _discordBot = discordBot;
         _spotifyManager = spotifyManager;
+        _guildId = guildId;
         _pubSub = new TwitchPubSub();
+        _creds = new BotCredsProvider().GetCreds();
     }
 
     public async Task InitializePubSub()
     {
+        var spotifyThread = new Thread(_spotifyManager.RunBot().GetAwaiter().GetResult);
+        spotifyThread.Start();
+
         _pubSub.OnPubSubServiceConnected += PubSub_OnServiceConnected;
         _pubSub.OnPubSubServiceClosed += PubSubOn_OnPubSubServiceClosed;
-        _pubSub.OnPubSubServiceError += PubSubOn_OnPubSubServiceError;
         _pubSub.OnStreamUp += PubSub_OnStreamUp;
         _pubSub.OnChannelPointsRewardRedeemed += PubSub_OnChannelPointsRewardRedeemed;
         _pubSub.OnLog += PubSub_OnLog;
@@ -46,7 +55,10 @@ public class PubSub
 
     /* --- Helpers --- */
     private static void LogTwitchPubSub(string message)
-        => Log.Information($"[TwitchPubSub] {Now:HH:mm:ss} {message}");
+    {
+        if(!message.Contains("PING") || !message.Contains("PONG"))
+            Log.Information($"[TwitchPubSub] {Now:HH:mm:ss} {message}");
+    }
 
     public static Task RestartService()
     {
@@ -69,24 +81,6 @@ public class PubSub
         {
             LogTwitchPubSub(exception.Message);
             throw;
-        }
-    }
-
-    private static async void PubSubOn_OnPubSubServiceError(object sender, OnPubSubServiceErrorArgs e)
-    {
-        try
-        {
-            LogTwitchPubSub($"OnPubSubServiceError Triggered: {e.Exception.Message}\nRestarting Service in 10sec.");
-            _discordBot.SendTextMessage($"OnPubSubServiceError Triggered: {e.Exception.Message}\nRestarting Service in 10sec.");
-
-            _pubSub.Disconnect();
-            await Task.Delay(10000);
-            _pubSub.Connect();
-        }
-        catch (Exception exception)
-        {
-            LogTwitchPubSub($"ERROR - {exception.Message}");
-            _discordBot.SendTextMessage($"ERROR - {exception.Message}");
         }
     }
 
@@ -116,6 +110,7 @@ public class PubSub
             var usersData = api.Helix.Channels.GetChannelInformationAsync(e.ChannelId, _creds.TwitchAccessToken).Result.Data.SingleOrDefault(x => x.BroadcasterId == e.ChannelId);
             var user = api.Helix.Search.SearchChannelsAsync(usersData!.BroadcasterName).Result.Channels.SingleOrDefault(x => x.DisplayName == usersData.BroadcasterName);
             var twitchData = new TwitchStreamData(user!.DisplayName,
+                user!.Id,
                 user.Title,
                 user.ThumbnailUrl,
                 user.GameName,
@@ -126,21 +121,27 @@ public class PubSub
         catch (Exception exception)
         {
             LogTwitchPubSub(exception.Message);
-            _discordBot.SendTextMessage($"OnStreamUp: {exception.Message}");
+            _discordBot.SendTextMessage($"OnStreamUp: {exception.Message}", _guildId);
         }
     }
 
     private void PubSub_OnServiceConnected(object sender, EventArgs e)
     {
         LogTwitchPubSub("---PubSub Connected!---");
-        _discordBot.SendTextMessage("PubSub Service online!");
+        _discordBot.SendTextMessage("PubSub Service online!", _guildId);
+
+        var streams = _dbContext.GetListOfFollowedStreams(_guildId);
+
+        foreach (var config in streams)
+            _pubSub.ListenToVideoPlayback(config.ChannelId);
+
+        var mainStream = _dbContext.GetMainStreamOfGuild(_guildId);
+        _pubSub.ListenToChannelPoints(mainStream!.ChannelId);
+
+
         _pubSub.ListenToVideoPlayback(TwitchConverter.GetTwitchIdFromName(_creds.TwitchUsername));
         _pubSub.ListenToChannelPoints(TwitchConverter.GetTwitchIdFromName(_creds.TwitchUsername));
         _pubSub.SendTopics(_creds.TwitchAccessToken);
-        
-        
-        
-        
     }
     
 }

@@ -1,32 +1,28 @@
 ﻿#nullable disable
+using Phipseyy.Common.Services;
 using Phipseyy.Twitch;
 using Phipseyy.Discord;
-using Phipseyy.Spotify;
 
 namespace PhipseyyBot;
 
 public static class Bot
 {
 
-    public static Task StartupBot()
+    public static async Task StartupBot()
     {
-        var spotifyBot = new SpotifyBot();
-        var discordBot = new DiscordBot(spotifyBot);
-        var twitchBot = new TwitchBot(discordBot, spotifyBot);
-
+        await DbService.SetupAsync();
+        
+        var discordBot = new DiscordBot();
+        var twitchBot = new TwitchBot(discordBot);
+        
         var dcBotThread = new Thread(discordBot.RunBot().GetAwaiter().GetResult);
         dcBotThread.Start();
-
-        var spotifyThread = new Thread(SpotifyBot.RunBot().GetAwaiter().GetResult);
-        spotifyThread.Start();
 
         var twitchBotThread = new Thread(twitchBot.RunBot().GetAwaiter().GetResult);
         twitchBotThread.Start();
 
-        return Task.Delay(-1);
-        
-        // dotnet publish PhipseyyBot -r linux-arm64 -p:PublishSingleFile=true --self-contained 
+        await Task.Delay(-1);
 
-        
+        // dotnet publish PhipseyyBot -r linux-arm64 -p:PublishSingleFile=true --self-contained 
     }
 }

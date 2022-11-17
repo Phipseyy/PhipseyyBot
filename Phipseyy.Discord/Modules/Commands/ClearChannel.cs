@@ -1,16 +1,16 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using Discord;
-using Discord.Commands;
 using Discord.Interactions;
 
 namespace Phipseyy.Discord.Modules.Commands;
 
-[Name("clear-chanel")]
 [SuppressMessage("ReSharper", "UnusedType.Global")]
 [SuppressMessage("ReSharper", "UnusedMember.Global")]
-[global::Discord.Interactions.RequireOwner]
+
+[RequireUserPermission(GuildPermission.Administrator)]
 public class ClearChannel : InteractionModuleBase<SocketInteractionContext>
 {
+    [EnabledInDm(false)]
     [SlashCommand("clear-channel", "Clears channel")]
     public async Task Clear()
     {

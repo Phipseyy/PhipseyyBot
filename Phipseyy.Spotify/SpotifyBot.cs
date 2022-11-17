@@ -1,6 +1,8 @@
-﻿using SpotifyAPI.Web.Auth;
+﻿#nullable disable
+using SpotifyAPI.Web.Auth;
 using SpotifyAPI.Web;
-using Phipseyy.Common;
+using Phipseyy.Common.Db;
+using Phipseyy.Common.Db.Extensions;
 using Phipseyy.Common.Services;
 using Serilog;
 using static System.DateTime;
@@ -11,21 +13,22 @@ namespace Phipseyy.Spotify;
 
 public class SpotifyBot
 {
+    private static ulong _guildId;
+    private static PhipseyyDbContext _dbContext;
+    
     private static SpotifyClient _spotify = null!;
     private static EmbedIOAuthServer _server = null!;
 
-    private static IBotCredsProvider _credsProvider = null!;
-    private static IBotCredentials _creds = null!;
-
-    public SpotifyBot()
+    public SpotifyBot(ulong guildId)
     {
-        _credsProvider = new BotCredsProvider();
-        _creds = _credsProvider.GetCreds();
-        var uri = new Uri($"http://{_creds.ServerIp}:5000/callback");
+        _dbContext = DbService.GetDbContext();
+        _guildId = guildId;
+        var creds = new BotCredsProvider().GetCreds();
+        var uri = new Uri($"http://{creds.ServerIp}:5000/callback");
         _server = new EmbedIOAuthServer(uri, 5000);
     }
 
-    public static async Task RunBot()
+    public async Task RunBot()
     {
         await Start();
         await Task.Delay(-1);
@@ -33,21 +36,24 @@ public class SpotifyBot
 
     private static async Task Start()
     {
-        if (!IsNullOrEmpty(_creds.SpAccessToken))
+        var spotifyConfig = _dbContext.SpotifyConfigs.FirstOrDefault(config => config.GuildId == _guildId);
+        if (spotifyConfig != null)
             await StartSpotify();
         else
             await StartAuthentication();
     }
-
-
+    
     private static async Task StartSpotify()
     {
         try
         {
-            var token = _credsProvider.GetSpotifyToken();
+            var spotifyConfig = _dbContext.SpotifyConfigs.FirstOrDefault(config => config.GuildId == _guildId);
+            if (spotifyConfig == null) throw new Exception("No Spotify Config found in DB");
 
-            var authenticator = new PKCEAuthenticator(_creds.SpotifyClientId, token!);
-            authenticator.TokenRefreshed += AuthenticatorOnTokenRefreshed;
+            var token = _dbContext.GetSpotifyToken(_guildId);
+
+            var authenticator = new PKCEAuthenticator(spotifyConfig.SpotifyClientId, token!);
+            authenticator.TokenRefreshed += (_, response) => _dbContext.SetSpotifyDataToDb(_guildId, response, spotifyConfig.SpotifyClientId, spotifyConfig.SpotifyClientSecret);
 
             var config = SpotifyClientConfig.CreateDefault().WithAuthenticator(authenticator);
             _spotify = new SpotifyClient(config);
@@ -59,12 +65,15 @@ public class SpotifyBot
         {
             LogSpotify(e.Message);
             LogSpotify("WE NEED A NEW TOKEN - TRYING TO CREATE ONE");
+            var spotifyConfig = _dbContext.SpotifyConfigs.FirstOrDefault(config => config.GuildId == _guildId);
+            if (spotifyConfig == null) throw new Exception("No Spotify Config found in DB");
+            
             var newResponse = await new OAuthClient().RequestToken(
-                new AuthorizationCodeRefreshRequest(_creds.SpotifyClientId, _creds.SpotifyClientSecret,
-                    _creds.SpRefreshToken)
+                new AuthorizationCodeRefreshRequest(spotifyConfig.SpotifyClientId, spotifyConfig.SpotifyClientSecret,
+                    spotifyConfig.RefreshToken)
             );
 
-            _credsProvider.OverrideSpotifyTokenData(newResponse);
+            _dbContext.SetSpotifyDataToDb(_guildId, newResponse, spotifyConfig.SpotifyClientId, spotifyConfig.SpotifyClientSecret);
 
             _spotify = new SpotifyClient(newResponse.AccessToken);
             var me = await _spotify.UserProfile.Current();
@@ -73,39 +82,31 @@ public class SpotifyBot
         catch (Exception e)
         {
             LogSpotify(e.Message);
-            throw;
         }
-    }
-
-    private static void AuthenticatorOnTokenRefreshed(object? sender, PKCETokenResponse e)
-    {
-        _credsProvider.OverrideSpotifyTokenData(e);
     }
 
     private static async Task StartAuthentication()
     {
         var (verifier, challenge) = PKCEUtil.GenerateCodes();
-
+        var spotifyConfig = _dbContext.SpotifyConfigs.FirstOrDefault(config => config.GuildId == _guildId);
+        if (spotifyConfig == null) throw new Exception("No Spotify Config found in DB");
+        
         await _server.Start();
         _server.AuthorizationCodeReceived += async (_, response) =>
         {
             await _server.Stop();
-            var token = await new OAuthClient().RequestToken(
-                new PKCETokenRequest(_creds.SpotifyClientId, response.Code, _server.BaseUri, verifier)
-            );
-
-            _credsProvider.OverrideSpotifyTokenData(token);
+            var token = await new OAuthClient().RequestToken(new PKCETokenRequest(spotifyConfig.SpotifyClientId, response.Code, _server.BaseUri, verifier));
+            _dbContext.SetSpotifyDataToDb(_guildId, token, spotifyConfig.SpotifyClientId, spotifyConfig.SpotifyClientSecret);
             await Start();
         };
 
-        var request = new LoginRequest(_server.BaseUri, _creds.SpotifyClientId, LoginRequest.ResponseType.Code)
+        var request = new LoginRequest(_server.BaseUri, spotifyConfig.SpotifyClientId, LoginRequest.ResponseType.Code)
         {
             CodeChallenge = challenge,
             CodeChallengeMethod = "S256",
             Scope = new List<string>
             {
-                UserReadEmail, UserReadPrivate, PlaylistReadPrivate, PlaylistReadCollaborative, UserModifyPlaybackState,
-                UserReadCurrentlyPlaying
+                UserReadEmail, UserReadPrivate, PlaylistReadPrivate, PlaylistReadCollaborative, UserModifyPlaybackState, UserReadCurrentlyPlaying
             }
         };
 
@@ -161,4 +162,18 @@ public class SpotifyBot
             return "";
         }
     }
+
+    public bool IsActive()
+    {
+        try
+        {
+            var me = _spotify.UserProfile.Current();
+            return true;
+        }
+        catch (APIUnauthorizedException e)
+        {
+            return false;
+        }
+    }
+
 }

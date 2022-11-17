@@ -17,7 +17,6 @@ public static class Program
         }
         catch (Exception e)
         {
-            // ReSharper disable once TemplateIsNotCompileTimeConstantProblem
             Log.Fatal(e.Message);
             await Task.Delay(-1);
         }

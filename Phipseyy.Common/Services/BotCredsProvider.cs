@@ -13,11 +13,11 @@ public interface IBotCredsProvider
     public IBotCredentials GetCreds();
     public void Reload();
 
-    public PKCETokenResponse GetSpotifyToken();
+    //public PKCETokenResponse GetSpotifyToken();
 
-    public void OverrideSpotifyTokenData(PKCETokenResponse response);
+    //public void OverrideSpotifyTokenData(PKCETokenResponse response);
     
-    public void OverrideSpotifyTokenData(AuthorizationCodeRefreshResponse response);
+    //public void OverrideSpotifyTokenData(AuthorizationCodeRefreshResponse response);
 
 }
 
@@ -74,9 +74,6 @@ public class BotCredsProvider : IBotCredsProvider
             
             if (string.IsNullOrWhiteSpace(_creds.TwitchClientId))
                 Log.Warning("TwitchClientId is missing from creds.yml. The bot will not have a status message");
-            
-            if (string.IsNullOrWhiteSpace(_creds.SpotifyClientId))
-                Log.Warning("SpotifyClientId is missing from creds.yml.The bot will not have a status message");
         }
         ConfigfileEdited?.Invoke(this, EventArgs.Empty);
     }
@@ -90,6 +87,7 @@ public class BotCredsProvider : IBotCredsProvider
         }
     }
 
+    /**
     public PKCETokenResponse GetSpotifyToken()
     {
         var token = new PKCETokenResponse();
@@ -132,6 +130,8 @@ public class BotCredsProvider : IBotCredsProvider
             File.WriteAllText(CredsPath, Yaml.Serializer.Serialize(_creds));
         }
     }
+    **/
+    
     
     public IBotCredentials GetCreds()
     {

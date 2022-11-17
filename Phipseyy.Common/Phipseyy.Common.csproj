@@ -7,19 +7,31 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="Discord.Net.Core" Version="3.7.2" />
+      <PackageReference Include="Discord.Net.Core" Version="3.8.1" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.0" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.0">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      </PackageReference>
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.0" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.0" />
       <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="7.0.0-preview.7.22375.6" />
       <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="7.0.0-preview.7.22375.6" />
       <PackageReference Include="NetEscapades.Configuration.Yaml" Version="2.2.0" />
-      <PackageReference Include="Newtonsoft.Json" Version="13.0.2-beta1" />
+      <PackageReference Include="Newtonsoft.Json" Version="13.0.2-beta2" />
       <PackageReference Include="Newtonsoft.Json.Bson" Version="1.0.3-beta1" />
-      <PackageReference Include="Serilog" Version="2.12.0-dev-01494" />
-      <PackageReference Include="Serilog.Sinks.Console" Version="4.0.2-dev-00890" />
+      <PackageReference Include="Serilog" Version="2.12.1-dev-01587" />
+      <PackageReference Include="Serilog.Sinks.Console" Version="4.1.1-dev-00896" />
       <PackageReference Include="Serilog.Sinks.File" Version="5.0.1-dev-00947" />
       <PackageReference Include="SixLabors.ImageSharp" Version="2.1.3" />
-      <PackageReference Include="SpotifyAPI.Web" Version="6.2.2" />
+      <PackageReference Include="SpotifyAPI.Web" Version="6.3.0" />
+      <PackageReference Include="SpotifyAPI.Web.Auth" Version="6.3.0" />
       <PackageReference Include="TwitchLib.Api" Version="3.6.0" />
       <PackageReference Include="YamlDotNet" Version="12.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Migrations" />
     </ItemGroup>
 
 </Project>
