@@ -6,10 +6,10 @@ namespace Phipseyy.Discord.Modules.Commands;
 [SuppressMessage("ReSharper", "UnusedType.Global")]
 [SuppressMessage("ReSharper", "UnusedMember.Global")]
 
-public class Bruh : InteractionModuleBase<SocketInteractionContext>
+public class Ping : InteractionModuleBase<SocketInteractionContext>
 {
-    [SlashCommand("ping", "Test command to see if the bot responds")]
-    public async Task BruhMoment()
+    [SlashCommand("ping", "Pings the Bot")]
+    public async Task PingCommand()
     {
         await RespondAsync($"Pong! {Context.Client.Latency}ms");
     }

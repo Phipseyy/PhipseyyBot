@@ -7,6 +7,18 @@ namespace Phipseyy.Common.Db.Extensions;
 
 public static class TwitchExtensions
 {
+    public static List<TwitchConfig> GetListOfAllStreams(
+        this PhipseyyDbContext context)
+    {
+        return context.TwitchConfigs.Local.Distinct().ToList();
+    }
+    
+    public static List<TwitchConfig> GetListOfAllMainStreams(
+        this PhipseyyDbContext context)
+    {
+        return context.TwitchConfigs.Local.Where(config => config.MainStream).Distinct().ToList();
+    }
+    
     public static List<TwitchConfig> GetListOfFollowedStreams(
         this PhipseyyDbContext context,
         ulong guildId)
@@ -20,18 +32,26 @@ public static class TwitchExtensions
     {
         return context.TwitchConfigs.FirstOrDefault(config => config.GuildId == guildId && config.MainStream);
     }
+    
+    public static TwitchConfig GetMainStreamOfChannel(
+        this PhipseyyDbContext context,
+        string channelId)
+    {
+        return context.TwitchConfigs.FirstOrDefault(config => config.ChannelId == channelId && config.MainStream);
+    }
 
     public static void FollowStream(
         this PhipseyyDbContext context,
         ulong guildId,
         string twitchName)
     {
-        var twitchConfig = new TwitchConfig()
+        var twitchConfig = new TwitchConfig
         {
             Username = twitchName,
             ChannelId = TwitchConverter.GetTwitchIdFromName(twitchName),
             GuildId = guildId,
-            MainStream = false
+            MainStream = false,
+            SpotifySr = ""
         };
         context.TwitchConfigs.Add(twitchConfig);
         context.SaveChangesAsync();
@@ -63,4 +83,5 @@ public static class TwitchExtensions
 
         context.SaveChangesAsync();
     }
+
 }

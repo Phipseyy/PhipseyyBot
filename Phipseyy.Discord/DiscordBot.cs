@@ -19,9 +19,7 @@ public class DiscordBot
 {
     private readonly IBotCredentials _creds;
     private readonly BotCredsProvider _credsProvider;
-    
     private readonly PhipseyyDbContext _dbContext;
-
     private DiscordSocketClient DcClient { get; }
     private IServiceProvider Services { get; }
 
@@ -34,7 +32,7 @@ public class DiscordBot
         var commands = new CommandService(new CommandServiceConfig
         {
             CaseSensitiveCommands = false,
-            DefaultRunMode = RunMode.Sync
+            DefaultRunMode = RunMode.Async
         });
 
         DcClient = new DiscordSocketClient(new DiscordSocketConfig
@@ -49,9 +47,9 @@ public class DiscordBot
             .AddSingleton(_creds) //just in case we need it at some point
             .AddSingleton(DcClient)
             .AddSingleton(commands)
-            .AddSingleton<CommandHandler>()
             .AddSingleton<PubSubService>()
             .AddSingleton<InteractionService>()
+            .AddSingleton<CommandHandler>()
             .AddDbContext<PhipseyyDbContext>()
             .AddSingleton(this);
 
@@ -74,6 +72,10 @@ public class DiscordBot
 
         var commandHandler = Services.GetRequiredService<CommandHandler>();
         await commandHandler.Initialize();
+
+        var pubSubService = Services.GetRequiredService<PubSubService>();
+        await pubSubService.InitializePubSub();
+        
 
         await Task.Delay(-1);
     }
@@ -187,7 +189,7 @@ public class DiscordBot
         }
     }
 
-    private async void SendGlobalLogMessage(string message)
+    public async void SendGlobalLogMessage(string message)
     {
         foreach (var guild in DcClient.Guilds)
         {
@@ -215,8 +217,8 @@ public class DiscordBot
             return;
 
         var svc = Services.GetRequiredService<PubSubService>();
-        svc.AddGuild(guild);
-        svc.StartServiceForGuild(guild.Id);
+        svc.AddSpotifyClient(guild);
+        svc.StartSpotifyForGuild(guild.Id);
         
         LogDiscord($"Done starting Services for {guild.Name}");
     }

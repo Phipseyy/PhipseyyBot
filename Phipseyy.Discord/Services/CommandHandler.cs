@@ -67,7 +67,6 @@ public class CommandHandler
                 default:
                     throw new ArgumentOutOfRangeException();
             }
-
         }
     }
 

@@ -17,7 +17,7 @@ namespace Phipseyy.Discord.Modules.Commands;
 [RequireUserPermission(GuildPermission.Administrator)]
 public class AddSpotify : InteractionModuleBase<SocketInteractionContext>
 {
-    [SlashCommand("add-spotify", "Debug Command - Writes Spotify data to DB")]
+    [SlashCommand("add-spotify", "Adds your spotify config to the Server")]
     public async Task AddSpotifyCommand(string clientId, string clientSecret)
     {
         var dbContext = DbService.GetDbContext();
@@ -39,8 +39,8 @@ public class AddSpotify : InteractionModuleBase<SocketInteractionContext>
                 text: "Settings saved!",
                 ephemeral: true);
             
-            PubSubService.AddGuildCommand(Context.Guild);
-            Services.PubSubService.StartServiceForGuildCommand(Context.Guild.Id);
+            PubSubService.AddSpotifyClientCmd(Context.Guild);
+            Services.PubSubService.StartSpotifyForGuildCommand(Context.Guild.Id);
         };
 
         var request = new LoginRequest(server.BaseUri, clientId, LoginRequest.ResponseType.Code)

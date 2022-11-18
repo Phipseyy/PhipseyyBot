@@ -11,8 +11,8 @@ namespace Phipseyy.Discord.Modules.Commands;
 public class ClearChannel : InteractionModuleBase<SocketInteractionContext>
 {
     [EnabledInDm(false)]
-    [SlashCommand("clear-channel", "Clears channel")]
-    public async Task Clear()
+    [SlashCommand("clear-channel", "Clears channel - Messages shouldn't be older than 14 days")]
+    public async Task ClearChannelCommand()
     {
         var messages = await Context.Channel.GetMessagesAsync().FlattenAsync();
         await ((ITextChannel)Context.Channel).DeleteMessagesAsync(messages);

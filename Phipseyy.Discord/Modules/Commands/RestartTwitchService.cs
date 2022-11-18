@@ -8,16 +8,15 @@ namespace Phipseyy.Discord.Modules.Commands;
 [SuppressMessage("ReSharper", "UnusedType.Global")]
 [SuppressMessage("ReSharper", "UnusedMember.Global")]
 
-[EnabledInDm(false)]
 [RequireUserPermission(GuildPermission.Administrator)]
+[RequireOwner]
 public class RestartTwitchService : InteractionModuleBase<SocketInteractionContext>
 {
-    [EnabledInDm(false)]
-    [SlashCommand("restart-twitchservice", "Try to restart the currently running instance of the Twitch Service")]
-    public async Task RestartTwitch()
+    [SlashCommand("restart-twitch", "[Owner] Try to restart the currently running instance of the Twitch Service")]
+    public async Task RestartTwitchServiceCommand()
     {
         await RespondAsync("Restarting service");
-        await PubSub.RestartService();
+        await PubSubService.RestartService();
         await ReplyAsync("Service restarted!");
     }
 

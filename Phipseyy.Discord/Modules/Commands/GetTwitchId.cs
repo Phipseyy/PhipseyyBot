@@ -12,9 +12,9 @@ namespace Phipseyy.Discord.Modules.Commands;
 public class GetTwitchId : InteractionModuleBase<SocketInteractionContext>
 {
     [SlashCommand("get-twitchid", "Tries to grab the TwitchID from an Twitch Account using the name")]
-    public async Task GetTwitchIdFromNameCommand(string name)
+    public async Task GetTwitchIdCommand(string twitchName)
     {
-        await RespondAsync(TwitchConverter.GetTwitchIdFromName(name));
+        await RespondAsync(TwitchConverter.GetTwitchIdFromName(twitchName));
     }
 
 }

@@ -14,7 +14,7 @@ namespace Phipseyy.Discord.Modules.Commands;
 public class SetStream : InteractionModuleBase<SocketInteractionContext>
 {
     [EnabledInDm(false)]
-    [SlashCommand("set-stream", "Sets the main Stream for this Server")]
+    [SlashCommand("set-streamer", "Sets the main Stream for this Server")]
     public async Task SetStreamCommand(string twitchName)
     {
         var dbContext = DbService.GetDbContext();

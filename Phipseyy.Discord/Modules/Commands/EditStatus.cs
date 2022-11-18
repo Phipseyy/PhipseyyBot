@@ -9,8 +9,8 @@ namespace Phipseyy.Discord.Modules.Commands;
 [RequireOwner]
 public class EditStatus : InteractionModuleBase<SocketInteractionContext>
 {
-    [SlashCommand("edit-status", "Changes the status of the Discord Bot")]
-    public async Task Edit(string status)
+    [SlashCommand("set-status", "[Owner] Changes the status of the Discord Bot")]
+    public async Task EditStatusCommand(string status)
     {
         var creds = new BotCredsProvider().GetCreds();
         creds.DiscordStatus = status;

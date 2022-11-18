@@ -63,6 +63,7 @@ public class PubSub
     public static Task RestartService()
     {
         _pubSub.Disconnect();
+        _pubSub.Connect();
         return Task.CompletedTask;
     }
     

@@ -10,12 +10,12 @@ namespace Phipseyy.Discord.Modules.Commands;
 [SuppressMessage("ReSharper", "UnusedType.Global")]
 [SuppressMessage("ReSharper", "UnusedMember.Global")]
 
-[RequireUserPermission(GuildPermission.Administrator)]
+[RequireOwner]
 public class EmbedTestWithName : InteractionModuleBase<SocketInteractionContext>
 {
-
-    [SlashCommand("embed-test", "Debug twitch embed")]
-    public async Task EmbedTestCommand(string name)
+    [RequireOwner]
+    [SlashCommand("embed-test", "[Owner] Debug twitch embed")]
+    public async Task EmbedTestWithNameCommand(string name)
     {
         var creds = new BotCredsProvider().GetCreds();
         var id = TwitchConverter.GetTwitchIdFromName(name);
