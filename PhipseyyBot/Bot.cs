@@ -1,7 +1,7 @@
 ﻿#nullable disable
-using Phipseyy.Common.Services;
-using Phipseyy.Twitch;
-using Phipseyy.Discord;
+using PhipseyyBot.Common.Services;
+using PhipseyyBot.Twitch;
+using PhipseyyBot.Discord;
 
 namespace PhipseyyBot;
 
@@ -24,5 +24,8 @@ public static class Bot
         await Task.Delay(-1);
 
         // dotnet publish PhipseyyBot -r linux-arm64 -p:PublishSingleFile=true --self-contained 
+        
+        // dotnet publish PhipseyyBot -r linux-x64 -p:PublishSingleFile=true --self-contained true -c Release -o publish /p:IncludeNativeLibrariesForSelfExtract=true
+        
     }
 }

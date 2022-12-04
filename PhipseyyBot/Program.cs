@@ -1,4 +1,4 @@
-﻿using Phipseyy.Common.Modules;
+﻿using PhipseyyBot.Common.Modules;
 using Serilog;
 
 namespace PhipseyyBot;

@@ -20,10 +20,10 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Phipseyy.Twitch\Phipseyy.Twitch.csproj" />
-      <ProjectReference Include="..\Phipseyy.Common\Phipseyy.Common.csproj" />
-      <ProjectReference Include="..\Phipseyy.Discord\Phipseyy.Discord.csproj" />
-      <ProjectReference Include="..\Phipseyy.Spotify\Phipseyy.Spotify.csproj" />
+      <ProjectReference Include="..\PhipseyyBot.Twitch\PhipseyyBot.Twitch.csproj" />
+      <ProjectReference Include="..\PhipseyyBot.Common\PhipseyyBot.Common.csproj" />
+      <ProjectReference Include="..\PhipseyyBot.Discord\PhipseyyBot.Discord.csproj" />
+      <ProjectReference Include="..\PhipseyyBot.Spotify\PhipseyyBot.Spotify.csproj" />
     </ItemGroup>
 
 </Project>

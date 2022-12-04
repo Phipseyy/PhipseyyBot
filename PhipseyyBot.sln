@@ -4,13 +4,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhipseyyBot", "PhipseyyBot\
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{5F779238-F6F9-4758-9C5F-C91D9308EF9B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Phipseyy.Discord", "Phipseyy.Discord\Phipseyy.Discord.csproj", "{BD2DDDF1-6910-429F-B38B-8E3C58ACE26A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhipseyyBot.Discord", "PhipseyyBot.Discord\PhipseyyBot.Discord.csproj", "{BD2DDDF1-6910-429F-B38B-8E3C58ACE26A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Phipseyy.Common", "Phipseyy.Common\Phipseyy.Common.csproj", "{43DD7DFC-721D-430E-8DD8-81760BB25C6F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhipseyyBot.Common", "PhipseyyBot.Common\PhipseyyBot.Common.csproj", "{43DD7DFC-721D-430E-8DD8-81760BB25C6F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Phipseyy.Spotify", "Phipseyy.Spotify\Phipseyy.Spotify.csproj", "{AF788548-4F64-4E57-92F8-B2BBAA51D0B4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhipseyyBot.Spotify", "PhipseyyBot.Spotify\PhipseyyBot.Spotify.csproj", "{AF788548-4F64-4E57-92F8-B2BBAA51D0B4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Phipseyy.Twitch", "Phipseyy.Twitch\Phipseyy.Twitch.csproj", "{E0BD0953-AD5F-4CF0-96C0-A975B6282D30}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhipseyyBot.Twitch", "PhipseyyBot.Twitch\PhipseyyBot.Twitch.csproj", "{E0BD0953-AD5F-4CF0-96C0-A975B6282D30}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
