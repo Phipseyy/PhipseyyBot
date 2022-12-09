@@ -46,6 +46,17 @@ public static class SpotifyExtensions
         context.SaveChangesAsync();
     }
 
+    public static void DeleteSpotifyConfig(
+        this PhipseyyDbContext context,
+        ulong guildId)
+    {
+        var spotifyConfig = context.SpotifyConfigs.FirstOrDefault(config => config.GuildId == guildId);
+        if (spotifyConfig == null) return;
+        context.Attach(spotifyConfig);
+        context.Remove(spotifyConfig);
+        context.SaveChangesAsync();
+    }
+
     public static SpotifyConfig GetSpotifyConfigFromGuild(this PhipseyyDbContext context, ulong guildId)
     {
         return context.SpotifyConfigs.FirstOrDefault(config => config.GuildId == guildId);
@@ -69,10 +80,9 @@ public static class SpotifyExtensions
             TokenType = spotifyConfig.TokenType
         };
         return token;
-
     }
-    
-    
+
+
     public static void SetSpotifyDataToDb(
         this PhipseyyDbContext context,
         ulong guildId,
@@ -112,5 +122,4 @@ public static class SpotifyExtensions
 
         context.SaveChangesAsync();
     }
-
 }

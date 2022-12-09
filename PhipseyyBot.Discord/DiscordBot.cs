@@ -114,7 +114,6 @@ public class DiscordBot
         await DcClient.SetGameAsync(_creds.DiscordStatus, $"https://www.twitch.tv/{_creds.TwitchUsername}",
             ActivityType.Streaming);
         LogDiscord("---Bot is Ready!---");
-        SendGlobalLogMessage("All Services online! GLHF");
     }
 
     private async Task BotClientOnDisconnected(Exception arg)
@@ -194,7 +193,7 @@ public class DiscordBot
             try
             {
                 var channel = _dbContext.GetLogChannel(guild);
-                await channel!.SendMessageAsync(message);
+                await channel.SendMessageAsync(message);
             }
             catch (Exception ex)
             {

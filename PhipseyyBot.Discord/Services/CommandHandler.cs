@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿#nullable disable
+using System.Reflection;
 using Discord;
 using Discord.Interactions;
 using Discord.WebSocket;
@@ -10,7 +11,7 @@ namespace PhipseyyBot.Discord.Services;
 public class CommandHandler
 {
     private readonly InteractionService _commands;
-    private readonly DiscordSocketClient _discord;
+    private static DiscordSocketClient _discord;
     private readonly IServiceProvider _services;
 
     public CommandHandler(InteractionService commands, DiscordSocketClient discord,
@@ -91,6 +92,7 @@ public class CommandHandler
     private static Embed GetErrorEmbed(string errorMessage)
     {
         var embed = new EmbedBuilder()
+            .WithAuthor(_discord.CurrentUser.Username, _discord.CurrentUser.GetAvatarUrl())
             .WithTitle("ERROR")
             .WithDescription(errorMessage)
             .WithTimestamp(Now)

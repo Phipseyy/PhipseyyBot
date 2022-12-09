@@ -2,10 +2,11 @@
 using Discord.Interactions;
 using PhipseyyBot.Common.Services;
 
-namespace PhipseyyBot.Discord.Modules.Commands;
+namespace PhipseyyBot.Discord.Modules.Commands.Owner;
 
 [SuppressMessage("ReSharper", "UnusedType.Global")]
 [SuppressMessage("ReSharper", "UnusedMember.Global")]
+
 [RequireOwner]
 public class EditStatus : InteractionModuleBase<SocketInteractionContext>
 {

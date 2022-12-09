@@ -7,7 +7,7 @@ namespace PhipseyyBot.Common.Db;
 public class PhipseyyDbContext : DbContext
 {
     private readonly string _dbPath = AppContext.BaseDirectory + "DB/PhipseyyBot.db";
-    
+
     public DbSet<GuildConfig> GuildConfigs { get; set; }
     public DbSet<SpotifyConfig> SpotifyConfigs { get; set; }
     public DbSet<TwitchConfig> TwitchConfigs { get; set; }
@@ -19,5 +19,9 @@ public class PhipseyyDbContext : DbContext
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder options)
-        => options.UseSqlite($"Data Source={_dbPath}");
+    {
+        options.UseSqlite($"Data Source={_dbPath}");
+        options.EnableSensitiveDataLogging();
+
+    }
 }

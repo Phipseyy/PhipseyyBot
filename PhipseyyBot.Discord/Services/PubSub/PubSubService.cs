@@ -181,6 +181,12 @@ public class PubSubService
         return key != null && spotify.IsActive();
     }
 
+    public static void DeleteSpotifyConfig(ulong guildId)
+    {
+        var (key, _) = _spotifyClients.FirstOrDefault(pair => pair.Key.Id == guildId);
+        _spotifyClients.Remove(key);
+    }
+
     public static string GetSpotifyUsername(ulong guildId)
     {
         var (key, spotify) = _spotifyClients.FirstOrDefault(pair => pair.Key.Id == guildId && pair.Value.GetGuildId() == guildId);

@@ -1,9 +1,8 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using Discord.Interactions;
-using PhipseyyBot.Discord.Services;
 using PhipseyyBot.Discord.Services.PubSub;
 
-namespace PhipseyyBot.Discord.Modules.Commands;
+namespace PhipseyyBot.Discord.Modules.Commands.Owner;
 
 [SuppressMessage("ReSharper", "UnusedType.Global")]
 [SuppressMessage("ReSharper", "UnusedMember.Global")]

@@ -89,6 +89,20 @@ public static class TwitchExtensions
         context.SaveChangesAsync();
         return true;
     }
+    
+    public static void DeleteTwitchConfig(
+        this PhipseyyDbContext context,
+        ulong guildId)
+    {
+        var twitchConfigs = context.TwitchConfigs.Where(config => config.GuildId == guildId);
+        foreach (var config in twitchConfigs)
+        {
+            context.Attach(config);
+            context.Remove(config);
+        }
+        context.SaveChangesAsync();
+    }
+    
 
     public static void SetSongRequestForStream(
         this PhipseyyDbContext context,

@@ -3,7 +3,6 @@ using Discord;
 using Discord.Interactions;
 using PhipseyyBot.Common.Db.Extensions;
 using PhipseyyBot.Common.Services;
-using PhipseyyBot.Discord.Services;
 using PhipseyyBot.Discord.Services.PubSub;
 using SpotifyAPI.Web;
 using SpotifyAPI.Web.Auth;
@@ -15,9 +14,11 @@ namespace PhipseyyBot.Discord.Modules.Commands;
 [SuppressMessage("ReSharper", "UnusedMember.Global")]
 
 [RequireUserPermission(GuildPermission.Administrator)]
-public class AddSpotify : InteractionModuleBase<SocketInteractionContext>
+[Group("spotify", "Spotify Commands")]
+[EnabledInDm(false)]
+public class SpotifyCommands : InteractionModuleBase<SocketInteractionContext>
 {
-    [SlashCommand("add-spotify", "Adds your spotify config to the Server")]
+    [SlashCommand("set-account", "Adds your spotify config to the Server")]
     public async Task AddSpotifyCommand(string clientId, string clientSecret)
     {
         var dbContext = DbService.GetDbContext();

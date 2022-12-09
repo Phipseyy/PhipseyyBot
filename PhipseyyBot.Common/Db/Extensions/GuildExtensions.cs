@@ -48,4 +48,17 @@ public static class GuildExtensions
         return config != null ? guild.TextChannels.FirstOrDefault(x => x.Id == config.LiveChannel) : null;
     }
 
+    public static void DeleteGuildConfig(
+        this PhipseyyDbContext context,
+        ulong guildId)
+    {
+        var guildEntries = context.GuildConfigs.FirstOrDefault(config => config.GuildId == guildId);
+        if (guildEntries != null)
+        {
+            context.Attach(guildEntries);
+            context.Remove(guildEntries);
+        }
+        context.SaveChangesAsync();
+    }
+
 }
