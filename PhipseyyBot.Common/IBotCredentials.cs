@@ -9,4 +9,7 @@ public interface IBotCredentials
     string TwitchAccessToken { get; }
     string TwitchRefreshToken { get; }
     string TwitchClientId { get; }
+    string TwitchAppClientId { get; }
+
+    string TwitchAppClientSecret { get; }
 }

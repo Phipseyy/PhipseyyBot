@@ -78,52 +78,6 @@ public class BotCredsProvider : IBotCredsProvider
             File.WriteAllText(CredsPath, Yaml.Serializer.Serialize(creds));
         }
     }
-
-    /**
-    public PKCETokenResponse GetSpotifyToken()
-    {
-        var token = new PKCETokenResponse();
-        lock (_reloadLock)
-        {
-            token.Scope = _creds.SpScope;
-            token.AccessToken = _creds.SpAccessToken;
-            token.CreatedAt = _creds.SpCreatedAt;
-            token.ExpiresIn = _creds.SpExpiresIn;
-            token.RefreshToken = _creds.SpRefreshToken;
-            token.TokenType = _creds.SpTokenType;
-        }
-        return token;
-    }
-
-    public void OverrideSpotifyTokenData(PKCETokenResponse response)
-    {
-        lock (_reloadLock)
-        {
-            _creds.SpScope = response.Scope;
-            _creds.SpAccessToken = response.AccessToken;
-            _creds.SpCreatedAt = response.CreatedAt;
-            _creds.SpExpiresIn = response.ExpiresIn;
-            _creds.SpRefreshToken = response.RefreshToken;
-            _creds.SpTokenType = response.TokenType;
-            File.WriteAllText(CredsPath, Yaml.Serializer.Serialize(_creds));
-        }
-    }
-
-    public void OverrideSpotifyTokenData(AuthorizationCodeRefreshResponse response)
-    {
-        lock (_reloadLock)
-        {
-            _creds.SpScope = response.Scope;
-            _creds.SpAccessToken = response.AccessToken;
-            _creds.SpCreatedAt = response.CreatedAt;
-            _creds.SpExpiresIn = response.ExpiresIn;
-            _creds.SpRefreshToken = response.RefreshToken;
-            _creds.SpTokenType = response.TokenType;
-            File.WriteAllText(CredsPath, Yaml.Serializer.Serialize(_creds));
-        }
-    }
-    **/
-    
     
     public IBotCredentials GetCreds()
     {

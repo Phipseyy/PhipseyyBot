@@ -2,6 +2,7 @@
 using System.Diagnostics.CodeAnalysis;
 using Discord;
 using Discord.Interactions;
+using PhipseyyBot.Common;
 using PhipseyyBot.Common.Db.Extensions;
 using PhipseyyBot.Common.Services;
 using Serilog;
@@ -24,7 +25,8 @@ public class SendGlobalMessage : InteractionModuleBase<SocketInteractionContext>
         var embed = new EmbedBuilder()
             .WithAuthor(Context.Client.CurrentUser.Username, Context.Client.CurrentUser.GetAvatarUrl())
             .WithTitle(title)
-            .WithDescription(message);
+            .WithDescription(message)
+            .WithColor(Const.Main);
 
         if (attachment != null && attachment.ContentType.Contains("image"))
             embed.WithImageUrl(attachment.Url);

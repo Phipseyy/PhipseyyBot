@@ -1,6 +1,7 @@
 ﻿#nullable disable
 using Discord;
 using Discord.WebSocket;
+using PhipseyyBot.Common;
 using PhipseyyBot.Common.Db;
 using PhipseyyBot.Common.Db.Extensions;
 
@@ -8,8 +9,6 @@ namespace PhipseyyBot.Discord.Services;
 
 public static class SetupService
 {
-    private const string Owner = "Philted#3787";
-
     public static async Task InitializeChannels(PhipseyyDbContext context, SocketGuild socketGuild)
     {
         var logRequest = socketGuild.TextChannels.FirstOrDefault(channel => channel.Name.Contains("log"));
@@ -20,10 +19,10 @@ public static class SetupService
 
         var welcomeMessage = new EmbedBuilder
         {
-            Color = new Color(176, 11, 105),
+            Color = Const.Main,
             Title = "H0i",
             Description =
-                $"Thank you for using PhipseyyBot! \nIf you encounter any bugs or errors, please contact {Owner}",
+                $"Thank you for using PhipseyyBot! \nIf you encounter any bugs or errors, please contact {Const.Owner}",
             ImageUrl = "https://media.giphy.com/media/8U8LDibipKRDq/giphy.gif",
             Footer = new EmbedFooterBuilder
             {

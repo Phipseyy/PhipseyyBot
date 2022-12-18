@@ -2,6 +2,7 @@
 using Discord;
 using Discord.Interactions;
 using Discord.WebSocket;
+using PhipseyyBot.Common;
 using PhipseyyBot.Common.Db.Extensions;
 using PhipseyyBot.Common.Services;
 using PhipseyyBot.Discord.Services.PubSub;
@@ -28,7 +29,7 @@ public class SettingsCommands : InteractionModuleBase<SocketInteractionContext>
 
         var embed = new EmbedBuilder()
             .WithAuthor("PhipseyyBot")
-            .WithColor(176, 11, 105)
+            .WithColor(Const.Main)
             .WithFooter(footer => footer.Text = "PhipseyyBot")
             .WithCurrentTimestamp();
 

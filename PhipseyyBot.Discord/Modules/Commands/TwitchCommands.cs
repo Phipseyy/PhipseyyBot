@@ -1,4 +1,5 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿#nullable disable
+using System.Diagnostics.CodeAnalysis;
 using System.Net;
 using Discord;
 using Discord.Interactions;
@@ -20,9 +21,6 @@ namespace PhipseyyBot.Discord.Modules.Commands;
 [EnabledInDm(false)]
 public class TwitchCommands : InteractionModuleBase<SocketInteractionContext>
 {
-    private string tclient = "8x9s0y67yonhax5g3keox0vcyjnvxo";
-    private string tstuff = "czfh6j2hbrw15nynx7kej003t2srec";
-
     [SlashCommand("follow", "Activates notifications for a certain Twitch Stream")]
     public async Task FollowStreamCommand(string twitchName)
     {
@@ -79,15 +77,16 @@ public class TwitchCommands : InteractionModuleBase<SocketInteractionContext>
     [SlashCommand("set-sr-reward", "Adds a Twitch Reward for the Song Requests")]
     public async Task SetSongRequestRewardCommand()
     {
+        var creds = new BotCredsProvider().GetCreds();
         var dbContext = DbService.GetDbContext();
         var config = dbContext.GetMainStreamOfGuild(Context.Guild.Id);
-        
+
         var api = new TwitchAPI
         {
             Settings =
             {
-                ClientId = tclient,
-                Secret = tstuff,
+                ClientId = creds.TwitchAppClientId,
+                Secret = creds.TwitchAppClientSecret,
                 Scopes = new List<AuthScopes>
                     { AuthScopes.Helix_Channel_Manage_Redemptions, AuthScopes.Helix_Channel_Read_Redemptions }
             }
@@ -95,22 +94,28 @@ public class TwitchCommands : InteractionModuleBase<SocketInteractionContext>
 
 
         var server = new HttpServer();
-        server.EndPoint = new IPEndPoint(IPAddress.Loopback, 80);
-        
+
+        var ip = (await Dns.GetHostAddressesAsync(creds.ServerIp))[0];
+        server.EndPoint = new IPEndPoint(ip, 80);
+
 
         await RespondAsync(text: "Gimme access plz\n" + "https://id.twitch.tv/oauth2/authorize?" +
-                           $"client_id={tclient}&" +
-                           "redirect_uri=http://localhost&" +
-                           "response_type=code&" +
-                           $"scope=channel:manage:redemptions",
-                            ephemeral: true);
+                                 $"client_id={creds.TwitchAppClientId}&" +
+                                 $"redirect_uri=http://{creds.ServerIp}&" +
+                                 "response_type=code&" +
+                                 "scope=channel:manage:redemptions",
+            ephemeral: true);
+
 
         server.RequestReceived += async (_, args) =>
         {
             if (!args.Request.QueryString.AllKeys.Any("code".Contains!)) return;
             var authCode = args.Request.QueryString["code"];
-            var authToken = await api.Auth.GetAccessTokenFromCodeAsync(authCode, tstuff, "http://localhost");
-            var rewards = await api.Helix.ChannelPoints.GetCustomRewardAsync(config.ChannelId, accessToken: authToken.AccessToken);
+            var authToken = await api.Auth.GetAccessTokenFromCodeAsync(authCode, creds.TwitchAppClientSecret,
+                $"http://{creds.ServerIp}", creds.TwitchAppClientId);
+            var rewards =
+                await api.Helix.ChannelPoints.GetCustomRewardAsync(config.ChannelId,
+                    accessToken: authToken.AccessToken);
 
             foreach (var reward in rewards.Data)
             {
@@ -119,7 +124,7 @@ public class TwitchCommands : InteractionModuleBase<SocketInteractionContext>
                 await ReplyAsync(text: $"Song Request for the Reward ''{reward.Title}'' has been set!");
             }
         };
-        
+
         server.Start();
     }
 }

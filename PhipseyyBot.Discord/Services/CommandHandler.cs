@@ -3,6 +3,7 @@ using System.Reflection;
 using Discord;
 using Discord.Interactions;
 using Discord.WebSocket;
+using PhipseyyBot.Common;
 using Serilog;
 using static System.DateTime;
 
@@ -96,7 +97,7 @@ public class CommandHandler
             .WithTitle("ERROR")
             .WithDescription(errorMessage)
             .WithTimestamp(Now)
-            .WithColor(Color.DarkRed)
+            .WithColor(Const.Error)
             .WithFooter("PhipseyyBot - Error");
 
         return embed.Build();

@@ -33,7 +33,7 @@ public class TwitchStreamData : ITwitchStreamData
             .WithTitle(Title)
             .WithDescription($"Streaming: ``{Game}`` \nLive since: ``{StartedAt:HH:mm:ss} CEST``")
             .WithFooter(footer => footer.Text = "PhipseyyBot")
-            .WithColor(Color.Red)
+            .WithColor(Const.StreamLive)
             .WithImageUrl(UrlToPreview)
             .WithThumbnailUrl(UrlToProfilePicture)
             .WithUrl($"https://twitch.tv/{Username}")

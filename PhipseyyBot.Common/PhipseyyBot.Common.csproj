@@ -32,8 +32,4 @@
       <PackageReference Include="YamlDotNet" Version="12.0.2" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Migrations" />
-    </ItemGroup>
-
 </Project>
