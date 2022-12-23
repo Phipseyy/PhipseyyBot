@@ -4,6 +4,7 @@ using Discord.Interactions;
 using Discord.WebSocket;
 using PhipseyyBot.Common;
 using PhipseyyBot.Common.Db.Extensions;
+using PhipseyyBot.Common.Embeds;
 using PhipseyyBot.Common.Services;
 using PhipseyyBot.Discord.Services.PubSub;
 
@@ -27,11 +28,22 @@ public class SettingsCommands : InteractionModuleBase<SocketInteractionContext>
         var spotifyConfig = dbContext.GetSpotifyConfigFromGuild(Context.Guild.Id);
         var streams = dbContext.GetListOfFollowedStreams(Context.Guild.Id);
 
-        var embed = new EmbedBuilder()
-            .WithAuthor("PhipseyyBot")
-            .WithColor(Const.Main)
-            .WithFooter(footer => footer.Text = "PhipseyyBot")
-            .WithCurrentTimestamp();
+        var embed = new EmbedBuilder
+        {
+            Author = new EmbedAuthorBuilder
+            {
+                Name = Context.Client.CurrentUser.Username,
+                IconUrl = Context.Client.CurrentUser.GetAvatarUrl()
+            },
+            Title = $"Settings for {Context.Guild.Name}",
+            Color = Const.Main,
+            Footer = new EmbedFooterBuilder
+            {
+                Text = "PhipseyyBot - Settings"
+            },
+            Timestamp = DateTime.Now
+        };
+
 
         if (logChannel != null || liveChannel != null)
             embed.AddField("Channels", 
@@ -61,7 +73,7 @@ public class SettingsCommands : InteractionModuleBase<SocketInteractionContext>
             }
             embed.AddField(field);
         }
-        await RespondAsync(text:$"These are the current Settings for Server {Context.Guild.Name}", embed: embed.Build(), ephemeral: true);
+        await RespondAsync(embed: embed.Build(), ephemeral: true);
     }
     
     
@@ -81,13 +93,15 @@ public class SettingsCommands : InteractionModuleBase<SocketInteractionContext>
     [Group("reset", "Resets Settings")]
     public class ResetSettings : InteractionModuleBase<SocketInteractionContext>
     {
+
         [SlashCommand("spotify", "[WARNING] Deletes your spotify config")]
         public async Task ResetSpotifyCommand()
         {
             var dbContext = DbService.GetDbContext();
             PubSubService.DeleteSpotifyConfig(Context.Guild.Id);
             dbContext.DeleteSpotifyConfig(Context.Guild.Id);
-            await RespondAsync(text: "Your spotify data has been deleted from the database", ephemeral: true);
+            await RespondAsync(embed: SuccessEmbed.GetSuccessEmbed(Context.Client, "Spotify Settings Reset",
+                "Your spotify data has been deleted from the database"), ephemeral: true);
         }
 
         [SlashCommand("twitch", "[WARNING] Deletes your twitch data")]
@@ -95,7 +109,8 @@ public class SettingsCommands : InteractionModuleBase<SocketInteractionContext>
         {
             var dbContext = DbService.GetDbContext();
             dbContext.DeleteTwitchConfig(Context.Guild.Id);
-            await RespondAsync(text: "Your twitch data has been deleted from the database", ephemeral: true);
+            await RespondAsync(embed: SuccessEmbed.GetSuccessEmbed(Context.Client,"Twitch Settings Reset",
+                "Your twitch data has been deleted from the database"), ephemeral: true);
         }
     
         [SlashCommand("server", "[WARNING] Deletes ALL of your data and kicks the bot off the server\n")]
@@ -109,7 +124,10 @@ public class SettingsCommands : InteractionModuleBase<SocketInteractionContext>
             dbContext.DeleteSpotifyConfig(guild.Id);
             var invite = $"https://discord.com/api/oauth2/authorize?client_id={Context.Client.CurrentUser.Id}&permissions=8&scope=bot";
         
-            await RespondAsync(text: $"Your data has been deleted from the database.\nRe-invite me with the following link: {invite}", ephemeral: true);
+            await RespondAsync(embed: SuccessEmbed.GetSuccessEmbed(Context.Client,"Server Settings Reset",
+                $"Your Server data has been deleted from the database.\nRe-invite me with the following link: {invite}"), 
+                ephemeral: true);
+
             await Context.Guild.LeaveAsync();
         }
     }

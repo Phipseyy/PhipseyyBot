@@ -1,6 +1,7 @@
 ﻿#nullable disable
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using EntityFrameworkCore.EncryptColumn.Attribute;
 
 namespace PhipseyyBot.Common.Db.Models;
 
@@ -12,8 +13,11 @@ public class SpotifyConfig
     public ulong GuildId { get; set; }
     
     public string SpotifyClientId { get; set; }
+    
+    [EncryptColumn]
     public string SpotifyClientSecret { get; set; }
     
+    [EncryptColumn]
     public string AccessToken { get; set; }
     public string TokenType { get; set; }
     public int ExpiresIn { get; set; }

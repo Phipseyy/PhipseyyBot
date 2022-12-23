@@ -82,6 +82,8 @@ public class PubSubService
     {
         var currentConfig = _dbContext.GetMainStreamOfChannel(e.ChannelId);
         
+        
+        //TODO: Filter for albums, throw error / ignore
         if (e.RewardId.ToString() == currentConfig.SpotifySr && e.Status == "UNFULFILLED")
         {
             LogTwitchPubSub($"Song Request: {e.Message}");

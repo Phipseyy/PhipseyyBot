@@ -25,7 +25,7 @@ public class SpotifyBot
         _dbContext = DbService.GetDbContext();
         _guildId = guildId;
         var creds = new BotCredsProvider().GetCreds();
-        var uri = new Uri($"http://{creds.ServerIp}:5000/callback");
+        var uri = new Uri($"http://{creds.ServerIp}:5000/callback/spotify");
         _server = new EmbedIOAuthServer(uri, 5000);
     }
 

@@ -1,7 +1,7 @@
 ﻿#nullable disable
 using PhipseyyBot.Common.Services;
-using PhipseyyBot.Twitch;
 using PhipseyyBot.Discord;
+using PhipseyyBot.Twitch;
 
 namespace PhipseyyBot;
 

@@ -3,7 +3,7 @@ using System.Reflection;
 using Discord;
 using Discord.Interactions;
 using Discord.WebSocket;
-using PhipseyyBot.Common;
+using PhipseyyBot.Common.Embeds;
 using Serilog;
 using static System.DateTime;
 
@@ -34,8 +34,8 @@ public class CommandHandler
     }
 
     private static void LogCommandHandler(string message)
-        =>  Log.Warning($"[CommandHandler] {Now:HH:mm:ss} {message}");
-    
+        => Log.Warning($"[CommandHandler] {Now:HH:mm:ss} {message}");
+
     private async Task CommandsOnSlashCommandExecuted(SlashCommandInfo arg1, IInteractionContext arg2, IResult arg3)
     {
         if (!arg3.IsSuccess)
@@ -43,19 +43,24 @@ public class CommandHandler
             switch (arg3.Error)
             {
                 case InteractionCommandError.UnmetPrecondition:
-                    await arg2.Interaction.RespondAsync(embed: GetErrorEmbed("Unmet Precondition: \n" + arg3.ErrorReason), ephemeral: true);
+                    await arg2.Interaction.RespondAsync(
+                        embed: _discord.GetErrorEmbed("Unmet Precondition", arg3.ErrorReason), ephemeral: true);
                     LogCommandHandler($"Command execution failed: Unmet Precondition: {arg3.ErrorReason}");
                     break;
                 case InteractionCommandError.BadArgs:
-                    await arg2.Interaction.RespondAsync(embed: GetErrorEmbed("Invalid number or arguments"), ephemeral: true);
+                    await arg2.Interaction.RespondAsync(
+                        embed: _discord.GetErrorEmbed("Bad Args", "Invalid number or arguments"), ephemeral: true);
                     LogCommandHandler("Command execution failed: Invalid number or arguments");
                     break;
                 case InteractionCommandError.Exception:
-                    await arg2.Interaction.RespondAsync(embed: GetErrorEmbed("Command exception: \n" + arg3.ErrorReason), ephemeral: true);
+                    await arg2.Interaction.RespondAsync(embed: _discord.GetErrorEmbed("Exception", arg3.ErrorReason),
+                        ephemeral: true);
                     LogCommandHandler($"Command execution failed: {arg3.ErrorReason}");
                     break;
                 case InteractionCommandError.Unsuccessful:
-                    await arg2.Interaction.RespondAsync(embed: GetErrorEmbed("Command could not be executed"), ephemeral: true);
+                    await arg2.Interaction.RespondAsync(
+                        embed: _discord.GetErrorEmbed("Unsuccessful", "Command could not be executed"),
+                        ephemeral: true);
                     LogCommandHandler("Command could not be executed");
                     break;
                 case InteractionCommandError.UnknownCommand:
@@ -74,34 +79,19 @@ public class CommandHandler
 
     private async Task InteractionCreated(SocketInteraction arg)
     {
-        var ctx = new SocketInteractionContext(_discord, arg); 
+        var ctx = new SocketInteractionContext(_discord, arg);
         await _commands.ExecuteCommandAsync(ctx, _services);
     }
-    
+
     private async Task ButtonExecuted(SocketMessageComponent arg)
     {
         var ctx = new SocketInteractionContext<SocketMessageComponent>(_discord, arg);
         await _commands.ExecuteCommandAsync(ctx, _services);
     }
-    
+
     private async Task Ready()
     {
         await _commands.RegisterCommandsGloballyAsync();
         _discord.Ready -= Ready;
     }
-
-    private static Embed GetErrorEmbed(string errorMessage)
-    {
-        var embed = new EmbedBuilder()
-            .WithAuthor(_discord.CurrentUser.Username, _discord.CurrentUser.GetAvatarUrl())
-            .WithTitle("ERROR")
-            .WithDescription(errorMessage)
-            .WithTimestamp(Now)
-            .WithColor(Const.Error)
-            .WithFooter("PhipseyyBot - Error");
-
-        return embed.Build();
-    }
-
-
 }

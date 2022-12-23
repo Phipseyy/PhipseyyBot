@@ -1,4 +1,5 @@
-﻿using PhipseyyBot.Common.Services;
+﻿using PhipseyyBot.Common.Exceptions;
+using PhipseyyBot.Common.Services;
 using TwitchLib.Api;
 
 namespace PhipseyyBot.Common.Modules;
@@ -21,7 +22,7 @@ public static class TwitchConverter
         var twitchUser = users.Channels.SingleOrDefault(x => string.Equals(x.DisplayName, twitchName, StringComparison.CurrentCultureIgnoreCase));
 
         if (twitchUser == null)
-            throw new Exception("Twitch user not found!");
+            throw new TwitchUserNotFoundException(twitchName);
 
         return twitchUser.Id;
     }

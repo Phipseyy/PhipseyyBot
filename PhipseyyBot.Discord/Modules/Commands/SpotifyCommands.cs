@@ -31,7 +31,7 @@ public class SpotifyCommands : InteractionModuleBase<SocketInteractionContext>
 
         var dbContext = DbService.GetDbContext();
         var creds = new BotCredsProvider().GetCreds();
-        var uri = new Uri($"http://{creds.ServerIp}:5000/callback");
+        var uri = new Uri($"http://{creds.ServerIp}:5000/callback/spotify");
         var server = new EmbedIOAuthServer(uri, 5000);
 
         var (verifier, challenge) = PKCEUtil.GenerateCodes();
@@ -63,10 +63,26 @@ public class SpotifyCommands : InteractionModuleBase<SocketInteractionContext>
                 UserModifyPlaybackState, UserReadCurrentlyPlaying
             }
         };
-
-        await RespondAsync(
-            text: $"To connect your Spotify Account with your Server, login here: {request.ToUri()}",
-            ephemeral: true);
+        
+        var embed = new EmbedBuilder
+        {
+            Author = new EmbedAuthorBuilder
+            {
+                Name = Context.Client.CurrentUser.Username,
+                IconUrl = Context.Client.CurrentUser.GetAvatarUrl()
+            },
+            Title = "Spotify Login",
+            Description = $"To connect your Spotify Account with your Server, login here: {request.ToUri()}",
+            Timestamp = DateTime.Now,
+            Color = Const.Spotify,
+            Footer = new EmbedFooterBuilder
+            {
+                Text = "PhipseyyBot - Spotify"
+            }
+        };
+        
+        
+        await RespondAsync(embed: embed.Build(), ephemeral: true);
     }
 
     [SlashCommand("set-account", "Adds your spotify config to the Server")]
@@ -105,7 +121,7 @@ public class SpotifyCommands : InteractionModuleBase<SocketInteractionContext>
             Name = "3. Adjust the settings",
             Value = "Click on 'Edit Settings' \n" +
                     "Here u can see the option 'Redirect URIs':\n" +
-                    $"Enter ``http://{creds.ServerIp}:5000/callback`` as your Redirect URI\n" +
+                    $"Enter ``http://{creds.ServerIp}:5000/callback/spotify`` as your Redirect URI\n" +
                     "Click 'Add' and confirm everything with 'Save'"
         };
         embed.AddField(setupApplication);

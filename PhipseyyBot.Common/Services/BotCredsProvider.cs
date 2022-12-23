@@ -50,7 +50,7 @@ public class BotCredsProvider : IBotCredsProvider
         {
             _config.Bind(_creds);
             if (string.IsNullOrWhiteSpace(_creds.DiscordToken))
-                throw new FatalCredNotFound("DiscordToken");
+                throw new FatalCredNotFoundException("DiscordToken");
 
             if (string.IsNullOrWhiteSpace(_creds.DiscordStatus))
                 Log.Warning("DiscordStatus is missing from creds.yml. The bot will not have a status message");

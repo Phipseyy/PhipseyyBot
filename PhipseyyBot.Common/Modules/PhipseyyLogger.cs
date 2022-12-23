@@ -11,11 +11,11 @@ public static class PhipseyyLogger
             .WriteTo.File(AppContext.BaseDirectory+outputDir, rollingInterval: RollingInterval.Day,
                 outputTemplate:"[{Timestamp:yyyy.MM.dd}] - {Message}{NewLine}{Exception}")
             .CreateLogger();
-
+    
         SendStartupMessage();
     }
     
     private static void SendStartupMessage()
-        => Log.Information("--- Discord Bot ~ By Phipseyy ---");
+        => Log.Information("--- Discord Bot ~ By Philted ---");
 
 }

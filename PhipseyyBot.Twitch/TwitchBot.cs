@@ -2,7 +2,6 @@
 using PhipseyyBot.Common;
 using PhipseyyBot.Common.Services;
 using PhipseyyBot.Discord;
-using PhipseyyBot.Spotify;
 using TwitchLib.Client;
 using TwitchLib.Client.Events;
 using TwitchLib.Client.Models;

@@ -1,6 +1,7 @@
 ﻿#nullable disable
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using EntityFrameworkCore.EncryptColumn.Attribute;
 
 namespace PhipseyyBot.Common.Db.Models;
 

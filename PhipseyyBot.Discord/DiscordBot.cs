@@ -8,9 +8,9 @@ using PhipseyyBot.Common;
 using PhipseyyBot.Common.Db;
 using PhipseyyBot.Common.Db.Extensions;
 using PhipseyyBot.Common.Services;
-using Serilog;
 using PhipseyyBot.Discord.Services;
 using PhipseyyBot.Discord.Services.PubSub;
+using Serilog;
 using RunMode = Discord.Commands.RunMode;
 
 namespace PhipseyyBot.Discord;
@@ -64,6 +64,7 @@ public class DiscordBot
         DcClient.Connected += BotClientOnConnected;
         DcClient.Disconnected += BotClientOnDisconnected;
         DcClient.JoinedGuild += BotClientOnJoinedGuild;
+        DcClient.SelectMenuExecuted += BotClientOnSelectMenuExecuted;
 
         _credsProvider.ConfigfileEdited += CredsProviderOnConfigfileEdited;
 
@@ -75,9 +76,10 @@ public class DiscordBot
 
         var pubSubService = Services.GetRequiredService<PubSubService>();
         await pubSubService.InitializePubSub();
-        
+
         await Task.Delay(-1);
     }
+
 
     /* ---Helpers--- */
 
@@ -145,22 +147,18 @@ public class DiscordBot
             ActivityType.Streaming);
     }
 
-    /* ---Methods--- */
-
-    public void SendTextMessage(string message, ulong guildId)
+    private async Task BotClientOnSelectMenuExecuted(SocketMessageComponent arg)
     {
-        try
+        if (arg.GuildId != null && arg.Data.CustomId == "rew-menu")
         {
-            var dcConfig = _dbContext.GetGuildConfig(guildId);
-            var channel = DcClient.GetChannel(dcConfig.LogChannel) as IMessageChannel;
-            channel!.SendMessageAsync(message);
-        }
-        catch (Exception ex)
-        {
-            LogDiscord($"ERROR: {ex.Message}");
+            _dbContext.SetSongRequestForStream(arg.GuildId.Value, arg.Data.Values.ElementAt(0));
+            await arg.Message.DeleteAsync();
+            await arg.RespondAsync(text: "Song Request has been set!", ephemeral: true);
         }
     }
 
+
+    /* ---Methods--- */
     public async Task SendStreamNotification(TwitchStreamData streamData)
     {
         foreach (var guild in DcClient.Guilds)
@@ -176,8 +174,8 @@ public class DiscordBot
                     await Task.Run(()
                         => liveChannel.SendMessageAsync(
                             text:
-                        $"Hey @everyone! {streamData.Username} is now live!\nhttps://twitch.tv/{streamData.Username}",
-                        embed: streamData.GetDiscordEmbed()));
+                            $"Hey @everyone! {streamData.Username} is now live!",
+                            embed: streamData.GetDiscordEmbed()));
             }
             catch (Exception ex)
             {
@@ -217,7 +215,7 @@ public class DiscordBot
 
         PubSubService.AddSpotifyClient(guild);
         PubSubService.StartSpotifyForGuild(guild.Id);
-        
+
         LogDiscord($"Done starting Services for {guild.Name}");
     }
 
@@ -228,6 +226,5 @@ public class DiscordBot
     private async Task SetupGuild(SocketGuild socketGuild)
     {
         await SetupService.InitializeChannels(_dbContext, socketGuild);
-        
     }
 }

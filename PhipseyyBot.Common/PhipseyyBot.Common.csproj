@@ -4,12 +4,12 @@
         <TargetFramework>net6.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-        <RootNamespace>PhipseyyBot.Common</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
       <PackageReference Include="Discord.Net.Core" Version="3.8.1" />
       <PackageReference Include="Discord.Net.WebSocket" Version="3.8.1" />
+      <PackageReference Include="EntityFrameworkCore.EncryptColumn" Version="6.0.8" />
       <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.0" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.0">
         <PrivateAssets>all</PrivateAssets>
@@ -30,6 +30,10 @@
       <PackageReference Include="SpotifyAPI.Web.Auth" Version="7.0.0" />
       <PackageReference Include="TwitchLib.Api" Version="3.9.0-preview-c7b42f3" />
       <PackageReference Include="YamlDotNet" Version="12.0.2" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Migrations" />
     </ItemGroup>
 
 </Project>

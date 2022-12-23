@@ -1,4 +1,5 @@
-﻿using PhipseyyBot.Common.Modules;
+﻿using PhipseyyBot;
+using PhipseyyBot.Common.Modules;
 using Serilog;
 
 namespace PhipseyyBot;
