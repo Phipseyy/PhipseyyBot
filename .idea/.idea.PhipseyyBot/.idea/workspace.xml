@@ -8,36 +8,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d07b2e5e-ae2c-44a2-b23d-765c3f6e2b0d" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/.idea.PhipseyyBot/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/PhipseyyBot.Common/Embeds/AuthEmbed.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/PhipseyyBot.Common/Embeds/ErrorEmbed.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/PhipseyyBot.Common/Embeds/SuccessEmbed.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/PhipseyyBot.Common/Exceptions/TwitchUserNotFoundException.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/PhipseyyBot.Common/Modules/EncryptionHelper.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.PhipseyyBot/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.PhipseyyBot/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/PhipseyyBot.Common/BotCredentials.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Common/BotCredentials.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PhipseyyBot.Common/Const.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Common/Const.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PhipseyyBot.Common/Db/Extensions/TwitchExtensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Common/Db/Extensions/TwitchExtensions.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/PhipseyyBot.Common/Db/Models/SpotifyConfig.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Common/Db/Models/SpotifyConfig.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PhipseyyBot.Common/Db/Models/TwitchConfig.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Common/Db/Models/TwitchConfig.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/PhipseyyBot.Common/Db/PhipseyyDbContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Common/Db/PhipseyyDbContext.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PhipseyyBot.Common/Exceptions/FatalCredNotFound.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Common/Exceptions/FatalCredNotFoundException.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/PhipseyyBot.Common/IBotCredentials.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Common/IBotCredentials.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PhipseyyBot.Common/Modules/PhipseyyLogger.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Common/Modules/PhipseyyLogger.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PhipseyyBot.Common/Modules/TwitchConverter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Common/Modules/TwitchConverter.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/PhipseyyBot.Common/PhipseyyBot.Common.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Common/PhipseyyBot.Common.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PhipseyyBot.Common/Services/BotCredsProvider.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Common/Services/BotCredsProvider.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PhipseyyBot.Discord/DiscordBot.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Discord/DiscordBot.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PhipseyyBot.Discord/Modules/Commands/Owner/SendGlobalMessage.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Discord/Modules/Commands/Owner/SendGlobalMessage.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PhipseyyBot.Discord/Modules/Commands/SettingsCommands.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Discord/Modules/Commands/SettingsCommands.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PhipseyyBot.Discord/Modules/Commands/SpotifyCommands.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Discord/Modules/Commands/SpotifyCommands.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PhipseyyBot.Discord/Modules/Commands/TwitchCommands.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Discord/Modules/Commands/TwitchCommands.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PhipseyyBot.Discord/PhipseyyBot.Discord.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Discord/PhipseyyBot.Discord.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PhipseyyBot.Discord/Services/CommandHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Discord/Services/CommandHandler.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PhipseyyBot.Discord/Services/PubSub/PubSubService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Discord/Services/PubSub/PubSubService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PhipseyyBot.Spotify/PhipseyyBot.Spotify.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Spotify/PhipseyyBot.Spotify.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PhipseyyBot.Spotify/SpotifyBot.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Spotify/SpotifyBot.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PhipseyyBot.Twitch/PhipseyyBot.Twitch.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Twitch/PhipseyyBot.Twitch.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PhipseyyBot.Twitch/TwitchBot.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Twitch/TwitchBot.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PhipseyyBot/Bot.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot/Bot.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PhipseyyBot/PhipseyyBot.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot/PhipseyyBot.csproj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/PhipseyyBot/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot/Program.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -92,7 +70,9 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/ec5b492a3dd1472e96526b75a644f0d5a2a00/be/7583e9b7/SlashCommandBuilder.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/ee4495f735dc409ebd91229e296df11921c00/8e/cd29c7b2/Log.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/fed020eeffda4e1188505129b945fa782e00/da/0cb54a55/YamlConfigurationExtensions.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/106f1bd68a5e06e98287f1fb85426ef7a0f664292dcb84529385fb592a838/ServiceProviderEngineScope.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/19a23b66a8e629941524ff93647c7e23b1b4e59338d23638bdc1e3f3cc7443f/ConfigurationProvider.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/19ba5a289f2afd3f4d5e862cb3f3efee6181683a31ee31b86c2298b1f51114b/ServiceProvider.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/1af51483c9bf18871cce649b9f966dd7be686536f998c33bba3c5fc4adea4a0/Task.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/1bc362ed8e78098c4d91511197558cc1cce7515d443c7960746fe140705b37/ConfigurationBuilder.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/1f18529517a1d3c051def436a4696cc374fd1877837b7e6cd9efc464122ef341/AsyncMethodBuilderCore.cs" root0="SKIP_HIGHLIGHTING" />
@@ -106,11 +86,14 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/42bf8cabf91af831409fa543817cb7925b4cfe17dab1c106ec4a86795be1637/Environment.Windows.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/485da50d43321b81edc28153271bdedb84943a243743e2deaa67a981587968/IConfiguration.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/502d84e7af4a63bf5d8a31d66b97276b59442a7a7e96b66a7e4f4e45c32861/SocketAsyncEventArgs.Windows.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/53fde159ba8211bfa732c66683f6d3cd7af7b9ff56a3a1dc1dbe1cee597fe/CallSiteRuntimeResolver.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/5558bbdfdedb58e139db69e8964f9b8de14236e5d4ab3a738e99be1db57505f/Thread.CoreCLR.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/575c31ecc35a636b6f962cb71d53992552941a18982aae1c8e6c16305cc3761b/ExceptionDispatchInfo.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/5fead5fbf2bee3da1b9f378a09d78479a62db80dae1e1c6453efdb0bc92a8/String.Comparison.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/603b2915aafe889813b03caf4ed665e1a8c9966dcc1bc484c55ae7923569bb/ConfigurationReloadToken.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/621526284d3e4868b98948aff942206525763e57e194a27623b66c384466/ServiceProviderServiceExtensions.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/7b3b6985aad11c5d633d75b545f5f5f4fc7e50918ad1cb9f6b615682f5bfb76d/SingleQueryingEnumerable.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/8e2e3f232b3f74cfc56d24ec307aaea234eb831ec23796f1b454eb7e8fe1/CallSiteVisitor.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/8ea21ac773d9dbb35bda81e94336d7efbd03459b6fc241fcdb64737e5c1/NavigationExpandingExpressionVisitor.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/902c7234ac8172b6a14385988189f4d260e1831f5f3f40c681be9de3dd842c40/Thread.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/94d413b2eb741b2144562e1941f67795032c6f0fbbe5ee67d9927d33425add/IConfigurationBuilder.cs" root0="SKIP_HIGHLIGHTING" />
@@ -125,6 +108,7 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/c1da7b6c7c71a954fe3eb2531c6476711b3e6d93a8d76795386d326bb9dbc/ExecutionContext.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/cae510aeffba5065d2d59ec4323bea3233f84b7cca9390749f49d3e06110f6e/SemaphoreSlim.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/cfbd35f99a5eb6bb8f21da64fd6e5ee6a8d8c11183483691b9381b5e6f16f8/ThrowHelper.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/d07a18f5d3711881ce852ca5c3b2bd521758d28b2272ed84243725a2a5f4fd0/DynamicServiceProviderEngine.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/d6f95382468b317a172feb667db83ae826247df59838f7f780cef897689bd83/TaskAwaiter.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/df71358f7b7337a1eee3a65abe6d678dd9a065e256b8cc3fd44a2949754/Object.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/e0b1a6d8edffe3d1c23bdcf77ea3b29dbe71c12dde7bd03a7fd516a2c94a82/ServiceProviderServiceExtensions.cs" root0="SKIP_HIGHLIGHTING" />
@@ -156,6 +140,7 @@
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
@@ -180,13 +165,13 @@
       <command value="async" />
     </option>
   </component>
-  <component name="RunManager" selected=".NET Project.PhipseyyBot">
+  <component name="RunManager" selected="Publish to folder.Linux_x64">
     <configuration name="Linux_arm64" type="DotNetFolderPublish" factoryName="Publish to folder">
       <riderPublish configuration="Release" platform="Any CPU" produce_single_file="true" ready_to_run="true" runtime="linux-arm64" self_contained="true" target_folder="$PROJECT_DIR$/PhipseyyBot/bin/Release/net6.0/linux-arm64/publish" target_framework="net6.0" trim_unused_assemblies="true" uuid_high="-1040439771279505975" uuid_low="-8205726054510734385" />
       <method v="2" />
     </configuration>
     <configuration name="Linux_x64" type="DotNetFolderPublish" factoryName="Publish to folder">
-      <riderPublish configuration="Release" include_native_libs_for_self_extract="true" platform="Any CPU" produce_single_file="true" ready_to_run="true" runtime="linux-x64" self_contained="true" target_folder="$PROJECT_DIR$/PhipseyyBot/bin/Release/net6.0/linux-x64/publish" target_framework="net6.0" trim_unused_assemblies="true" uuid_high="-1040439771279505975" uuid_low="-8205726054510734385" />
+      <riderPublish configuration="Release" include_native_libs_for_self_extract="true" platform="Any CPU" produce_single_file="true" ready_to_run="true" runtime="linux-x64" self_contained="true" target_folder="$PROJECT_DIR$/PhipseyyBot/bin/Release/net6.0/linux-x64/publish" target_framework="net6.0" uuid_high="-1040439771279505975" uuid_low="-8205726054510734385" />
       <method v="2" />
     </configuration>
     <configuration name="Windows" type="DotNetFolderPublish" factoryName="Publish to folder">
@@ -348,7 +333,10 @@
       <workItem from="1671565590836" duration="4166000" />
       <workItem from="1671811884631" duration="416000" />
       <workItem from="1671812667168" duration="167000" />
-      <workItem from="1671812854923" duration="3500000" />
+      <workItem from="1671812854923" duration="7003000" />
+      <workItem from="1671820022268" duration="1078000" />
+      <workItem from="1671821157643" duration="1000" />
+      <workItem from="1672317815883" duration="8708000" />
     </task>
     <task id="LOCAL-00001" summary="Exception for reading the config file + cleanup">
       <created>1660749621376</created>
@@ -525,7 +513,14 @@
       <option name="project" value="LOCAL" />
       <updated>1670575479679</updated>
     </task>
-    <option name="localTasksCounter" value="26" />
+    <task id="LOCAL-00026" summary="- Seperated Embeds&#10;- Added Encryption for Keys / Tokens&#10;- Added more Twitch commands&#10;- TwitchAuth Support for grabbing Channel Rewards">
+      <created>1671816858277</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1671816858277</updated>
+    </task>
+    <option name="localTasksCounter" value="27" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -564,9 +559,81 @@
     <MESSAGE value="Restructuring the Bot&#10;DB Support &#10;Server wide scaling" />
     <MESSAGE value="- Structure changed (again)&#10;- Scaling on multiple servers work now!&#10;- Added settings for feedback&#10;&#10;- Todo: Twitch verification so it fits better to the new standards" />
     <MESSAGE value="-Rebased&#10;-Adding SR works now" />
-    <option name="LAST_COMMIT_MESSAGE" value="-Rebased&#10;-Adding SR works now" />
+    <MESSAGE value="- Seperated Embeds&#10;- Added Encryption for Keys / Tokens&#10;- Added more Twitch commands&#10;- TwitchAuth Support for grabbing Channel Rewards" />
+    <option name="LAST_COMMIT_MESSAGE" value="- Seperated Embeds&#10;- Added Encryption for Keys / Tokens&#10;- Added more Twitch commands&#10;- TwitchAuth Support for grabbing Channel Rewards" />
   </component>
   <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/PhipseyyBot.Discord/Services/PubSub/PubSubService.cs</url>
+          <line>193</line>
+          <properties documentPath="E:\Programmierung\Visual Studio\PhipseyyBot\PhipseyyBot.Discord\Services\PubSub\PubSubService.cs" initialLine="193" containingFunctionPresentation="method 'GetSpotifyUsername'">
+            <startOffsets>
+              <option value="6611" />
+              <option value="6671" />
+            </startOffsets>
+            <endOffsets>
+              <option value="6733" />
+              <option value="6731" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/PhipseyyBot.Common/Db/Extensions/TwitchExtensions.cs</url>
+          <line>91</line>
+          <properties documentPath="E:\Programmierung\Visual Studio\PhipseyyBot\PhipseyyBot.Common\Db\Extensions\TwitchExtensions.cs" initialLine="91" containingFunctionPresentation="method 'SetMainStream'">
+            <startOffsets>
+              <option value="2757" />
+            </startOffsets>
+            <endOffsets>
+              <option value="3010" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/PhipseyyBot.Common/Db/Extensions/TwitchExtensions.cs</url>
+          <line>100</line>
+          <properties documentPath="E:\Programmierung\Visual Studio\PhipseyyBot\PhipseyyBot.Common\Db\Extensions\TwitchExtensions.cs" initialLine="100" containingFunctionPresentation="method 'SetMainStream'">
+            <startOffsets>
+              <option value="3020" />
+            </startOffsets>
+            <endOffsets>
+              <option value="3245" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/PhipseyyBot.Discord/Modules/Commands/TwitchCommands.cs</url>
+          <line>27</line>
+          <properties documentPath="E:\Programmierung\Visual Studio\PhipseyyBot\PhipseyyBot.Discord\Modules\Commands\TwitchCommands.cs" initialLine="27" containingFunctionPresentation="method 'FollowStreamCommand'">
+            <startOffsets>
+              <option value="878" />
+            </startOffsets>
+            <endOffsets>
+              <option value="919" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="10" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/PhipseyyBot.Common/Db/Extensions/TwitchExtensions.cs</url>
+          <line>54</line>
+          <properties documentPath="E:\Programmierung\Visual Studio\PhipseyyBot\PhipseyyBot.Common\Db\Extensions\TwitchExtensions.cs" initialLine="54" containingFunctionPresentation="method 'FollowStream'">
+            <startOffsets>
+              <option value="1703" />
+            </startOffsets>
+            <endOffsets>
+              <option value="1743" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="14" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
     <pin-to-top-manager>
       <pinned-members>
         <PinnedItemInfo parentTag="Type#Microsoft.Extensions.DependencyInjection.ServiceLookup.ServiceProviderEngineScope" memberName="Sync" />

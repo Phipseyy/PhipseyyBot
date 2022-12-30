@@ -1,4 +1,4 @@
-﻿using PhipseyyBot;
+﻿#nullable disable
 using PhipseyyBot.Common.Modules;
 using Serilog;
 

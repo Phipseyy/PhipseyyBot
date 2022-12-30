@@ -1,7 +1,6 @@
 ﻿#nullable disable
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using EntityFrameworkCore.EncryptColumn.Attribute;
 
 namespace PhipseyyBot.Common.Db.Models;
 
@@ -10,7 +9,7 @@ public class TwitchConfig
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; set; }
-
+    
     public string ChannelId { get; set; }
     public string Username { get; set; }
     
