@@ -1,4 +1,5 @@
-﻿using Phipseyy.Common.Modules;
+﻿#nullable disable
+using PhipseyyBot.Common.Modules;
 using Serilog;
 
 namespace PhipseyyBot;
@@ -17,7 +18,6 @@ public static class Program
         }
         catch (Exception e)
         {
-            // ReSharper disable once TemplateIsNotCompileTimeConstantProblem
             Log.Fatal(e.Message);
             await Task.Delay(-1);
         }

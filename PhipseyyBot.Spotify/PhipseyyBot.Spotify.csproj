@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Serilog" Version="2.12.1-dev-01594" />
+      <PackageReference Include="SpotifyAPI.Web" Version="7.0.0" />
+      <PackageReference Include="SpotifyAPI.Web.Auth" Version="7.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\PhipseyyBot.Common\PhipseyyBot.Common.csproj" />
+    </ItemGroup>
+
+</Project>

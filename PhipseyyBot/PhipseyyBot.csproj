@@ -5,21 +5,26 @@
         <TargetFramework>net6.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <RootNamespace>PhipseyyBot</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="Discord.Net" Version="3.7.2" />
-      <PackageReference Include="Serilog" Version="2.12.0-dev-01494" />
-      <PackageReference Include="Serilog.Sinks.Console" Version="4.0.2-dev-00890" />
+      <PackageReference Include="Discord.Net" Version="3.8.1" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.0">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      </PackageReference>
+      <PackageReference Include="Serilog" Version="2.12.1-dev-01594" />
+      <PackageReference Include="Serilog.Sinks.Console" Version="4.1.1-dev-00896" />
       <PackageReference Include="Serilog.Sinks.File" Version="5.0.1-dev-00947" />
       <PackageReference Include="SixLabors.ImageSharp" Version="2.1.3" />
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Phipseyy.Twitch\Phipseyy.Twitch.csproj" />
-      <ProjectReference Include="..\Phipseyy.Common\Phipseyy.Common.csproj" />
-      <ProjectReference Include="..\Phipseyy.Discord\Phipseyy.Discord.csproj" />
-      <ProjectReference Include="..\Phipseyy.Spotify\Phipseyy.Spotify.csproj" />
+      <ProjectReference Include="..\PhipseyyBot.Twitch\PhipseyyBot.Twitch.csproj" />
+      <ProjectReference Include="..\PhipseyyBot.Common\PhipseyyBot.Common.csproj" />
+      <ProjectReference Include="..\PhipseyyBot.Discord\PhipseyyBot.Discord.csproj" />
+      <ProjectReference Include="..\PhipseyyBot.Spotify\PhipseyyBot.Spotify.csproj" />
     </ItemGroup>
 
 </Project>

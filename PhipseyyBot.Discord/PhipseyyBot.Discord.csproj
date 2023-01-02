@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Discord.Net.Commands" Version="3.8.1" />
+      <PackageReference Include="Discord.Net.Interactions" Version="3.8.1" />
+      <PackageReference Include="Discord.Net.WebSocket" Version="3.8.1" />
+      <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
+      <PackageReference Include="NHttp" Version="0.1.9" />
+      <PackageReference Include="Serilog" Version="2.12.1-dev-01594" />
+      <PackageReference Include="TwitchLib.Api" Version="3.9.0-preview-c7b42f3" />
+      <PackageReference Include="TwitchLib.PubSub" Version="3.2.6" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\PhipseyyBot.Common\PhipseyyBot.Common.csproj" />
+      <ProjectReference Include="..\PhipseyyBot.Spotify\PhipseyyBot.Spotify.csproj" />
+    </ItemGroup>
+
+</Project>
