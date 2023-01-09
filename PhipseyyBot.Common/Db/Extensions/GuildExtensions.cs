@@ -10,13 +10,15 @@ public static class GuildExtensions
         this PhipseyyDbContext context,
         ulong guildId,
         ulong logChannelId,
-        ulong liveChannelId)
+        ulong liveChannelId,
+        ulong partnerChannelId)
     {
         var config = new GuildConfig
         {
             GuildId = guildId,
             LogChannel = logChannelId,
-            LiveChannel = liveChannelId
+            LiveChannel = liveChannelId,
+            PartnerChannel = partnerChannelId
         };
 
         var guildConfig = context.GuildConfigs.FirstOrDefault(guildConfig => guildConfig.GuildId == guildId);
@@ -26,6 +28,7 @@ public static class GuildExtensions
         {
             guildConfig.LogChannel = logChannelId;
             guildConfig.LiveChannel = liveChannelId;
+            guildConfig.PartnerChannel = partnerChannelId;
         }
         
         context.SaveChangesAsync();
@@ -38,14 +41,20 @@ public static class GuildExtensions
 
     public static SocketTextChannel GetLogChannel(this PhipseyyDbContext context, SocketGuild guild)
     {
-        var config = context.GuildConfigs.FirstOrDefault(config => config.GuildId == guild.Id);
+        var config = GetGuildConfig(context, guild.Id);
         return config != null ? guild.TextChannels.FirstOrDefault(x => x.Id == config.LogChannel) : null;
     }
     
     public static SocketTextChannel GetLiveChannel(this PhipseyyDbContext context, SocketGuild guild)
     {
-        var config = context.GuildConfigs.FirstOrDefault(config => config.GuildId == guild.Id);
+        var config = GetGuildConfig(context, guild.Id);
         return config != null ? guild.TextChannels.FirstOrDefault(x => x.Id == config.LiveChannel) : null;
+    }
+    
+    public static SocketTextChannel GetPartnerChannel(this PhipseyyDbContext context, SocketGuild guild)
+    {
+        var config = GetGuildConfig(context, guild.Id);
+        return config != null ? guild.TextChannels.FirstOrDefault(x => x.Id == config.PartnerChannel) : null;
     }
 
     public static void DeleteGuildConfig(

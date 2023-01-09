@@ -30,7 +30,7 @@ public static class SetupService
             }
         };
         
-        context.AddGuildToDb(socketGuild.Id, logChannel.Id, liveChannel.Id);
+        context.AddGuildToDb(socketGuild.Id, logChannel.Id, liveChannel.Id, liveChannel.Id);
         await logChannel.SendMessageAsync(embed: welcomeMessage.Build());
     }
     
@@ -56,16 +56,19 @@ public static class SetupService
     public static void VerifyChannels(PhipseyyDbContext context, SocketGuild socketGuild)
     {
         var config = context.GetGuildConfig(socketGuild.Id);
-        
-        var logRequest = socketGuild.TextChannels.FirstOrDefault(x => x.Id == config.LogChannel, null);
+
+        var logRequest = context.GetLogChannel(socketGuild);
         var logChannel = logRequest ?? CreatePrivateTextChannelAsync(socketGuild, "log").Result;
 
-        var liveRequest = socketGuild.TextChannels.FirstOrDefault(x => x.Id == config.LiveChannel, null);
+        var liveRequest = context.GetLiveChannel(socketGuild);
         var liveChannel = liveRequest ?? CreatePrivateTextChannelAsync(socketGuild, "stream-notifications").Result;
+
+        var partnerRequest = context.GetPartnerChannel(socketGuild);
+        var partnerChannel = partnerRequest ?? liveChannel;
         
         
-        if (logChannel.Id != config.LogChannel || liveChannel.Id != config.LiveChannel)
-            context.AddGuildToDb(socketGuild.Id, logChannel.Id, liveChannel.Id);
+        if (logChannel.Id != config.LogChannel || liveChannel.Id != config.LiveChannel || partnerRequest == null)
+            context.AddGuildToDb(socketGuild.Id, logChannel.Id, liveChannel.Id, partnerChannel.Id);
     }
 
 }

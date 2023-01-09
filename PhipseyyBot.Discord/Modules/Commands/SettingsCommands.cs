@@ -25,6 +25,7 @@ public class SettingsCommands : InteractionModuleBase<SocketInteractionContext>
         var dbContext = DbService.GetDbContext();
         var logChannel = dbContext.GetLogChannel(Context.Guild);
         var liveChannel = dbContext.GetLiveChannel(Context.Guild);
+        var partnerChannel = dbContext.GetPartnerChannel(Context.Guild);
         var spotifyConfig = dbContext.GetSpotifyConfigFromGuild(Context.Guild.Id);
         var streams = dbContext.GetListOfFollowedStreams(Context.Guild.Id);
 
@@ -45,10 +46,11 @@ public class SettingsCommands : InteractionModuleBase<SocketInteractionContext>
         };
 
 
-        if (logChannel != null || liveChannel != null)
+        if (logChannel != null || liveChannel != null || partnerChannel != null )  
             embed.AddField("Channels", 
                 $"Log Channel: <#{logChannel!.Id}>\n" +
-                $"Live Notifications Channel: <#{liveChannel!.Id}>");
+                $"Live Notifications Channel: <#{liveChannel!.Id}>\n" +
+                $"Partner Notifications Channel: <#{partnerChannel!.Id}>");
 
         if (spotifyConfig != null)
             embed.AddField("Spotify",
@@ -75,21 +77,43 @@ public class SettingsCommands : InteractionModuleBase<SocketInteractionContext>
         }
         await RespondAsync(embed: embed.Build(), ephemeral: true);
     }
-    
-    
-    [SlashCommand("set-live-channel", "Changes the channel for live notifications")]
-    public async Task SetLiveChannelCommand(SocketTextChannel channel)
-    {
-        var dbService = DbService.GetDbContext();
-        var guildConfig = dbService.GuildConfigs.FirstOrDefault(guild => guild.GuildId == Context.Guild.Id);
-        guildConfig!.LiveChannel = channel.Id;
 
-        await dbService.SaveChangesAsync();
-        await RespondAsync(
-            text: $"Changed the Live Notification channel to <#{channel.Id}>", ephemeral: true);
+
+    [Group("set", "Sets channels for the notifications")]
+
+    public class SetChannels : InteractionModuleBase<SocketInteractionContext>
+    {
+        [SlashCommand("live-channel", "Changes the channel for live notifications")]
+        public async Task SetLiveChannelCommand(SocketTextChannel? channel = null)
+        {
+            var liveChannelId = channel?.Id ?? Context.Channel.Id;
+        
+            var dbService = DbService.GetDbContext();
+            var guildConfig = dbService.GetGuildConfig(Context.Guild.Id);
+            guildConfig.LiveChannel = liveChannelId;
+
+            await dbService.SaveChangesAsync();
+            await RespondAsync(
+                text: $"Changed the Live Notification channel to <#{liveChannelId}>", ephemeral: true);
+        }
+        
+        [SlashCommand("partner-channel", "Changes the channel for partner live notifications")]
+        public async Task SetPartnerChannelCommand(SocketTextChannel? channel = null)
+        {
+            var partnerChannel = channel?.Id ?? Context.Channel.Id;
+        
+            var dbService = DbService.GetDbContext();
+            var guildConfig = dbService.GetGuildConfig(Context.Guild.Id);
+            guildConfig.PartnerChannel = partnerChannel;
+
+            await dbService.SaveChangesAsync();
+            await RespondAsync(
+                text: $"Changed the Partner Live Notification channel to <#{partnerChannel}>", ephemeral: true);
+        }
+        
     }
-    
-    
+
+
     [Group("reset", "Resets Settings")]
     public class ResetSettings : InteractionModuleBase<SocketInteractionContext>
     {

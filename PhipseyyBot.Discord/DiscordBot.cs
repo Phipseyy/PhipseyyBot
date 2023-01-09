@@ -165,17 +165,31 @@ public class DiscordBot
         {
             var currentConfig = _dbContext.TwitchConfigs.FirstOrDefault(config =>
                 config.GuildId == guild.Id && config.ChannelId == streamData.ChannelId);
+            var isMainStream = currentConfig != null && currentConfig.ChannelId == streamData.ChannelId && currentConfig.MainStream;
+
             if (currentConfig == null) continue;
 
             try
             {
-                var liveChannel = _dbContext.GetLiveChannel(guild);
-                if (liveChannel != null)
+                var liveChannel = _dbContext.GetLiveChannel(guild); 
+                var partnerChannel = _dbContext.GetPartnerChannel(guild);
+
+                if (isMainStream && liveChannel != null)
+                {
                     await Task.Run(()
                         => liveChannel.SendMessageAsync(
                             text:
                             $"Hey @everyone! {streamData.Username} is now live!",
                             embed: streamData.GetDiscordEmbed()));
+                }
+                else if (partnerChannel != null)
+                {
+                    await Task.Run(()
+                        => partnerChannel.SendMessageAsync(
+                            text:
+                            $"Hey @here! {streamData.Username} is now live!",
+                            embed: streamData.GetDiscordEmbed()));
+                }
             }
             catch (Exception ex)
             {

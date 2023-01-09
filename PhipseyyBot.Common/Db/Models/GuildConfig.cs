@@ -13,4 +13,5 @@ public class GuildConfig
     public ulong GuildId { get; set; }
     public ulong LogChannel { get; set; }
     public ulong LiveChannel { get; set; }
+    public ulong PartnerChannel { get; set; }
 }
