@@ -6,12 +6,14 @@ namespace PhipseyyBot.Common.Db.Models;
 
 public class GuildConfig
 {
-    [Key] 
-
+    [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; set; }
+
     public ulong GuildId { get; set; }
     public ulong LogChannel { get; set; }
     public ulong LiveChannel { get; set; }
     public ulong PartnerChannel { get; set; }
+    public string MainStreamNotification { get; set; }
+    public string PartnerStreamNotification { get; set; }
 }

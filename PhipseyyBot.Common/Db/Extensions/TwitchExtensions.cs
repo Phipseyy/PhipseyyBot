@@ -39,7 +39,7 @@ public static class TwitchExtensions
         return context.TwitchConfigs.FirstOrDefault(config => config.ChannelId == channelId && config.MainStream);
     }
 
-    public static void FollowStream(
+    public static async void FollowStream(
         this PhipseyyDbContext context,
         ulong guildId,
         string twitchName)
@@ -53,7 +53,7 @@ public static class TwitchExtensions
             SpotifySr = ""
         };
         context.TwitchConfigs.Add(twitchConfig);
-        context.SaveChangesAsync();
+        await context.SaveChangesAsync();
     }
 
     public static bool IsFollowingStream(
@@ -68,7 +68,7 @@ public static class TwitchExtensions
         return stream != null;
     }
 
-    public static void UnfollowStream(
+    public static async void UnfollowStream(
         this PhipseyyDbContext context,
         ulong guildId,
         string twitchName)
@@ -81,10 +81,10 @@ public static class TwitchExtensions
             context.Remove(channel);
         }
 
-        context.SaveChangesAsync();
+        await context.SaveChangesAsync();
     }
 
-    public static bool SetMainStream(
+    public static async Task<bool> SetMainStream(
         this PhipseyyDbContext context,
         ulong guildId,
         string twitchName)
@@ -118,11 +118,11 @@ public static class TwitchExtensions
         else
             context.TwitchConfigs.Add(twitchConfig);
 
-        context.SaveChangesAsync();
+        await context.SaveChangesAsync();
         return true;
     }
 
-    public static void DeleteTwitchConfig(
+    public static async void DeleteTwitchConfig(
         this PhipseyyDbContext context,
         ulong guildId)
     {
@@ -133,11 +133,11 @@ public static class TwitchExtensions
             context.Remove(config);
         }
 
-        context.SaveChangesAsync();
+        await context.SaveChangesAsync();
     }
 
 
-    public static void SetSongRequestForStream(
+    public static async void SetSongRequestForStream(
         this PhipseyyDbContext context,
         ulong guildId,
         string rewardId)
@@ -145,6 +145,6 @@ public static class TwitchExtensions
         var config = context.GetMainStreamOfGuild(guildId);
         config.SpotifySr = rewardId;
 
-        context.SaveChangesAsync();
+        await context.SaveChangesAsync();
     }
 }

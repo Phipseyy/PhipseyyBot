@@ -6,7 +6,7 @@ namespace PhipseyyBot.Common.Db.Extensions;
 
 public static class GuildExtensions
 {
-    public static void AddGuildToDb(
+    public static async Task AddGuildToDb(
         this PhipseyyDbContext context,
         ulong guildId,
         ulong logChannelId,
@@ -18,7 +18,9 @@ public static class GuildExtensions
             GuildId = guildId,
             LogChannel = logChannelId,
             LiveChannel = liveChannelId,
-            PartnerChannel = partnerChannelId
+            PartnerChannel = partnerChannelId,
+            MainStreamNotification = "Hey @everyone! {Username} is now live!",
+            PartnerStreamNotification = "Hey @here! {Username} is now live!"
         };
 
         var guildConfig = context.GuildConfigs.FirstOrDefault(guildConfig => guildConfig.GuildId == guildId);
@@ -31,7 +33,7 @@ public static class GuildExtensions
             guildConfig.PartnerChannel = partnerChannelId;
         }
         
-        context.SaveChangesAsync();
+        await context.SaveChangesAsync();
     }
 
     public static GuildConfig GetGuildConfig(this PhipseyyDbContext context, ulong guildId)
@@ -57,7 +59,7 @@ public static class GuildExtensions
         return config != null ? guild.TextChannels.FirstOrDefault(x => x.Id == config.PartnerChannel) : null;
     }
 
-    public static void DeleteGuildConfig(
+    public static async void DeleteGuildConfig(
         this PhipseyyDbContext context,
         ulong guildId)
     {
@@ -67,7 +69,49 @@ public static class GuildExtensions
             context.Attach(guildEntries);
             context.Remove(guildEntries);
         }
-        context.SaveChangesAsync();
+        await context.SaveChangesAsync();
+    }
+    
+    public static async Task<string> GetMainStreamNotification(
+        this PhipseyyDbContext context,
+        ulong guildId)
+    {
+        var config = GetGuildConfig(context, guildId);
+        return config != null ? config.MainStreamNotification : null;
+    }
+    
+    public static async Task<string> GetPartnerStreamNotification(
+        this PhipseyyDbContext context,
+        ulong guildId)
+    {
+        var config = GetGuildConfig(context, guildId);
+        return config != null ? config.PartnerStreamNotification : null;
+    }
+    
+    public static async Task SetMainStreamNotification(
+        this PhipseyyDbContext context,
+        ulong guildId,
+        string notification)
+    {
+        var config = GetGuildConfig(context, guildId);
+        if (config != null)
+        {
+            config.MainStreamNotification = notification;
+            await context.SaveChangesAsync();
+        }
+    }
+    
+    public static async Task SetPartnerStreamNotification(
+        this PhipseyyDbContext context,
+        ulong guildId,
+        string notification)
+    {
+        var config = GetGuildConfig(context, guildId);
+        if (config != null)
+        {
+            config.PartnerStreamNotification = notification;
+            await context.SaveChangesAsync();
+        }
     }
 
 }

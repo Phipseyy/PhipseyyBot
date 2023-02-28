@@ -81,23 +81,32 @@ public class SettingsCommands : InteractionModuleBase<SocketInteractionContext>
 
     [Group("set", "Sets channels for the notifications")]
 
-    public class SetChannels : InteractionModuleBase<SocketInteractionContext>
+    public class SetSettings : InteractionModuleBase<SocketInteractionContext>
     {
-        [SlashCommand("live-channel", "Changes the channel for live notifications")]
-        public async Task SetLiveChannelCommand(SocketTextChannel? channel = null)
+        [SlashCommand("main-channel", "Changes the main channel for live notifications")]
+        public async Task SetLiveChannelCommand([ChannelTypes(ChannelType.News, ChannelType.Text)] IGuildChannel channel)
         {
-            var liveChannelId = channel?.Id ?? Context.Channel.Id;
-        
             var dbService = DbService.GetDbContext();
             var guildConfig = dbService.GetGuildConfig(Context.Guild.Id);
-            guildConfig.LiveChannel = liveChannelId;
+            guildConfig.LiveChannel = channel.Id;
 
             await dbService.SaveChangesAsync();
             await RespondAsync(
-                text: $"Changed the Live Notification channel to <#{liveChannelId}>", ephemeral: true);
+                text: $"Changed the Live Notification channel to <#{channel.Id}>", ephemeral: true);
         }
         
-        [SlashCommand("partner-channel", "Changes the channel for partner live notifications")]
+        [SlashCommand("main-channel-noti", "Changes the message for main live notifications")]
+        public async Task SetLiveChannelMessageCommand(string message)
+        {
+            var dbService = DbService.GetDbContext();
+            await dbService.SetMainStreamNotification(Context.Guild.Id, message);
+
+            await dbService.SaveChangesAsync();
+            await RespondAsync(
+                text: "Changed the Live Notification Message!", ephemeral: true);
+        }
+
+        [SlashCommand("partner-channel", "Changes the partner channel for live notifications")]
         public async Task SetPartnerChannelCommand(SocketTextChannel? channel = null)
         {
             var partnerChannel = channel?.Id ?? Context.Channel.Id;
@@ -109,6 +118,17 @@ public class SettingsCommands : InteractionModuleBase<SocketInteractionContext>
             await dbService.SaveChangesAsync();
             await RespondAsync(
                 text: $"Changed the Partner Live Notification channel to <#{partnerChannel}>", ephemeral: true);
+        }
+        
+        [SlashCommand("partner-channel-noti", "Changes the message for partner live notifications")]
+        public async Task SetPartnerChannelMessageCommand(string message)
+        {
+            var dbService = DbService.GetDbContext();
+            await dbService.SetPartnerStreamNotification(Context.Guild.Id, message);
+
+            await dbService.SaveChangesAsync();
+            await RespondAsync(
+                text: "Changed the Live Notification Message!", ephemeral: true);
         }
         
     }

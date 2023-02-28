@@ -166,7 +166,9 @@ public class DiscordBot
             var currentConfig = _dbContext.TwitchConfigs.FirstOrDefault(config =>
                 config.GuildId == guild.Id && config.ChannelId == streamData.ChannelId);
             var isMainStream = currentConfig != null && currentConfig.ChannelId == streamData.ChannelId && currentConfig.MainStream;
-
+            
+            var guildConfig = _dbContext.GetGuildConfig(guild.Id);
+            if (guildConfig == null) continue;
             if (currentConfig == null) continue;
 
             try
@@ -179,7 +181,7 @@ public class DiscordBot
                     await Task.Run(()
                         => liveChannel.SendMessageAsync(
                             text:
-                            $"Hey @everyone! {streamData.Username} is now live!",
+                            TwitchStringHelper.ParseTwitchNotification(guildConfig.MainStreamNotification, streamData),
                             embed: streamData.GetDiscordEmbed()));
                 }
                 else if (partnerChannel != null)
@@ -187,7 +189,7 @@ public class DiscordBot
                     await Task.Run(()
                         => partnerChannel.SendMessageAsync(
                             text:
-                            $"Hey @here! {streamData.Username} is now live!",
+                            TwitchStringHelper.ParseTwitchNotification(guildConfig.PartnerStreamNotification, streamData),
                             embed: streamData.GetDiscordEmbed()));
                 }
             }
@@ -220,7 +222,10 @@ public class DiscordBot
         if (currentConfig == null)
             await SetupGuild(guild);
         else
-            SetupService.VerifyChannels(_dbContext, guild);
+        {
+            await SetupService.VerifyChannels(_dbContext, guild);
+            await SetupService.VerifyMessages(_dbContext, guild);
+        }
 
         var twitchConfig = _dbContext.GetMainStreamOfGuild(guild.Id);
         var spotifyConfig = _dbContext.GetSpotifyConfigFromGuild(guild.Id);

@@ -4,6 +4,7 @@ using Discord.WebSocket;
 using PhipseyyBot.Common;
 using PhipseyyBot.Common.Db;
 using PhipseyyBot.Common.Db.Extensions;
+using static System.String;
 
 namespace PhipseyyBot.Discord.Services;
 
@@ -30,7 +31,7 @@ public static class SetupService
             }
         };
         
-        context.AddGuildToDb(socketGuild.Id, logChannel.Id, liveChannel.Id, liveChannel.Id);
+        await context.AddGuildToDb(socketGuild.Id, logChannel.Id, liveChannel.Id, liveChannel.Id);
         await logChannel.SendMessageAsync(embed: welcomeMessage.Build());
     }
     
@@ -53,7 +54,7 @@ public static class SetupService
     /// </summary>
     /// <param name="context"></param>
     /// <param name="socketGuild"></param>
-    public static void VerifyChannels(PhipseyyDbContext context, SocketGuild socketGuild)
+    public static async Task VerifyChannels(PhipseyyDbContext context, SocketGuild socketGuild)
     {
         var config = context.GetGuildConfig(socketGuild.Id);
 
@@ -68,7 +69,23 @@ public static class SetupService
         
         
         if (logChannel.Id != config.LogChannel || liveChannel.Id != config.LiveChannel || partnerRequest == null)
-            context.AddGuildToDb(socketGuild.Id, logChannel.Id, liveChannel.Id, partnerChannel.Id);
+            await context.AddGuildToDb(socketGuild.Id, logChannel.Id, liveChannel.Id, partnerChannel.Id);
+    }
+
+    public static async Task VerifyMessages(PhipseyyDbContext context, SocketGuild socketGuild)
+    {
+        var config = context.GetGuildConfig(socketGuild.Id);
+
+        if (IsNullOrEmpty(config.MainStreamNotification))
+        {
+            await context.SetMainStreamNotification(socketGuild.Id, "Hey @everyone! {Username} is now live!");
+        }
+
+        if (IsNullOrEmpty(config.PartnerStreamNotification))
+        {
+            await context.SetPartnerStreamNotification(socketGuild.Id, "Hey @here! {Username} is now live!");
+        }
+
     }
 
 }

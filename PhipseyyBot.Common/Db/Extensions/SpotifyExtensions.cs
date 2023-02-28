@@ -6,7 +6,7 @@ namespace PhipseyyBot.Common.Db.Extensions;
 
 public static class SpotifyExtensions
 {
-    public static void SetSpotifyDataToDb(
+    public static async void SetSpotifyDataToDb(
         this PhipseyyDbContext context,
         ulong guildId,
         PKCETokenResponse token,
@@ -43,10 +43,10 @@ public static class SpotifyExtensions
             oldSpotifyConfig.TokenType = token.TokenType;
         }
 
-        context.SaveChangesAsync();
+        await context.SaveChangesAsync();
     }
 
-    public static void DeleteSpotifyConfig(
+    public static async void DeleteSpotifyConfig(
         this PhipseyyDbContext context,
         ulong guildId)
     {
@@ -54,7 +54,7 @@ public static class SpotifyExtensions
         if (spotifyConfig == null) return;
         context.Attach(spotifyConfig);
         context.Remove(spotifyConfig);
-        context.SaveChangesAsync();
+        await context.SaveChangesAsync();
     }
 
     public static SpotifyConfig GetSpotifyConfigFromGuild(this PhipseyyDbContext context, ulong guildId)
@@ -83,7 +83,7 @@ public static class SpotifyExtensions
     }
 
 
-    public static void SetSpotifyDataToDb(
+    public static async void SetSpotifyDataToDb(
         this PhipseyyDbContext context,
         ulong guildId,
         AuthorizationCodeRefreshResponse token,
@@ -120,6 +120,6 @@ public static class SpotifyExtensions
             oldSpotifyConfig.TokenType = token.TokenType;
         }
 
-        context.SaveChangesAsync();
+        await context.SaveChangesAsync();
     }
 }

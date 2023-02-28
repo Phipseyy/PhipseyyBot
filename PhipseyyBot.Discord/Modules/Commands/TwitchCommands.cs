@@ -79,7 +79,7 @@ public class TwitchCommands : InteractionModuleBase<SocketInteractionContext>
     public async Task SetStreamCommand(string twitchName)
     {
         var dbContext = DbService.GetDbContext();
-        if (dbContext.SetMainStream(Context.Guild.Id, twitchName))
+        if (dbContext.SetMainStream(Context.Guild.Id, twitchName).Result)
             await RespondAsync(
                 embed: SuccessEmbed.GetSuccessEmbed(Context.Client, "Main Streamer Set",
                     $"Main streamer has been set to ``{twitchName}``"), ephemeral: true);
@@ -89,10 +89,11 @@ public class TwitchCommands : InteractionModuleBase<SocketInteractionContext>
     }
 
     [RequireOwner]
-    [SlashCommand("debug", "[Owner] Debug twitch embed")]
-    public async Task TwitchDebugEmbedCommand(string name)
+    [SlashCommand("debug-main", "[Owner] Debug twitch embed")]
+    public async Task TwitchDebugMainEmbedCommand(string name)
     {
         var creds = new BotCredsProvider().GetCreds();
+        var dbContext = DbService.GetDbContext();
         var id = TwitchConverter.GetTwitchIdFromName(name);
 
         var api = new TwitchAPI
@@ -103,6 +104,8 @@ public class TwitchCommands : InteractionModuleBase<SocketInteractionContext>
                 ClientId = creds.TwitchClientId
             }
         };
+        
+        var guildConfig = dbContext.GetGuildConfig(Context.Guild.Id);
 
         var usersData = api.Helix.Channels.GetChannelInformationAsync(id, creds.TwitchAccessToken).Result.Data
             .SingleOrDefault(x => x.BroadcasterId == id);
@@ -117,7 +120,43 @@ public class TwitchCommands : InteractionModuleBase<SocketInteractionContext>
 
         await RespondAsync("Done");
         await DeleteOriginalResponseAsync();
-        await ReplyAsync(text: $"Hey @everyone! ``{twitchData.Username}`` is live again!",
+        await ReplyAsync(text: TwitchStringHelper.ParseTwitchNotification(guildConfig.MainStreamNotification, twitchData),
+            embed: twitchData.GetDiscordEmbed());
+    }
+    
+    [RequireOwner]
+    [SlashCommand("debug-partner", "[Owner] Debug twitch embed")]
+    public async Task TwitchDebugPartnerEmbedCommand(string name)
+    {
+        var creds = new BotCredsProvider().GetCreds();
+        var dbContext = DbService.GetDbContext();
+        var id = TwitchConverter.GetTwitchIdFromName(name);
+
+        var api = new TwitchAPI
+        {
+            Settings =
+            {
+                AccessToken = creds.TwitchAccessToken,
+                ClientId = creds.TwitchClientId
+            }
+        };
+        
+        var guildConfig = dbContext.GetGuildConfig(Context.Guild.Id);
+
+        var usersData = api.Helix.Channels.GetChannelInformationAsync(id, creds.TwitchAccessToken).Result.Data
+            .SingleOrDefault(x => x.BroadcasterId == id);
+        var user = api.Helix.Search.SearchChannelsAsync(usersData!.BroadcasterName).Result.Channels
+            .SingleOrDefault(x => x.DisplayName == usersData.BroadcasterName);
+        var twitchData = new TwitchStreamData(user!.DisplayName,
+            user.Id,
+            user.Title,
+            user.ThumbnailUrl,
+            user.GameName,
+            user.StartedAt);
+
+        await RespondAsync("Done");
+        await DeleteOriginalResponseAsync();
+        await ReplyAsync(text: TwitchStringHelper.ParseTwitchNotification(guildConfig.PartnerStreamNotification, twitchData),
             embed: twitchData.GetDiscordEmbed());
     }
 
@@ -135,7 +174,8 @@ public class TwitchCommands : InteractionModuleBase<SocketInteractionContext>
             {
                 ClientId = creds.TwitchAppClientId,
                 Secret = creds.TwitchAppClientSecret,
-                Scopes = new List<AuthScopes> { AuthScopes.Helix_Channel_Manage_Redemptions, AuthScopes.Helix_Channel_Read_Redemptions }
+                Scopes = new List<AuthScopes>
+                    { AuthScopes.Helix_Channel_Manage_Redemptions, AuthScopes.Helix_Channel_Read_Redemptions }
             }
         };
 

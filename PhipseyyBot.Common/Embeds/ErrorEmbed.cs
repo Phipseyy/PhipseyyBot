@@ -17,7 +17,7 @@ public static class ErrorEmbed
             Title = $"ERROR - {errorType}",
             Description = message,
             Timestamp = DateTime.Now,
-            Color = Const.Main,
+            Color = Const.Error,
             Footer = new EmbedFooterBuilder
             {
                 Text = "PhipseyyBot - ERROR"
