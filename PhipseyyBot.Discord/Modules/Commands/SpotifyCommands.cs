@@ -48,7 +48,7 @@ public class SpotifyCommands : InteractionModuleBase<SocketInteractionContext>
             await FollowupAsync(
                 text: "Settings saved!",
                 ephemeral: true);
-
+            
             PubSubService.AddSpotifyClient(Context.Guild);
             PubSubService.StartSpotifyForGuild(Context.Guild.Id);
         };

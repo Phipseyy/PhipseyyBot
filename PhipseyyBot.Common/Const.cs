@@ -1,4 +1,4 @@
-﻿using Discord;
+﻿using Color = Discord.Color;
 
 namespace PhipseyyBot.Common;
 

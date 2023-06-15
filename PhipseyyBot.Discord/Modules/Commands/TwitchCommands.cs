@@ -48,9 +48,8 @@ public class TwitchCommands : InteractionModuleBase<SocketInteractionContext>
     public async Task UnfollowStreamCommand(string twitchName)
     {
         var dbContext = DbService.GetDbContext();
-        var streamExists = dbContext.IsFollowingStream(Context.Guild.Id, twitchName);
 
-        if (!streamExists)
+        if (!dbContext.IsFollowingStream(Context.Guild.Id, twitchName))
         {
             await RespondAsync(embed: Context.Client.GetErrorEmbed("Streamer Not Found",
                     $"Cannot unfollow ``{twitchName}`` since this guild does not follow them in the first place"),
@@ -59,7 +58,7 @@ public class TwitchCommands : InteractionModuleBase<SocketInteractionContext>
         }
 
         var mainStream = dbContext.GetMainStreamOfGuild(Context.Guild.Id);
-        if (mainStream != null)
+        if (mainStream != null && twitchName.Equals(mainStream.Username))
         {
             await RespondAsync(embed: Context.Client.GetErrorEmbed("Cannot unfollow Main Streamer",
                     $"Cannot unfollow ``{twitchName}`` since they are the main streamer of this guild"),
@@ -104,7 +103,7 @@ public class TwitchCommands : InteractionModuleBase<SocketInteractionContext>
                 ClientId = creds.TwitchClientId
             }
         };
-        
+
         var guildConfig = dbContext.GetGuildConfig(Context.Guild.Id);
 
         var usersData = api.Helix.Channels.GetChannelInformationAsync(id, creds.TwitchAccessToken).Result.Data
@@ -120,10 +119,11 @@ public class TwitchCommands : InteractionModuleBase<SocketInteractionContext>
 
         await RespondAsync("Done");
         await DeleteOriginalResponseAsync();
-        await ReplyAsync(text: TwitchStringHelper.ParseTwitchNotification(guildConfig.MainStreamNotification, twitchData),
+        await ReplyAsync(
+            text: TwitchStringHelper.ParseTwitchNotification(guildConfig.MainStreamNotification, twitchData),
             embed: twitchData.GetDiscordEmbed());
     }
-    
+
     [RequireOwner]
     [SlashCommand("debug-partner", "[Owner] Debug twitch embed")]
     public async Task TwitchDebugPartnerEmbedCommand(string name)
@@ -140,7 +140,7 @@ public class TwitchCommands : InteractionModuleBase<SocketInteractionContext>
                 ClientId = creds.TwitchClientId
             }
         };
-        
+
         var guildConfig = dbContext.GetGuildConfig(Context.Guild.Id);
 
         var usersData = api.Helix.Channels.GetChannelInformationAsync(id, creds.TwitchAccessToken).Result.Data
@@ -156,7 +156,8 @@ public class TwitchCommands : InteractionModuleBase<SocketInteractionContext>
 
         await RespondAsync("Done");
         await DeleteOriginalResponseAsync();
-        await ReplyAsync(text: TwitchStringHelper.ParseTwitchNotification(guildConfig.PartnerStreamNotification, twitchData),
+        await ReplyAsync(
+            text: TwitchStringHelper.ParseTwitchNotification(guildConfig.PartnerStreamNotification, twitchData),
             embed: twitchData.GetDiscordEmbed());
     }
 

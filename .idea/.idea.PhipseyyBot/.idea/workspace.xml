@@ -6,21 +6,25 @@
     <projectFile pubXmlPath="PhipseyyBot/Properties/PublishProfiles/FolderProfile.pubxml">PhipseyyBot/PhipseyyBot.csproj</projectFile>
     <projectFile pubXmlPath="PhipseyyBot/Properties/PublishProfiles/FolderProfile1.pubxml">PhipseyyBot/PhipseyyBot.csproj</projectFile>
   </component>
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="d07b2e5e-ae2c-44a2-b23d-765c3f6e2b0d" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/PhipseyyBot.Common/Embeds/InfoEmbed.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/PhipseyyBot.Common/Services/TwitchStringHelper.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/PhipseyyBot.Discord/Modules/Commands/HelpSettings.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.PhipseyyBot/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.PhipseyyBot/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PhipseyyBot.Common/Db/Extensions/GuildExtensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Common/Db/Extensions/GuildExtensions.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PhipseyyBot.Common/Db/Extensions/SpotifyExtensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Common/Db/Extensions/SpotifyExtensions.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PhipseyyBot.Common/Db/Extensions/TwitchExtensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Common/Db/Extensions/TwitchExtensions.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PhipseyyBot.Common/Db/Models/GuildConfig.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Common/Db/Models/GuildConfig.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PhipseyyBot.Common/Embeds/ErrorEmbed.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Common/Embeds/ErrorEmbed.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PhipseyyBot.Common/Const.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Common/Const.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PhipseyyBot.Common/PhipseyyBot.Common.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Common/PhipseyyBot.Common.csproj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/PhipseyyBot.Discord/DiscordBot.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Discord/DiscordBot.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PhipseyyBot.Discord/Modules/Commands/HelpSettings.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Discord/Modules/Commands/HelpSettings.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/PhipseyyBot.Discord/Modules/Commands/SettingsCommands.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Discord/Modules/Commands/SettingsCommands.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PhipseyyBot.Discord/Modules/Commands/SpotifyCommands.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Discord/Modules/Commands/SpotifyCommands.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/PhipseyyBot.Discord/Modules/Commands/TwitchCommands.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Discord/Modules/Commands/TwitchCommands.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PhipseyyBot.Discord/Services/SetupService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Discord/Services/SetupService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PhipseyyBot.Discord/PhipseyyBot.Discord.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Discord/PhipseyyBot.Discord.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PhipseyyBot.Discord/Services/PubSub/PubSubService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Discord/Services/PubSub/PubSubService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PhipseyyBot.Spotify/PhipseyyBot.Spotify.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Spotify/PhipseyyBot.Spotify.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PhipseyyBot.Spotify/SpotifyBot.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Spotify/SpotifyBot.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PhipseyyBot.Twitch/PhipseyyBot.Twitch.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Twitch/PhipseyyBot.Twitch.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PhipseyyBot/PhipseyyBot.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot/PhipseyyBot.csproj" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,98 +37,13 @@
         <entry key="$PROJECT_DIR$" value="development" />
       </map>
     </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="UPDATE_TYPE" value="REBASE" />
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/07f4d1092634484db47c749f45da6ace13c000/d0/8a94b92b/BaseDiscordClient.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/0de9d097b2b14f7ba7076c426da4ca344898/cc/3520720e/IServiceProvider.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/1940ac9bc9d34da1812dae4187b7f5ca33a00/5f/593a546b/Scopes.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/1940ac9bc9d34da1812dae4187b7f5ca33a00/84/3da2fe92/APIConnector.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/1a7554dc9f114474b57d2c39c961f1fa3b000/0d/ec1cddaf/InteractionModuleBase`1.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/1a7554dc9f114474b57d2c39c961f1fa3b000/a7/01e07553/InteractionService.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/34bedc7af6524e6dbecb1289ce23df13d000/0e/bbc585eb/ThirdParty.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/34bedc7af6524e6dbecb1289ce23df13d000/75/b36d584a/Auth.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/35e45059c6d44e669d3ab63b95f025d6d000/1a/ec515a46/Auth.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/48dd9b878133485da391b9ab8a18057614ca0/e6/d1930b07/ServiceCollectionContainerBuilderExtensions.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/550d4c2a86cc43d584146880c1e4aa73a6000/3b/887aa16f/EventExtensions.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/550d4c2a86cc43d584146880c1e4aa73a6000/61/1dfc4bea/EmbedBuilder.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/550d4c2a86cc43d584146880c1e4aa73a6000/64/5fe7a56e/IAttachment.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/63929d2ff08c465a990fa07846cd9fc614a00/ed/5cac3620/TwitchPubSub.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/679fd5dd3c654c7db34fc3593e75857519e00/22/51892f05/TwitchEventSubWebhooks.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/7dcd76d3fe514acbbbbc41330c2d0c6722a00/0f/a1a560af/Log.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/7f52eaea8a554baeb3e9b84d5566d73711e00/e6/7109cc9e/EmbedIOAuthServer.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/a5842c5de37a464986c47434e1c7764c57000/48/c82c1834/HttpListener.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/a805c4c361d44d8db61bda5470e14eda8e00/7e/25833e64/WebSocketClient.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/c873cbd3afab4758a72fe98cae32d70915600/46/66bd1f41/TwitchClient.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/d19b18a8b5be48dab59c57df31e65e9311e00/4c/a68383e3/EmbedIOAuthServer.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/d210249c4c6644a7b30e2798f238372320e00/33/d687d1e1/RequireUserPermissionAttribute.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/d210249c4c6644a7b30e2798f238372320e00/c9/e65a2431/ModuleBase`1.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/d41b27bcd2d44ecc8131e71b50d4bd0533800/0b/2743d1cc/LoginRequest.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/d41b27bcd2d44ecc8131e71b50d4bd0533800/65/2ba34ef9/PKCEUtil.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/d41b27bcd2d44ecc8131e71b50d4bd0533800/75/bd011d18/SpotifyClient.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/d41b27bcd2d44ecc8131e71b50d4bd0533800/cf/1c3231c4/PKCETokenResponse.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/dfb1751a8b1f4027b11615ff79e5178ebac00/9e/f115ebea/SocketTextChannel.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/e4d1b87af7844dd6aa919218f260d38539400/6c/eec54a13/InteractionService.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/e4d1b87af7844dd6aa919218f260d38539400/7d/0f28c959/InteractionModuleBase`1.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/e4d1b87af7844dd6aa919218f260d38539400/bc/dcf8d593/RequireOwnerAttribute.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/e4d1b87af7844dd6aa919218f260d38539400/f5/00921ea5/RequireUserPermissionAttribute.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/e5ba731c8a4f41d7a392a32574f6226d14a00/6e/dc3ec803/TwitchPubSub.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/e5ba731c8a4f41d7a392a32574f6226d14a00/e6/f4aace35/TwitchPubSub.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/ec5b492a3dd1472e96526b75a644f0d5a2a00/6c/04386f2a/IMessageChannel.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/ec5b492a3dd1472e96526b75a644f0d5a2a00/b2/accadd0c/EventExtensions.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/ec5b492a3dd1472e96526b75a644f0d5a2a00/be/7583e9b7/SlashCommandBuilder.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/ee4495f735dc409ebd91229e296df11921c00/8e/cd29c7b2/Log.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/fed020eeffda4e1188505129b945fa782e00/da/0cb54a55/YamlConfigurationExtensions.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/106f1bd68a5e06e98287f1fb85426ef7a0f664292dcb84529385fb592a838/ServiceProviderEngineScope.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/19a23b66a8e629941524ff93647c7e23b1b4e59338d23638bdc1e3f3cc7443f/ConfigurationProvider.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/19ba5a289f2afd3f4d5e862cb3f3efee6181683a31ee31b86c2298b1f51114b/ServiceProvider.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/1af51483c9bf18871cce649b9f966dd7be686536f998c33bba3c5fc4adea4a0/Task.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/1bc362ed8e78098c4d91511197558cc1cce7515d443c7960746fe140705b37/ConfigurationBuilder.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/1f18529517a1d3c051def436a4696cc374fd1877837b7e6cd9efc464122ef341/AsyncMethodBuilderCore.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/2092594986cef463403359ef7a2b70c093702cde2d09da41faa694648726f8c/ThreadPoolWorkQueue.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/27b91272f348469b8fccc471c1ccd767f57a64f55a44975790bfae805b4ebb/Future.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/2e2284ea7f7f754c2f784211e2bcf61cc424ea5129bc42c2469da6c693f7f34/ConfigurationRoot.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/35234c4686895ab73d4bf9acadd6faf584c5b390ce562edf38838ae596b/ConfigurationBuilder.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/377e91d7ed75931c14e7e44ff9bbd28aab526bde89b36eb6a19668835fc09e/PortableThreadPool.WorkerThread.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/39882c59da88a786946a40bf675cd7facf94e555372b58ae237ea5fc5d9972e/Stopwatch.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/3ea95343b9387b73062a9b61b7538f826c54ce3529632b4472ba4494044d23/AsyncTaskMethodBuilderT.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/42bf8cabf91af831409fa543817cb7925b4cfe17dab1c106ec4a86795be1637/Environment.Windows.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/485da50d43321b81edc28153271bdedb84943a243743e2deaa67a981587968/IConfiguration.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/502d84e7af4a63bf5d8a31d66b97276b59442a7a7e96b66a7e4f4e45c32861/SocketAsyncEventArgs.Windows.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/53fde159ba8211bfa732c66683f6d3cd7af7b9ff56a3a1dc1dbe1cee597fe/CallSiteRuntimeResolver.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/5558bbdfdedb58e139db69e8964f9b8de14236e5d4ab3a738e99be1db57505f/Thread.CoreCLR.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/575c31ecc35a636b6f962cb71d53992552941a18982aae1c8e6c16305cc3761b/ExceptionDispatchInfo.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/5fead5fbf2bee3da1b9f378a09d78479a62db80dae1e1c6453efdb0bc92a8/String.Comparison.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/603b2915aafe889813b03caf4ed665e1a8c9966dcc1bc484c55ae7923569bb/ConfigurationReloadToken.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/621526284d3e4868b98948aff942206525763e57e194a27623b66c384466/ServiceProviderServiceExtensions.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/7b3b6985aad11c5d633d75b545f5f5f4fc7e50918ad1cb9f6b615682f5bfb76d/SingleQueryingEnumerable.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/8e2e3f232b3f74cfc56d24ec307aaea234eb831ec23796f1b454eb7e8fe1/CallSiteVisitor.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/8ea21ac773d9dbb35bda81e94336d7efbd03459b6fc241fcdb64737e5c1/NavigationExpandingExpressionVisitor.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/902c7234ac8172b6a14385988189f4d260e1831f5f3f40c681be9de3dd842c40/Thread.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/94d413b2eb741b2144562e1941f67795032c6f0fbbe5ee67d9927d33425add/IConfigurationBuilder.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/974fa14c57bab8fe29f1bddd39b1a6548b9cc8cf9e0ef5e670c2407a56d9/String.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/99c577c1de25f332c92d234fd02151b4e9dd44f496b141218dcfe8c6a7816058/CancellationChangeToken.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/a1a59674744830c52bb8ec2c75c1a5b1b21ec7b871acd25d24a346472da73b/DbContext.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/a69c9a45edb0b889d72488281957883ea86de7c0bdcca217df6df4dbb8c613b/IConfigurationRoot.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/a9cbda3784706aeeed61f1a08a18046925b69f777943eca27fbbcca09dff60/DateTime.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/aacf6151870041ec50684429cbd3c1582d8b1ada7b65a7a9482fec6e935a55/CancellationTokenSource.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/b2c3e28468b2a9ae5485968818c48fd40338a6b8ae1295f29a355225a8d238/First.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/b86d22aba033d9778228bcf0c7dd82d2dbff174d1fd56caa2e3f67f61be6d5b/ConfigurationBinder.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/c1da7b6c7c71a954fe3eb2531c6476711b3e6d93a8d76795386d326bb9dbc/ExecutionContext.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/cae510aeffba5065d2d59ec4323bea3233f84b7cca9390749f49d3e06110f6e/SemaphoreSlim.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/cfbd35f99a5eb6bb8f21da64fd6e5ee6a8d8c11183483691b9381b5e6f16f8/ThrowHelper.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/d07a18f5d3711881ce852ca5c3b2bd521758d28b2272ed84243725a2a5f4fd0/DynamicServiceProviderEngine.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/d6f95382468b317a172feb667db83ae826247df59838f7f780cef897689bd83/TaskAwaiter.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/df71358f7b7337a1eee3a65abe6d678dd9a065e256b8cc3fd44a2949754/Object.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/e0b1a6d8edffe3d1c23bdcf77ea3b29dbe71c12dde7bd03a7fd516a2c94a82/ServiceProviderServiceExtensions.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/e7e231682be8652744726acc6de35323daa68061429db55e0c251114902f60/String.Manipulation.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/ed6ce64925764ce46562336cd72d1f821892dcfd98b149d198de1b46b47377b4/JsonConfigurationExtensions.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/f183d60aebdbe59ba4d56fecb921565d8d2a2aace3dea4bab76639e337a96/ChangeToken.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/f324c62785677b53e916aa9084ae54a42014c79d132908ae191cf8e3af4cfb/File.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/f3b9684f72bc2cc435eb694f7cc86eca8c240d2d1cefa1e8697a61f1f2f27f/SafeFileHandle.Windows.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/f4708639776589f5ac2739f6fcbfc67343b1f9dac51cc1dbfdb003eef77cc1c/Monitor.CoreCLR.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/fd24584d19b30e71661e6cf1e2b72e725ac87c09096b9fcbf5f344bff357d/DefaultInterpolatedStringHandler.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/fd3613e79f4141b726a234dc6b12c9e2fa50a7be28b045e19275c69bbf1166/CancellationToken.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/e5ba731c8a4f41d7a392a32574f6226d14a00/08/96d5fce2/TwitchPubSub.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/e5ba731c8a4f41d7a392a32574f6226d14a00/30/f35a7092/OnLogArgs.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/b9ec86353372ef6d4b862ec3552934310c2b674b5b263f7ee508468e028ab84/EventArgs.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/PhipseyyBot.Common/BotCredentials.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/PhipseyyBot.Common/Embeds/SuccessEmbed.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/PhipseyyBot.Discord/DiscordBot.cs" root0="FORCE_HIGHLIGHTING" />
@@ -151,8 +70,14 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.keymap&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
   &quot;keyToStringList&quot;: {
@@ -161,8 +86,8 @@
       &quot;TEXT&quot;
     ],
     &quot;rider.external.source.directories&quot;: [
-      &quot;C:\\Users\\bodo5\\AppData\\Roaming\\JetBrains\\Rider2022.3\\resharper-host\\DecompilerCache&quot;,
-      &quot;C:\\Users\\bodo5\\AppData\\Roaming\\JetBrains\\Rider2022.3\\resharper-host\\SourcesCache&quot;,
+      &quot;C:\\Users\\bodo5\\AppData\\Roaming\\JetBrains\\Rider2023.1\\resharper-host\\DecompilerCache&quot;,
+      &quot;C:\\Users\\bodo5\\AppData\\Roaming\\JetBrains\\Rider2023.1\\resharper-host\\SourcesCache&quot;,
       &quot;C:\\Users\\bodo5\\AppData\\Local\\Symbols\\src&quot;
     ]
   }
@@ -172,7 +97,7 @@
       <command value="async" />
     </option>
   </component>
-  <component name="RunManager" selected="Publish to folder.Linux_x64">
+  <component name="RunManager" selected=".NET Project.PhipseyyBot">
     <configuration name="Linux_arm64" type="DotNetFolderPublish" factoryName="Publish to folder">
       <riderPublish configuration="Release" platform="Any CPU" produce_single_file="true" ready_to_run="true" runtime="linux-arm64" self_contained="true" target_folder="$PROJECT_DIR$/PhipseyyBot/bin/Release/net6.0/linux-arm64/publish" target_framework="net6.0" trim_unused_assemblies="true" uuid_high="-1040439771279505975" uuid_low="-8205726054510734385" />
       <method v="2" />
@@ -370,6 +295,18 @@
       <workItem from="1675680118755" duration="9000" />
       <workItem from="1677514962929" duration="4688000" />
       <workItem from="1677519862793" duration="857000" />
+      <workItem from="1677592832574" duration="142000" />
+      <workItem from="1679309431133" duration="627000" />
+      <workItem from="1680081057352" duration="738000" />
+      <workItem from="1680899006450" duration="78000" />
+      <workItem from="1680899107581" duration="893000" />
+      <workItem from="1681834797931" duration="914000" />
+      <workItem from="1683216215628" duration="4302000" />
+      <workItem from="1683699925850" duration="966000" />
+      <workItem from="1685123131415" duration="38000" />
+      <workItem from="1685123188527" duration="2810000" />
+      <workItem from="1686684811778" duration="353000" />
+      <workItem from="1686685258509" duration="173000" />
     </task>
     <task id="LOCAL-00001" summary="Exception for reading the config file + cleanup">
       <created>1660749621376</created>
@@ -567,7 +504,14 @@
       <option name="project" value="LOCAL" />
       <updated>1673270803640</updated>
     </task>
-    <option name="localTasksCounter" value="29" />
+    <task id="LOCAL-00029" summary="Added custom live message support">
+      <created>1677592965652</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1677592965652</updated>
+    </task>
+    <option name="localTasksCounter" value="30" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -609,22 +553,23 @@
     <MESSAGE value="- Seperated Embeds&#10;- Added Encryption for Keys / Tokens&#10;- Added more Twitch commands&#10;- TwitchAuth Support for grabbing Channel Rewards" />
     <MESSAGE value="Reverted encryption changes" />
     <MESSAGE value="Added support to separate main and partner channel" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added support to separate main and partner channel" />
+    <MESSAGE value="Added custom live message support" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added custom live message support" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/PhipseyyBot.Discord/Services/PubSub/PubSubService.cs</url>
-          <line>193</line>
+          <line>227</line>
           <properties documentPath="E:\Programmierung\Visual Studio\PhipseyyBot\PhipseyyBot.Discord\Services\PubSub\PubSubService.cs" initialLine="193" containingFunctionPresentation="method 'GetSpotifyUsername'">
             <startOffsets>
-              <option value="6611" />
-              <option value="6671" />
+              <option value="8042" />
+              <option value="8102" />
             </startOffsets>
             <endOffsets>
-              <option value="6733" />
-              <option value="6731" />
+              <option value="8164" />
+              <option value="8162" />
             </endOffsets>
           </properties>
           <option name="timeStamp" value="1" />

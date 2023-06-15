@@ -141,6 +141,10 @@ public class SpotifyBot
         {
             if (!url.Contains("open.spotify")) 
                 return;
+            
+            if (url.Contains("album") || url.Contains("playlist"))
+                return;
+
             var playerAddToQueueRequest = new PlayerAddToQueueRequest(UrlToUri(url));
             _spotify.Player.AddToQueue(playerAddToQueueRequest);
         }

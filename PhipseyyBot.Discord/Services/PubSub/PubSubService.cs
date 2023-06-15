@@ -22,6 +22,7 @@ public class PubSubService
     private static DiscordBot _discordBot;
     private static TwitchPubSub _pubSub;
     private static IBotCredentials _creds;
+    public static bool IsConnected { get; private set; }
     
     
     public PubSubService(DiscordBot discordBot, IServiceProvider serviceProvider)
@@ -30,6 +31,7 @@ public class PubSubService
         _discordBot = discordBot;
         _spotifyClients = new Dictionary<SocketGuild, SpotifyBot>();
         _pubSub = new TwitchPubSub();
+
         _creds = new BotCredsProvider().GetCreds();
     }
 
@@ -41,69 +43,79 @@ public class PubSubService
         _pubSub.OnRewardRedeemed += PubSubOnOnRewardRedeemed;
         _pubSub.OnChannelPointsRewardRedeemed += PubSub_OnChannelPointsRewardRedeemed;
         _pubSub.OnLog += PubSub_OnLog;
+        _pubSub.OnPubSubServiceError += PubSub_OnPubSubServiceError;
+        
         _pubSub.Connect();
         
         await Task.Delay(-1);
     }
 
+
     /* --- Helpers --- */
     private static void LogTwitchPubSub(string message)
-    {
-        if(!message.Contains("PING") || !message.Contains("PONG"))
-            Log.Information($"[TwitchPubSub] {Now:HH:mm:ss} {message}");
+    {  
+        Log.Information($"[TwitchPubSub] {Now:HH:mm:ss} {message}");
+        
+        if (message.Contains("RECONNECT"))
+        {
+            Log.Information($"[TwitchPubSub] {Now:HH:mm:ss} Trying to reconnect rn. Blame Phil if this doesnt work :)");
+            _discordBot.SendGlobalLogMessage($"Twitch-PubSub: PubSub Service requested a reconnect");
+        }
     }
     
     public static Task RestartService()
     {
         _pubSub.Disconnect();
         _pubSub.Connect();
+        
         return Task.CompletedTask;
     }
 
     /* --- PubSub Events --- */
-    private static void PubSub_OnLog(object sender, OnLogArgs e)
-        => LogTwitchPubSub(e.Data);
-
-    private void PubSubOn_OnPubSubServiceClosed(object sender, EventArgs e)
+    
+    private async void PubSub_OnServiceConnected(object sender, EventArgs e)
     {
-        LogTwitchPubSub("PubSubService got closed! Restarting...");
         try
         {
-            _pubSub.Connect();
+            LogTwitchPubSub("---PubSub Connected!---");
+            _discordBot.SendGlobalLogMessage("PubSub Service online!");
+
+            var streams = _dbContext.GetListOfAllStreamIds();
+
+            foreach (var id in streams)
+                _pubSub.ListenToVideoPlayback(id);
+
+            var mainStreams = _dbContext.GetListOfAllMainStreams();
+            foreach (var mainStreamConfig in mainStreams)
+                _pubSub.ListenToRewards(mainStreamConfig.ChannelId);
+
+            _pubSub.SendTopics(_creds.TwitchAccessToken);
+            IsConnected = true;
         }
         catch (Exception exception)
         {
-            LogTwitchPubSub(exception.Message);
-            throw;
+            LogTwitchPubSub($" {exception.GetType()} // {exception.Message} // {exception.StackTrace}" +
+                            $" // {exception.Source} // {exception.InnerException} // {exception.Data} // {exception.HelpLink}");
+            await RestartService();
         }
     }
     
-    private void PubSubOnOnRewardRedeemed(object sender, OnRewardRedeemedArgs e)
+    private async void PubSubOn_OnPubSubServiceClosed(object sender, EventArgs e)
     {
-        var currentConfig = _dbContext.GetMainStreamOfChannel(e.ChannelId);
-        
-        
-        //TODO: Filter for albums, throw error / ignore
-        if (e.RewardId.ToString() == currentConfig.SpotifySr && e.Status == "UNFULFILLED")
+        try
         {
-            LogTwitchPubSub($"Song Request: {e.Message}");
-            var client = _spotifyClients.FirstOrDefault(pair => pair.Key.Id == currentConfig.GuildId).Value;
-            client.AddSongToQueue(e.Message);
+            LogTwitchPubSub("PubSubService got closed! Restarting...");
+            IsConnected = false;
+            await RestartService();
+        }
+        catch (Exception exception)
+        {
+            LogTwitchPubSub($" {exception.GetType()} // {exception.Message} // {exception.StackTrace}" +
+                            $" // {exception.Source} // {exception.InnerException} // {exception.Data} // {exception.HelpLink}");
         }
     }
 
-    private void PubSub_OnChannelPointsRewardRedeemed(object sender, OnChannelPointsRewardRedeemedArgs e)
-    {
-        var currentConfig = _dbContext.GetMainStreamOfChannel(e.ChannelId);
-        
-        if (e.RewardRedeemed.Redemption.Reward.Id.Equals(currentConfig.SpotifySr))
-        {
-            LogTwitchPubSub($"Song Request: {e.RewardRedeemed.Redemption.UserInput}");
-            var client = _spotifyClients.FirstOrDefault(pair => pair.Key.Id == currentConfig.GuildId).Value;
-            client.AddSongToQueue(e.RewardRedeemed.Redemption.UserInput);
-        }
-    }
-
+    
     private async void PubSub_OnStreamUp(object sender, OnStreamUpArgs e)
     {
         try
@@ -131,27 +143,49 @@ public class PubSubService
         }
         catch (Exception exception)
         {
-            LogTwitchPubSub(exception.Message);
+            LogTwitchPubSub($" {exception.GetType()} // {exception.Message} // {exception.StackTrace}" +
+                            $" // {exception.Source} // {exception.InnerException} // {exception.Data} // {exception.HelpLink}");
             _discordBot.SendGlobalLogMessage($"OnStreamUp: {exception.Message}");
         }
     }
-
-    private void PubSub_OnServiceConnected(object sender, EventArgs e)
+    
+    private void PubSubOnOnRewardRedeemed(object sender, OnRewardRedeemedArgs e)
     {
-        LogTwitchPubSub("---PubSub Connected!---");
-        _discordBot.SendGlobalLogMessage("PubSub Service online!");
-
-        var streams = _dbContext.GetListOfAllStreamIds();
-
-        foreach (var id in streams)
-            _pubSub.ListenToVideoPlayback(id);
-
-        var mainStreams = _dbContext.GetListOfAllMainStreams();
-        foreach (var mainStreamConfig in mainStreams)
-            _pubSub.ListenToRewards(mainStreamConfig.ChannelId);
-
-        _pubSub.SendTopics(_creds.TwitchAccessToken);
+        var currentConfig = _dbContext.GetMainStreamOfChannel(e.ChannelId);
+        
+        if (e.RewardId.ToString() == currentConfig.SpotifySr && e.Status == "UNFULFILLED")
+        {
+            LogTwitchPubSub($"Song Request: {e.Message}");
+            var client = _spotifyClients.FirstOrDefault(pair => pair.Key.Id == currentConfig.GuildId).Value;
+            client.AddSongToQueue(e.Message);
+        }
     }
+    
+    private void PubSub_OnChannelPointsRewardRedeemed(object sender, OnChannelPointsRewardRedeemedArgs e)
+    {
+        var currentConfig = _dbContext.GetMainStreamOfChannel(e.ChannelId);
+        
+        if (e.RewardRedeemed.Redemption.Reward.Id.Equals(currentConfig.SpotifySr))
+        {
+            LogTwitchPubSub($"Song Request: {e.RewardRedeemed.Redemption.UserInput}");
+            var client = _spotifyClients.FirstOrDefault(pair => pair.Key.Id == currentConfig.GuildId).Value;
+            client.AddSongToQueue(e.RewardRedeemed.Redemption.UserInput);
+        }
+    }
+    
+    private static void PubSub_OnLog(object sender, OnLogArgs e)
+        => LogTwitchPubSub(e.Data);
+    
+    private void PubSub_OnPubSubServiceError(object sender, OnPubSubServiceErrorArgs e)
+    {
+        LogTwitchPubSub($"PubSubService error: {e.Exception.Message}");
+        IsConnected = false;
+        RestartService();
+    }
+    
+
+
+    /* --- Features --- */
 
     public static void FollowStream(string twitchUser)
     {
@@ -200,8 +234,9 @@ public class PubSubService
             return spotify.GetUsername();
         }
         catch (Exception e)
-        {   
-            Log.Logger.Error(e.Message);
+        {
+            LogTwitchPubSub($"GetSpotifyUsername {e.GetType()} // {e.Message} // {e.StackTrace}" +
+                            $" // {e.Source} // {e.InnerException} // {e.Data} // {e.HelpLink}");
             return "Unable to load name";
         }
     }

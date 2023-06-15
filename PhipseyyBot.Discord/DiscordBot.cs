@@ -125,7 +125,6 @@ public class DiscordBot
             LogDiscord("Client disconnected! Trying to reconnect in a sec.");
             await Task.Delay(2000);
             await DcClient.StartAsync();
-            await Task.Delay(1000);
             if (DcClient.ConnectionState != ConnectionState.Connected)
                 await BotClientOnDisconnected(arg);
         }
@@ -164,8 +163,8 @@ public class DiscordBot
         foreach (var guild in DcClient.Guilds)
         {
             var currentConfig = _dbContext.TwitchConfigs.FirstOrDefault(config =>
-                config.GuildId == guild.Id && config.ChannelId == streamData.ChannelId);
-            var isMainStream = currentConfig != null && currentConfig.ChannelId == streamData.ChannelId && currentConfig.MainStream;
+                config.GuildId == guild.Id && config.ChannelId == streamData.ChannelId && config.Username == streamData.Username);
+            var isMainStream = currentConfig != null && currentConfig.ChannelId == streamData.ChannelId && currentConfig.MainStream && currentConfig.Username == streamData.Username;
             
             var guildConfig = _dbContext.GetGuildConfig(guild.Id);
             if (guildConfig == null) continue;

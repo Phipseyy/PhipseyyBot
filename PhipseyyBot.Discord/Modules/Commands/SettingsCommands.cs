@@ -27,7 +27,9 @@ public class SettingsCommands : InteractionModuleBase<SocketInteractionContext>
         var liveChannel = dbContext.GetLiveChannel(Context.Guild);
         var partnerChannel = dbContext.GetPartnerChannel(Context.Guild);
         var spotifyConfig = dbContext.GetSpotifyConfigFromGuild(Context.Guild.Id);
+        var isSpotifyActiveEmoji = PubSubService.IsSpotifyActive(Context.Guild.Id)? "✅" : "❌";
         var streams = dbContext.GetListOfFollowedStreams(Context.Guild.Id);
+        var isPubSubActiveEmoji = PubSubService.IsConnected? " ✅" : "❌";
 
         var embed = new EmbedBuilder
         {
@@ -51,14 +53,17 @@ public class SettingsCommands : InteractionModuleBase<SocketInteractionContext>
                 $"Log Channel: <#{logChannel!.Id}>\n" +
                 $"Live Notifications Channel: <#{liveChannel!.Id}>\n" +
                 $"Partner Notifications Channel: <#{partnerChannel!.Id}>");
-
+        
+        
         if (spotifyConfig != null)
             embed.AddField("Spotify",
-                $"Is currently running: {PubSubService.IsSpotifyActive(Context.Guild.Id)}\n" +
+                $"Is currently running: {isSpotifyActiveEmoji}\n" +
                 $"Account: {PubSubService.GetSpotifyUsername(Context.Guild.Id)}");
         else
             embed.AddField("Spotify", "No account found, add your Spotify account with /spotify set-account" +
                                       "\n*Note that Spotify Premium is required to use the Song-Requests feature!*");
+
+        embed.AddField("PubSub-Service", $"Online Status: {isPubSubActiveEmoji}"); 
         
         if (streams.Count > 0)
         {
