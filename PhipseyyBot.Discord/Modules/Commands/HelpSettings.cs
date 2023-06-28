@@ -18,17 +18,16 @@ public class HelpSettings : InteractionModuleBase<SocketInteractionContext>
     public async Task SetNotiMessageCommand()
     {
         await RespondAsync(embed: Context.Client.GetMessageInfoEmbed(), ephemeral: true);
-
     }
     
-    [SlashCommand("debug", "Debuggies")]
+    [SlashCommand("memory-in-use", "Debuggies")]
     public async Task DebugCmd()
     {
-        Process currentProcess = Process.GetCurrentProcess();
+        var currentProcess = Process.GetCurrentProcess();
 
         var usedMemoryinMb = Math.Round((double)currentProcess.PrivateMemorySize64 / 1000 / 1000, 2);
         
-        await RespondAsync(text: usedMemoryinMb.ToString(CultureInfo.InvariantCulture), ephemeral: true);
+        await RespondAsync(text: $"{usedMemoryinMb.ToString(CultureInfo.InvariantCulture)}MBs in use currently" , ephemeral: true);
 
     }
 }

@@ -4,6 +4,7 @@ using Discord.WebSocket;
 using PhipseyyBot.Common;
 using PhipseyyBot.Common.Db;
 using PhipseyyBot.Common.Db.Extensions;
+using Serilog;
 using static System.String;
 
 namespace PhipseyyBot.Discord.Services;
@@ -23,17 +24,33 @@ public static class SetupService
             Color = Const.Main,
             Title = "H0i",
             Description =
-                $"Thank you for using PhipseyyBot! \nIf you encounter any bugs or errors, please contact {Const.Owner}",
+                $"Thank you for using PhipseyyBot! \nIf you encounter any bugs or errors, please contact {Const.OwnerPing}"
+            ,
             ImageUrl = "https://media.giphy.com/media/8U8LDibipKRDq/giphy.gif",
             Footer = new EmbedFooterBuilder
             {
                 Text = "PhipseyyBot"
             }
         };
-        
-        await context.AddGuildToDb(socketGuild.Id, logChannel.Id, liveChannel.Id, liveChannel.Id);
-        await logChannel.SendMessageAsync(embed: welcomeMessage.Build());
+
+        try
+        {
+            await logChannel.SendMessageAsync(embed: welcomeMessage.Build());
+            await context.AddGuildToDb(socketGuild.Id, logChannel.Id, liveChannel.Id, liveChannel.Id);
+        }
+        catch (Exception e)
+        {
+            LogDiscordStartup(e.Message);
+        }
     }
+    
+    /// <summary>
+    /// Fancy Console Output
+    /// </summary>
+    /// <param name="message"></param>
+    private static void LogDiscordStartup(string message)
+        => Log.Information($"[Discord] [Startup] {message}");
+    
     
     private static async Task<SocketTextChannel> CreatePrivateTextChannelAsync(
         SocketGuild socketGuild,
@@ -56,7 +73,7 @@ public static class SetupService
     /// <param name="socketGuild"></param>
     public static async Task VerifyChannels(PhipseyyDbContext context, SocketGuild socketGuild)
     {
-        var config = context.GetGuildConfig(socketGuild.Id);
+        var config = context.GetGuildConfig(socketGuild);
 
         var logRequest = context.GetLogChannel(socketGuild);
         var logChannel = logRequest ?? CreatePrivateTextChannelAsync(socketGuild, "log").Result;
@@ -74,16 +91,16 @@ public static class SetupService
 
     public static async Task VerifyMessages(PhipseyyDbContext context, SocketGuild socketGuild)
     {
-        var config = context.GetGuildConfig(socketGuild.Id);
+        var config = context.GetGuildConfig(socketGuild);
 
         if (IsNullOrEmpty(config.MainStreamNotification))
         {
-            await context.SetMainStreamNotification(socketGuild.Id, "Hey @everyone! {Username} is now live!");
+            await context.SetMainStreamNotification(socketGuild, "Hey @everyone! {Username} is now live!");
         }
 
         if (IsNullOrEmpty(config.PartnerStreamNotification))
         {
-            await context.SetPartnerStreamNotification(socketGuild.Id, "Hey @here! {Username} is now live!");
+            await context.SetPartnerStreamNotification(socketGuild, "Hey @here! {Username} is now live!");
         }
 
     }

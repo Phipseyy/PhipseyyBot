@@ -15,7 +15,8 @@ public static class ErrorEmbed
                 IconUrl = client.CurrentUser.GetAvatarUrl()
             },
             Title = $"ERROR - {errorType}",
-            Description = message,
+            Description = $"{message} \n" +
+                          $"Please report the error to {Const.OwnerPing} for more information",
             Timestamp = DateTime.Now,
             Color = Const.Error,
             Footer = new EmbedFooterBuilder

@@ -32,7 +32,8 @@ public class DiscordBot
         var commands = new CommandService(new CommandServiceConfig
         {
             CaseSensitiveCommands = false,
-            DefaultRunMode = RunMode.Async
+            DefaultRunMode = RunMode.Async,
+            LogLevel = LogSeverity.Info
         });
 
         DcClient = new DiscordSocketClient(new DiscordSocketConfig
@@ -150,7 +151,8 @@ public class DiscordBot
     {
         if (arg.GuildId != null && arg.Data.CustomId == "rew-menu")
         {
-            _dbContext.SetSongRequestForStream(arg.GuildId.Value, arg.Data.Values.ElementAt(0));
+            var guild = DcClient.Guilds.FirstOrDefault(currentGuild => currentGuild.Id == arg.GuildId.Value);
+            _dbContext.SetSongRequestForStream(guild, arg.Data.Values.ElementAt(0));
             await arg.Message.DeleteAsync();
             await arg.RespondAsync(text: "Song Request has been set!", ephemeral: true);
         }
@@ -162,13 +164,12 @@ public class DiscordBot
     {
         foreach (var guild in DcClient.Guilds)
         {
-            var currentConfig = _dbContext.TwitchConfigs.FirstOrDefault(config =>
-                config.GuildId == guild.Id && config.ChannelId == streamData.ChannelId && config.Username == streamData.Username);
-            var isMainStream = currentConfig != null && currentConfig.ChannelId == streamData.ChannelId && currentConfig.MainStream && currentConfig.Username == streamData.Username;
+            var twitchConfig = _dbContext.GetTwitchConfig(guild);
+            var isMainStream = twitchConfig != null && twitchConfig == _dbContext.GetMainStreamOfGuild(guild);
             
-            var guildConfig = _dbContext.GetGuildConfig(guild.Id);
+            var guildConfig = _dbContext.GetGuildConfig(guild);
             if (guildConfig == null) continue;
-            if (currentConfig == null) continue;
+            if (twitchConfig == null) continue;
 
             try
             {
@@ -217,32 +218,23 @@ public class DiscordBot
 
     private async Task InitializeGuild(SocketGuild guild)
     {
-        var currentConfig = _dbContext.GetGuildConfig(guild.Id);
+        var currentConfig = _dbContext.GetGuildConfig(guild);
         if (currentConfig == null)
-            await SetupGuild(guild);
+            await SetupService.InitializeChannels(_dbContext, guild);
         else
         {
             await SetupService.VerifyChannels(_dbContext, guild);
             await SetupService.VerifyMessages(_dbContext, guild);
         }
 
-        var twitchConfig = _dbContext.GetMainStreamOfGuild(guild.Id);
+        var twitchConfig = _dbContext.GetMainStreamOfGuild(guild);
         var spotifyConfig = _dbContext.GetSpotifyConfigFromGuild(guild.Id);
-        if (spotifyConfig == null || twitchConfig == null)
-            return;
-
-        PubSubService.AddSpotifyClient(guild);
-        PubSubService.StartSpotifyForGuild(guild.Id);
+        if (spotifyConfig != null && twitchConfig != null)
+        {
+            PubSubService.AddSpotifyClient(guild);
+            PubSubService.StartSpotifyForGuild(guild.Id);    
+        }
 
         LogDiscord($"Done starting Services for {guild.Name}");
-    }
-
-    /// <summary>
-    /// Sets up the Guild for the first-time usage
-    /// </summary>
-    /// <param name="socketGuild"></param>
-    private async Task SetupGuild(SocketGuild socketGuild)
-    {
-        await SetupService.InitializeChannels(_dbContext, socketGuild);
     }
 }

@@ -16,6 +16,6 @@ public static class PhipseyyLogger
     }
     
     private static void SendStartupMessage()
-        => Log.Information("--- Discord Bot ~ By Philted ---");
+        => Log.Information("--- Discord Bot ~ By Phipseyy ---");
 
 }

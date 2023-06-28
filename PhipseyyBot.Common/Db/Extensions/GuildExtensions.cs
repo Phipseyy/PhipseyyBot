@@ -36,26 +36,26 @@ public static class GuildExtensions
         await context.SaveChangesAsync();
     }
 
-    public static GuildConfig GetGuildConfig(this PhipseyyDbContext context, ulong guildId)
+    public static GuildConfig GetGuildConfig(this PhipseyyDbContext context, SocketGuild guild)
     {
-        return context.GuildConfigs.FirstOrDefault(config => config.GuildId == guildId);
+        return context.GuildConfigs.FirstOrDefault(config => config.GuildId == guild.Id);
     }
 
     public static SocketTextChannel GetLogChannel(this PhipseyyDbContext context, SocketGuild guild)
     {
-        var config = GetGuildConfig(context, guild.Id);
+        var config = GetGuildConfig(context, guild);
         return config != null ? guild.TextChannels.FirstOrDefault(x => x.Id == config.LogChannel) : null;
     }
     
     public static SocketTextChannel GetLiveChannel(this PhipseyyDbContext context, SocketGuild guild)
     {
-        var config = GetGuildConfig(context, guild.Id);
+        var config = GetGuildConfig(context, guild);
         return config != null ? guild.TextChannels.FirstOrDefault(x => x.Id == config.LiveChannel) : null;
     }
     
     public static SocketTextChannel GetPartnerChannel(this PhipseyyDbContext context, SocketGuild guild)
     {
-        var config = GetGuildConfig(context, guild.Id);
+        var config = GetGuildConfig(context, guild);
         return config != null ? guild.TextChannels.FirstOrDefault(x => x.Id == config.PartnerChannel) : null;
     }
 
@@ -74,26 +74,26 @@ public static class GuildExtensions
     
     public static async Task<string> GetMainStreamNotification(
         this PhipseyyDbContext context,
-        ulong guildId)
+        SocketGuild guild)
     {
-        var config = GetGuildConfig(context, guildId);
+        var config = GetGuildConfig(context, guild);
         return config != null ? config.MainStreamNotification : null;
     }
     
     public static async Task<string> GetPartnerStreamNotification(
         this PhipseyyDbContext context,
-        ulong guildId)
+        SocketGuild guild)
     {
-        var config = GetGuildConfig(context, guildId);
+        var config = GetGuildConfig(context, guild);
         return config != null ? config.PartnerStreamNotification : null;
     }
     
     public static async Task SetMainStreamNotification(
         this PhipseyyDbContext context,
-        ulong guildId,
+        SocketGuild guild,
         string notification)
     {
-        var config = GetGuildConfig(context, guildId);
+        var config = GetGuildConfig(context, guild);
         if (config != null)
         {
             config.MainStreamNotification = notification;
@@ -103,10 +103,10 @@ public static class GuildExtensions
     
     public static async Task SetPartnerStreamNotification(
         this PhipseyyDbContext context,
-        ulong guildId,
+        SocketGuild guild,
         string notification)
     {
-        var config = GetGuildConfig(context, guildId);
+        var config = GetGuildConfig(context, guild);
         if (config != null)
         {
             config.PartnerStreamNotification = notification;

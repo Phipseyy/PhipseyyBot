@@ -151,7 +151,7 @@ public class PubSubService
     
     private void PubSubOnOnRewardRedeemed(object sender, OnRewardRedeemedArgs e)
     {
-        var currentConfig = _dbContext.GetMainStreamOfChannel(e.ChannelId);
+        var currentConfig = _dbContext.GetMainStreamGuildOfChannel(e.ChannelId);
         
         if (e.RewardId.ToString() == currentConfig.SpotifySr && e.Status == "UNFULFILLED")
         {
@@ -163,7 +163,7 @@ public class PubSubService
     
     private void PubSub_OnChannelPointsRewardRedeemed(object sender, OnChannelPointsRewardRedeemedArgs e)
     {
-        var currentConfig = _dbContext.GetMainStreamOfChannel(e.ChannelId);
+        var currentConfig = _dbContext.GetMainStreamGuildOfChannel(e.ChannelId);
         
         if (e.RewardRedeemed.Redemption.Reward.Id.Equals(currentConfig.SpotifySr))
         {

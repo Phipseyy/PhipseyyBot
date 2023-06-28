@@ -131,7 +131,7 @@ public class SpotifyCommands : InteractionModuleBase<SocketInteractionContext>
             Name = "4. Done",
             Value = "You've set up your Application properly now!\n" +
                     "Now you're perfectly set to add your Spotify Account!\n" +
-                    "Use /spotify set-account again with your Client-ID and Client-Secret"
+                    "Use ``/spotify set-account`` again with your Client-ID and Client-Secret"
         };
         embed.AddField(grabCreds);
 

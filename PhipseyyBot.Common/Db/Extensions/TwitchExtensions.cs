@@ -1,6 +1,8 @@
 ﻿#nullable disable
+using Discord.WebSocket;
 using PhipseyyBot.Common.Db.Models;
 using PhipseyyBot.Common.Modules;
+using PhipseyyBot.Common.Services;
 
 namespace PhipseyyBot.Common.Db.Extensions;
 
@@ -25,14 +27,21 @@ public static class TwitchExtensions
         return context.TwitchConfigs.Where(config => config.GuildId == guildId).ToList();
     }
 
-    public static TwitchConfig GetMainStreamOfGuild(
+    public static TwitchConfig GetTwitchConfig(
         this PhipseyyDbContext context,
-        ulong guildId)
+        SocketGuild guild)
     {
-        return context.TwitchConfigs.FirstOrDefault(config => config.GuildId == guildId && config.MainStream);
+        return context.TwitchConfigs.FirstOrDefault(config => config.GuildId == guild.Id);
     }
 
-    public static TwitchConfig GetMainStreamOfChannel(
+    public static TwitchConfig GetMainStreamOfGuild(
+        this PhipseyyDbContext context,
+        SocketGuild guild)
+    {
+        return context.TwitchConfigs.FirstOrDefault(config => config.GuildId == guild.Id && config.MainStream);
+    }
+
+    public static TwitchConfig GetMainStreamGuildOfChannel(
         this PhipseyyDbContext context,
         string channelId)
     {
@@ -139,10 +148,10 @@ public static class TwitchExtensions
 
     public static async void SetSongRequestForStream(
         this PhipseyyDbContext context,
-        ulong guildId,
+        SocketGuild guild,
         string rewardId)
     {
-        var config = context.GetMainStreamOfGuild(guildId);
+        var config = context.GetMainStreamOfGuild(guild);
         config.SpotifySr = rewardId;
 
         await context.SaveChangesAsync();

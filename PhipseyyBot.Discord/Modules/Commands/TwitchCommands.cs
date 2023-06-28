@@ -57,7 +57,7 @@ public class TwitchCommands : InteractionModuleBase<SocketInteractionContext>
             return;
         }
 
-        var mainStream = dbContext.GetMainStreamOfGuild(Context.Guild.Id);
+        var mainStream = dbContext.GetMainStreamOfGuild(Context.Guild);
         if (mainStream != null && twitchName.Equals(mainStream.Username))
         {
             await RespondAsync(embed: Context.Client.GetErrorEmbed("Cannot unfollow Main Streamer",
@@ -72,163 +72,195 @@ public class TwitchCommands : InteractionModuleBase<SocketInteractionContext>
                 ephemeral: true);
         }
     }
+    
 
-
-    [SlashCommand("main-streamer", "Sets the main Stream for this Server")]
-    public async Task SetStreamCommand(string twitchName)
+    [Group("set", "Set stuff")]
+    public class SetSettings : InteractionModuleBase<SocketInteractionContext>
     {
-        var dbContext = DbService.GetDbContext();
-        if (dbContext.SetMainStream(Context.Guild.Id, twitchName).Result)
-            await RespondAsync(
-                embed: SuccessEmbed.GetSuccessEmbed(Context.Client, "Main Streamer Set",
-                    $"Main streamer has been set to ``{twitchName}``"), ephemeral: true);
-        else
-            await RespondAsync(embed: Context.Client.GetErrorEmbed("Could not set main streamer",
-                $"``{twitchName}`` is already the Main Stream from another Server"), ephemeral: true);
-    }
-
-    [RequireOwner]
-    [SlashCommand("debug-main", "[Owner] Debug twitch embed")]
-    public async Task TwitchDebugMainEmbedCommand(string name)
-    {
-        var creds = new BotCredsProvider().GetCreds();
-        var dbContext = DbService.GetDbContext();
-        var id = TwitchConverter.GetTwitchIdFromName(name);
-
-        var api = new TwitchAPI
+        [SlashCommand("main-streamer", "Sets the main Stream for this Server")]
+        public async Task SetStreamCommand(string twitchName)
         {
-            Settings =
-            {
-                AccessToken = creds.TwitchAccessToken,
-                ClientId = creds.TwitchClientId
-            }
-        };
-
-        var guildConfig = dbContext.GetGuildConfig(Context.Guild.Id);
-
-        var usersData = api.Helix.Channels.GetChannelInformationAsync(id, creds.TwitchAccessToken).Result.Data
-            .SingleOrDefault(x => x.BroadcasterId == id);
-        var user = api.Helix.Search.SearchChannelsAsync(usersData!.BroadcasterName).Result.Channels
-            .SingleOrDefault(x => x.DisplayName == usersData.BroadcasterName);
-        var twitchData = new TwitchStreamData(user!.DisplayName,
-            user.Id,
-            user.Title,
-            user.ThumbnailUrl,
-            user.GameName,
-            user.StartedAt);
-
-        await RespondAsync("Done");
-        await DeleteOriginalResponseAsync();
-        await ReplyAsync(
-            text: TwitchStringHelper.ParseTwitchNotification(guildConfig.MainStreamNotification, twitchData),
-            embed: twitchData.GetDiscordEmbed());
-    }
-
-    [RequireOwner]
-    [SlashCommand("debug-partner", "[Owner] Debug twitch embed")]
-    public async Task TwitchDebugPartnerEmbedCommand(string name)
-    {
-        var creds = new BotCredsProvider().GetCreds();
-        var dbContext = DbService.GetDbContext();
-        var id = TwitchConverter.GetTwitchIdFromName(name);
-
-        var api = new TwitchAPI
-        {
-            Settings =
-            {
-                AccessToken = creds.TwitchAccessToken,
-                ClientId = creds.TwitchClientId
-            }
-        };
-
-        var guildConfig = dbContext.GetGuildConfig(Context.Guild.Id);
-
-        var usersData = api.Helix.Channels.GetChannelInformationAsync(id, creds.TwitchAccessToken).Result.Data
-            .SingleOrDefault(x => x.BroadcasterId == id);
-        var user = api.Helix.Search.SearchChannelsAsync(usersData!.BroadcasterName).Result.Channels
-            .SingleOrDefault(x => x.DisplayName == usersData.BroadcasterName);
-        var twitchData = new TwitchStreamData(user!.DisplayName,
-            user.Id,
-            user.Title,
-            user.ThumbnailUrl,
-            user.GameName,
-            user.StartedAt);
-
-        await RespondAsync("Done");
-        await DeleteOriginalResponseAsync();
-        await ReplyAsync(
-            text: TwitchStringHelper.ParseTwitchNotification(guildConfig.PartnerStreamNotification, twitchData),
-            embed: twitchData.GetDiscordEmbed());
-    }
-
-
-    [SlashCommand("set-sr-reward", "Adds a Twitch Reward for the Song Requests")]
-    public async Task SetSongRequestRewardCommand()
-    {
-        var creds = new BotCredsProvider().GetCreds();
-        var dbContext = DbService.GetDbContext();
-        var config = dbContext.GetMainStreamOfGuild(Context.Guild.Id);
-
-        var api = new TwitchAPI
-        {
-            Settings =
-            {
-                ClientId = creds.TwitchAppClientId,
-                Secret = creds.TwitchAppClientSecret,
-                Scopes = new List<AuthScopes>
-                    { AuthScopes.Helix_Channel_Manage_Redemptions, AuthScopes.Helix_Channel_Read_Redemptions }
-            }
-        };
-
-        var server = new HttpServer();
-        server.EndPoint = new IPEndPoint(IPAddress.Loopback, 9000);
-
-        var authUrl = api.Auth.GetAuthorizationCodeUrl($"https://{creds.ServerIp}/callback/twitch",
-            new[] { AuthScopes.Helix_Channel_Manage_Redemptions, AuthScopes.Helix_Channel_Read_Redemptions });
-
-
-        await RespondAsync(embed: Context.Client.GetAuthEmbed(authUrl), ephemeral: true);
-
-        server.RequestReceived += async (_, args) =>
-        {
-            if (!args.Request.QueryString.AllKeys.Any("code".Contains!)) return;
-            var authCode = args.Request.QueryString["code"];
-            var authToken = await api.Auth.GetAccessTokenFromCodeAsync(authCode, creds.TwitchAppClientSecret,
-                $"https://{creds.ServerIp}/callback/twitch", creds.TwitchAppClientId);
-            var rewardsList =
-                await api.Helix.ChannelPoints.GetCustomRewardAsync(config.ChannelId,
-                    accessToken: authToken.AccessToken);
-
-            var fittingRewards = rewardsList.Data.Where(reward => reward.IsUserInputRequired).ToArray();
-
-            var menuBuilder = new SelectMenuBuilder()
-                .WithPlaceholder("Rewards")
-                .WithCustomId("rew-menu");
-
-            foreach (var reward in fittingRewards)
-            {
-                var option = new SelectMenuOptionBuilder
-                {
-                    Label = reward.Title,
-                    Value = reward.Id
-                };
-                menuBuilder.AddOption(option);
-            }
-
-            if (fittingRewards.Length > 0)
-            {
-                var builder = new ComponentBuilder().WithSelectMenu(menuBuilder);
-                var name = fittingRewards[0].BroadcasterName;
-                await ReplyAsync($"Fitting rewards for ``{name}``:", components: builder.Build());
-            }
+            var dbContext = DbService.GetDbContext();
+            if (dbContext.SetMainStream(Context.Guild.Id, twitchName).Result)
+                await RespondAsync(
+                    embed: SuccessEmbed.GetSuccessEmbed(Context.Client, "Main Streamer Set",
+                        $"Main streamer has been set to ``{twitchName}``"), ephemeral: true);
             else
-            {
-                await ReplyAsync("No fitting rewards were found!\n" +
-                                 "Make sure to have at least 1 custom reward with an text-input!");
-            }
+                await RespondAsync(embed: Context.Client.GetErrorEmbed("Could not set main streamer",
+                    $"``{twitchName}`` is already the Main Stream from another Server"), ephemeral: true);
+        }
+        
+        [SlashCommand("sr-reward", "Adds a Twitch Reward for the Song Requests")]
+        public async Task SetSongRequestRewardCommand()
+        {
+            var creds = new BotCredsProvider().GetCreds();
+            var dbContext = DbService.GetDbContext();
+            var config = dbContext.GetMainStreamOfGuild(Context.Guild);
 
-            server.Stop();
-        };
-        server.Start();
+            var api = new TwitchAPI
+            {
+                Settings =
+                {
+                    ClientId = creds.TwitchAppClientId,
+                    Secret = creds.TwitchAppClientSecret,
+                    Scopes = new List<AuthScopes>
+                        { AuthScopes.Helix_Channel_Manage_Redemptions, AuthScopes.Helix_Channel_Read_Redemptions }
+                }
+            };
+
+            var server = new HttpServer();
+            server.EndPoint = new IPEndPoint(IPAddress.Loopback, 9000);
+
+            var authUrl = api.Auth.GetAuthorizationCodeUrl($"https://{creds.ServerIp}/callback/twitch",
+                new[] { AuthScopes.Helix_Channel_Manage_Redemptions, AuthScopes.Helix_Channel_Read_Redemptions });
+
+
+            await RespondAsync(embed: Context.Client.GetAuthEmbed(authUrl), ephemeral: true);
+
+            server.RequestReceived += async (_, args) =>
+            {
+                if (!args.Request.QueryString.AllKeys.Any("code".Contains!)) return;
+                var authCode = args.Request.QueryString["code"];
+                var authToken = await api.Auth.GetAccessTokenFromCodeAsync(authCode, creds.TwitchAppClientSecret,
+                    $"https://{creds.ServerIp}/callback/twitch", creds.TwitchAppClientId);
+                var rewardsList =
+                    await api.Helix.ChannelPoints.GetCustomRewardAsync(config.ChannelId,
+                        accessToken: authToken.AccessToken);
+
+                var fittingRewards = rewardsList.Data.Where(reward => reward.IsUserInputRequired).ToArray();
+
+                var menuBuilder = new SelectMenuBuilder()
+                    .WithPlaceholder("Rewards")
+                    .WithCustomId("rew-menu");
+
+                foreach (var reward in fittingRewards)
+                {
+                    var option = new SelectMenuOptionBuilder
+                    {
+                        Label = reward.Title,
+                        Value = reward.Id
+                    };
+                    menuBuilder.AddOption(option);
+                }
+
+                if (fittingRewards.Length > 0)
+                {
+                    var builder = new ComponentBuilder().WithSelectMenu(menuBuilder);
+                    var name = fittingRewards[0].BroadcasterName;
+                    await ReplyAsync($"Fitting rewards for ``{name}``:", components: builder.Build());
+                }
+                else
+                {
+                    await ReplyAsync("No fitting rewards were found!\n" +
+                                     "Make sure to have at least 1 custom reward with an text-input!");
+                }
+
+                server.Stop();
+            };
+            server.Start();
+        }
+    }
+    
+    [Group("notification", "Set stuff")]
+    public class SetNotificationSettings : InteractionModuleBase<SocketInteractionContext>
+    {
+        [SlashCommand("main-channel", "Changes the message for main live notifications")]
+        public async Task SetLiveChannelMessageCommand(string message)
+        {
+            var dbService = DbService.GetDbContext();
+            await dbService.SetMainStreamNotification(Context.Guild, message);
+
+            await dbService.SaveChangesAsync();
+            await RespondAsync(
+                text: "Changed the Live Notification Message!", ephemeral: true);
+        }
+            
+        [SlashCommand("partner-channel", "Changes the message for partner live notifications")]
+        public async Task SetPartnerChannelMessageCommand(string message)
+        {
+            var dbService = DbService.GetDbContext();
+            await dbService.SetPartnerStreamNotification(Context.Guild, message);
+
+            await dbService.SaveChangesAsync();
+            await RespondAsync(
+                text: "Changed the Live Notification Message!", ephemeral: true);
+        }
+    }
+
+    [RequireOwner]
+    [Group("debug", "Debugging")]
+    public class ResetSettings : InteractionModuleBase<SocketInteractionContext>
+    {
+        [SlashCommand("main-notification", "[Owner] Debug twitch embed")]
+        public async Task TwitchDebugMainEmbedCommand(string name)
+        {
+            var creds = new BotCredsProvider().GetCreds();
+            var dbContext = DbService.GetDbContext();
+            var id = TwitchConverter.GetTwitchIdFromName(name);
+
+            var api = new TwitchAPI
+            {
+                Settings =
+                {
+                    AccessToken = creds.TwitchAccessToken,
+                    ClientId = creds.TwitchClientId
+                }
+            };
+
+            var guildConfig = dbContext.GetGuildConfig(Context.Guild);
+
+            var usersData = api.Helix.Channels.GetChannelInformationAsync(id, creds.TwitchAccessToken).Result.Data
+                .SingleOrDefault(x => x.BroadcasterId == id);
+            var user = api.Helix.Search.SearchChannelsAsync(usersData!.BroadcasterName).Result.Channels
+                .SingleOrDefault(x => x.DisplayName == usersData.BroadcasterName);
+            var twitchData = new TwitchStreamData(user!.DisplayName,
+                user.Id,
+                user.Title,
+                user.ThumbnailUrl,
+                user.GameName,
+                user.StartedAt);
+
+            await RespondAsync("Done");
+            await DeleteOriginalResponseAsync();
+            await ReplyAsync(
+                text: TwitchStringHelper.ParseTwitchNotification(guildConfig.MainStreamNotification, twitchData),
+                embed: twitchData.GetDiscordEmbed());
+        }
+
+        [SlashCommand("partner-notification", "[Owner] Debug twitch embed")]
+        public async Task TwitchDebugPartnerEmbedCommand(string name)
+        {
+            var creds = new BotCredsProvider().GetCreds();
+            var dbContext = DbService.GetDbContext();
+            var id = TwitchConverter.GetTwitchIdFromName(name);
+
+            var api = new TwitchAPI
+            {
+                Settings =
+                {
+                    AccessToken = creds.TwitchAccessToken,
+                    ClientId = creds.TwitchClientId
+                }
+            };
+
+            var guildConfig = dbContext.GetGuildConfig(Context.Guild);
+
+            var usersData = api.Helix.Channels.GetChannelInformationAsync(id, creds.TwitchAccessToken).Result.Data
+                .SingleOrDefault(x => x.BroadcasterId == id);
+            var user = api.Helix.Search.SearchChannelsAsync(usersData!.BroadcasterName).Result.Channels
+                .SingleOrDefault(x => x.DisplayName == usersData.BroadcasterName);
+            var twitchData = new TwitchStreamData(user!.DisplayName,
+                user.Id,
+                user.Title,
+                user.ThumbnailUrl,
+                user.GameName,
+                user.StartedAt);
+
+            await RespondAsync("Done");
+            await DeleteOriginalResponseAsync();
+            await ReplyAsync(
+                text: TwitchStringHelper.ParseTwitchNotification(guildConfig.PartnerStreamNotification, twitchData),
+                embed: twitchData.GetDiscordEmbed());
+        }
     }
 }
