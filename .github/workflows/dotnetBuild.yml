@@ -21,7 +21,7 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v2
       with:
-        dotnet-version: 6.0.x
+        dotnet-version: 7.0.x
       
     - name: Restore dependencies
       run: dotnet restore
@@ -42,13 +42,13 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: Artifact_linux-x64
-        path: /home/runner/work/PhipseyyBot/PhipseyyBot/PhipseyyBot/bin/Debug/net6.0/linux-arm64/publish/
+        path: /home/runner/work/PhipseyyBot/PhipseyyBot/PhipseyyBot/bin/Debug/net7.0/linux-arm64/publish/
         
     - name: Upload Build Win-X64 Artifact
       uses: actions/upload-artifact@v2
       with:
         name: Artifact_win-x64
-        path: /home/runner/work/PhipseyyBot/PhipseyyBot/PhipseyyBot/bin/Debug/net6.0/win-x64/publish/
+        path: /home/runner/work/PhipseyyBot/PhipseyyBot/PhipseyyBot/bin/Debug/net7.0/win-x64/publish/
 
 
   release-bot:
