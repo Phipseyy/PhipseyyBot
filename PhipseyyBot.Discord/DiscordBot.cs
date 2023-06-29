@@ -164,16 +164,16 @@ public class DiscordBot
     {
         foreach (var guild in DcClient.Guilds)
         {
-            var twitchConfig = _dbContext.GetTwitchConfig(guild);
-            var isMainStream = twitchConfig != null && twitchConfig == _dbContext.GetMainStreamOfGuild(guild);
-            
+            var currentConfig = _dbContext.GetTwitchConfigForStream(guild, streamData);
+            var isMainStream = currentConfig != null && currentConfig.Equals(_dbContext.GetMainStreamOfGuild(guild));
+
             var guildConfig = _dbContext.GetGuildConfig(guild);
-            if (guildConfig == null) continue;
-            if (twitchConfig == null) continue;
+            if (guildConfig == null || currentConfig == null) 
+                continue;
 
             try
             {
-                var liveChannel = _dbContext.GetLiveChannel(guild); 
+                var liveChannel = _dbContext.GetLiveChannel(guild);
                 var partnerChannel = _dbContext.GetPartnerChannel(guild);
 
                 if (isMainStream && liveChannel != null)
@@ -189,7 +189,8 @@ public class DiscordBot
                     await Task.Run(()
                         => partnerChannel.SendMessageAsync(
                             text:
-                            TwitchStringHelper.ParseTwitchNotification(guildConfig.PartnerStreamNotification, streamData),
+                            TwitchStringHelper.ParseTwitchNotification(guildConfig.PartnerStreamNotification,
+                                streamData),
                             embed: streamData.GetDiscordEmbed()));
                 }
             }
@@ -232,7 +233,7 @@ public class DiscordBot
         if (spotifyConfig != null && twitchConfig != null)
         {
             PubSubService.AddSpotifyClient(guild);
-            PubSubService.StartSpotifyForGuild(guild.Id);    
+            PubSubService.StartSpotifyForGuild(guild.Id);
         }
 
         LogDiscord($"Done starting Services for {guild.Name}");

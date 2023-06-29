@@ -34,6 +34,15 @@ public static class TwitchExtensions
         return context.TwitchConfigs.FirstOrDefault(config => config.GuildId == guild.Id);
     }
 
+    public static TwitchConfig GetTwitchConfigForStream(
+        this PhipseyyDbContext context,
+        SocketGuild guild,
+        TwitchStreamData streamData)
+    {
+        return context.TwitchConfigs.FirstOrDefault(config =>
+            config.GuildId == guild.Id && config.ChannelId == streamData.ChannelId);
+    }
+
     public static TwitchConfig GetMainStreamOfGuild(
         this PhipseyyDbContext context,
         SocketGuild guild)

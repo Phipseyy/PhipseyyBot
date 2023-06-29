@@ -60,7 +60,7 @@ public class SettingsCommands : InteractionModuleBase<SocketInteractionContext>
                 $"Is currently running: {isSpotifyActiveEmoji}\n" +
                 $"Account: {PubSubService.GetSpotifyUsername(Context.Guild.Id)}");
         else
-            embed.AddField("Spotify", "No account found, add your Spotify account with /spotify set-account" +
+            embed.AddField("Spotify", "No account found, add your Spotify account with ``/spotify set-account``" +
                                       "\n*Note that Spotify Premium is required to use the Song-Requests feature!*");
 
         embed.AddField("PubSub-Service", $"Online Status: {isPubSubActiveEmoji}"); 

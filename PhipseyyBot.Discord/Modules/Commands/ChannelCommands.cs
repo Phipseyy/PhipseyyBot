@@ -45,17 +45,15 @@ public class ChannelCommands: InteractionModuleBase<SocketInteractionContext>
         }
 
         [SlashCommand("partner-channel", "Changes the partner channel for live notifications")]
-        public async Task SetPartnerChannelCommand(SocketTextChannel? channel = null)
+        public async Task SetPartnerChannelCommand([ChannelTypes(ChannelType.News, ChannelType.Text)] IGuildChannel channel)
         {
-            var partnerChannel = channel?.Id ?? Context.Channel.Id;
-        
             var dbService = DbService.GetDbContext();
             var guildConfig = dbService.GetGuildConfig(Context.Guild);
-            guildConfig.PartnerChannel = partnerChannel;
+            guildConfig.PartnerChannel = channel.Id;
 
             await dbService.SaveChangesAsync();
             await RespondAsync(
-                text: $"Changed the Partner Live Notification channel to <#{partnerChannel}>", ephemeral: true);
+                text: $"Changed the Partner Live Notification channel to <#{channel.Id}>", ephemeral: true);
         }
 
     }

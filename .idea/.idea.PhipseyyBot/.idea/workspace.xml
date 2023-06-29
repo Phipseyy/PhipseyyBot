@@ -11,23 +11,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d07b2e5e-ae2c-44a2-b23d-765c3f6e2b0d" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/PhipseyyBot.Discord/Modules/Commands/ChannelCommands.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/global.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.PhipseyyBot/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.PhipseyyBot/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PhipseyyBot.Common/Const.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Common/Const.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PhipseyyBot.Common/Db/Extensions/GuildExtensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Common/Db/Extensions/GuildExtensions.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/PhipseyyBot.Common/Db/Extensions/TwitchExtensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Common/Db/Extensions/TwitchExtensions.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PhipseyyBot.Common/Embeds/ErrorEmbed.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Common/Embeds/ErrorEmbed.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PhipseyyBot.Common/Embeds/InfoEmbed.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Common/Embeds/InfoEmbed.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PhipseyyBot.Common/Modules/PhipseyyLogger.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Common/Modules/PhipseyyLogger.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PhipseyyBot.Common/PhipseyyBot.Common.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Common/PhipseyyBot.Common.csproj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/PhipseyyBot.Discord/DiscordBot.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Discord/DiscordBot.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PhipseyyBot.Discord/Modules/Commands/ClearChannel.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/PhipseyyBot.Discord/Modules/Commands/HelpSettings.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Discord/Modules/Commands/HelpSettings.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PhipseyyBot.Discord/Modules/Commands/Owner/EditStatus.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/PhipseyyBot.Discord/Modules/Commands/ChannelCommands.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Discord/Modules/Commands/ChannelCommands.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/PhipseyyBot.Discord/Modules/Commands/SettingsCommands.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Discord/Modules/Commands/SettingsCommands.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PhipseyyBot.Discord/Modules/Commands/SpotifyCommands.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Discord/Modules/Commands/SpotifyCommands.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PhipseyyBot.Discord/Modules/Commands/TwitchCommands.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Discord/Modules/Commands/TwitchCommands.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PhipseyyBot.Discord/Services/PubSub/PubSubService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Discord/Services/PubSub/PubSubService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PhipseyyBot.Discord/Services/SetupService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Discord/Services/SetupService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PhipseyyBot.Discord/PhipseyyBot.Discord.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Discord/PhipseyyBot.Discord.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PhipseyyBot.Spotify/PhipseyyBot.Spotify.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Spotify/PhipseyyBot.Spotify.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PhipseyyBot.Twitch/PhipseyyBot.Twitch.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Twitch/PhipseyyBot.Twitch.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PhipseyyBot/PhipseyyBot.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot/PhipseyyBot.csproj" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -106,7 +100,7 @@
       <method v="2" />
     </configuration>
     <configuration name="Linux_x64" type="DotNetFolderPublish" factoryName="Publish to folder">
-      <riderPublish configuration="Release" include_native_libs_for_self_extract="true" platform="Any CPU" produce_single_file="true" ready_to_run="true" runtime="linux-x64" self_contained="true" target_folder="$PROJECT_DIR$/PhipseyyBot/bin/Release/net6.0/linux-x64/publish" target_framework="net6.0" uuid_high="-1040439771279505975" uuid_low="-8205726054510734385" />
+      <riderPublish configuration="Release" include_native_libs_for_self_extract="true" platform="Any CPU" produce_single_file="true" ready_to_run="true" runtime="linux-x64" self_contained="true" target_folder="$PROJECT_DIR$/PhipseyyBot/bin/Release/net7.0/linux-x64/publish" target_framework="net7.0" uuid_high="-1040439771279505975" uuid_low="-8205726054510734385" />
       <method v="2" />
     </configuration>
     <configuration name="Windows" type="DotNetFolderPublish" factoryName="Publish to folder">
@@ -575,18 +569,6 @@
           <option name="timeStamp" value="1" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/PhipseyyBot.Common/Db/Extensions/TwitchExtensions.cs</url>
-          <line>100</line>
-          <properties documentPath="E:\Programmierung\Visual Studio\PhipseyyBot\PhipseyyBot.Common\Db\Extensions\TwitchExtensions.cs" initialLine="91" containingFunctionPresentation="method 'SetMainStream'" />
-          <option name="timeStamp" value="4" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/PhipseyyBot.Common/Db/Extensions/TwitchExtensions.cs</url>
-          <line>109</line>
-          <properties documentPath="E:\Programmierung\Visual Studio\PhipseyyBot\PhipseyyBot.Common\Db\Extensions\TwitchExtensions.cs" initialLine="100" containingFunctionPresentation="method 'SetMainStream'" />
-          <option name="timeStamp" value="5" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/PhipseyyBot.Discord/Modules/Commands/TwitchCommands.cs</url>
           <line>27</line>
           <properties documentPath="E:\Programmierung\Visual Studio\PhipseyyBot\PhipseyyBot.Discord\Modules\Commands\TwitchCommands.cs" initialLine="27" containingFunctionPresentation="method 'FollowStreamCommand'" />
@@ -594,37 +576,22 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/PhipseyyBot.Common/Db/Extensions/TwitchExtensions.cs</url>
-          <line>63</line>
+          <line>72</line>
           <properties documentPath="E:\Programmierung\Visual Studio\PhipseyyBot\PhipseyyBot.Common\Db\Extensions\TwitchExtensions.cs" initialLine="54" containingFunctionPresentation="method 'FollowStream'" />
           <option name="timeStamp" value="14" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/PhipseyyBot.Discord/Services/PubSub/PubSubService.cs</url>
-          <line>122</line>
-          <properties documentPath="C:\Projekte\Privat\PhipseyyBot\PhipseyyBot.Discord\Services\PubSub\PubSubService.cs" initialLine="122" containingFunctionPresentation="Method 'PubSub_OnStreamUp'">
+          <url>file://$PROJECT_DIR$/PhipseyyBot.Discord/DiscordBot.cs</url>
+          <line>169</line>
+          <properties documentPath="E:\Development\PhipseyyBot\PhipseyyBot.Discord\DiscordBot.cs" initialLine="171" containingFunctionPresentation="Method 'SendStreamNotification'">
             <startOffsets>
-              <option value="4100" />
+              <option value="5421" />
             </startOffsets>
             <endOffsets>
-              <option value="4137" />
+              <option value="5472" />
             </endOffsets>
           </properties>
-          <option name="timeStamp" value="17" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/PhipseyyBot.Common/Db/Extensions/TwitchExtensions.cs</url>
-          <line>33</line>
-          <properties documentPath="C:\Projekte\Privat\PhipseyyBot\PhipseyyBot.Common\Db\Extensions\TwitchExtensions.cs" initialLine="34" containingFunctionPresentation="Method 'GetTwitchConfig'">
-            <startOffsets>
-              <option value="999" />
-              <option value="1053" />
-            </startOffsets>
-            <endOffsets>
-              <option value="1081" />
-              <option value="1079" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="18" />
+          <option name="timeStamp" value="21" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
