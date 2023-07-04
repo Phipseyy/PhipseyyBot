@@ -164,10 +164,16 @@ public class DiscordBot
     {
         foreach (var guild in DcClient.Guilds)
         {
-            var currentConfig = _dbContext.GetTwitchConfigForStream(guild, streamData);
-            var isMainStream = currentConfig != null && currentConfig.Equals(_dbContext.GetMainStreamOfGuild(guild));
+            //var currentConfig = _dbContext.GetTwitchConfigForStream(guild, streamData);
+            //var isMainStream = currentConfig != null && currentConfig.Equals(_dbContext.GetMainStreamOfGuild(guild));
+            //var guildConfig = _dbContext.GetGuildConfig(guild);
+            
+            var currentConfig = _dbContext.TwitchConfigs.FirstOrDefault(config =>
+                config.GuildId == guild.Id && config.ChannelId == streamData.ChannelId);
+            var isMainStream = currentConfig != null && currentConfig.ChannelId == streamData.ChannelId && currentConfig.MainStream;
 
             var guildConfig = _dbContext.GetGuildConfig(guild);
+            
             if (guildConfig == null || currentConfig == null) 
                 continue;
 
