@@ -11,17 +11,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d07b2e5e-ae2c-44a2-b23d-765c3f6e2b0d" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/global.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.PhipseyyBot/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.PhipseyyBot/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PhipseyyBot.Common/Db/Extensions/TwitchExtensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Common/Db/Extensions/TwitchExtensions.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PhipseyyBot.Common/PhipseyyBot.Common.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Common/PhipseyyBot.Common.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PhipseyyBot.Discord/DiscordBot.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Discord/DiscordBot.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PhipseyyBot.Discord/Modules/Commands/ChannelCommands.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Discord/Modules/Commands/ChannelCommands.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PhipseyyBot.Discord/Modules/Commands/SettingsCommands.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Discord/Modules/Commands/SettingsCommands.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PhipseyyBot.Discord/PhipseyyBot.Discord.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Discord/PhipseyyBot.Discord.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PhipseyyBot.Spotify/PhipseyyBot.Spotify.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Spotify/PhipseyyBot.Spotify.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PhipseyyBot.Twitch/PhipseyyBot.Twitch.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Twitch/PhipseyyBot.Twitch.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PhipseyyBot/PhipseyyBot.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot/PhipseyyBot.csproj" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,12 +28,12 @@
     <option name="UPDATE_TYPE" value="REBASE" />
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/e5ba731c8a4f41d7a392a32574f6226d14a00/08/96d5fce2/TwitchPubSub.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/e5ba731c8a4f41d7a392a32574f6226d14a00/30/f35a7092/OnLogArgs.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/b9ec86353372ef6d4b862ec3552934310c2b674b5b263f7ee508468e028ab84/EventArgs.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/PhipseyyBot.Common/BotCredentials.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock://E:/Development/PhipseyyBot/PhipseyyBot.Common/Db/Extensions/TwitchExtensions.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/PhipseyyBot.Common/Embeds/SuccessEmbed.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock://E:/Development/PhipseyyBot/PhipseyyBot.Discord/DiscordBot.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/PhipseyyBot.Discord/DiscordBot.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock://E:/Development/PhipseyyBot/PhipseyyBot.Discord/Modules/Commands/SettingsCommands.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/PhipseyyBot.Discord/Services/SetupService.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
@@ -514,7 +504,15 @@
       <option name="project" value="LOCAL" />
       <updated>1677592965652</updated>
     </task>
-    <option name="localTasksCounter" value="30" />
+    <task id="LOCAL-00030" summary="Updated to .NET 7 and Plugins&#10;Fixed stream notifications&#10;Text Adjusments">
+      <option name="closed" value="true" />
+      <created>1688043036806</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1688043036806</updated>
+    </task>
+    <option name="localTasksCounter" value="31" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -557,7 +555,8 @@
     <MESSAGE value="Reverted encryption changes" />
     <MESSAGE value="Added support to separate main and partner channel" />
     <MESSAGE value="Added custom live message support" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added custom live message support" />
+    <MESSAGE value="Updated to .NET 7 and Plugins&#10;Fixed stream notifications&#10;Text Adjusments" />
+    <option name="LAST_COMMIT_MESSAGE" value="Updated to .NET 7 and Plugins&#10;Fixed stream notifications&#10;Text Adjusments" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
