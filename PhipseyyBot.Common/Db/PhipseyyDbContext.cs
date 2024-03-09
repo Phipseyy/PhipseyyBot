@@ -1,6 +1,8 @@
 ﻿#nullable disable
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using PhipseyyBot.Common.Db.Models;
+using Swan;
 
 
 namespace PhipseyyBot.Common.Db;
@@ -8,11 +10,18 @@ namespace PhipseyyBot.Common.Db;
 public class PhipseyyDbContext : DbContext
 {
     private readonly string _dbPath = AppContext.BaseDirectory + "DB/PhipseyyBot.db";
-    public DbSet<GuildConfig> GuildConfigs { get; set; }
-    public DbSet<SpotifyConfig> SpotifyConfigs { get; set; }
-    public DbSet<TwitchConfig> TwitchConfigs { get; set; }
+    public virtual DbSet<GuildConfig> GuildConfigs { get; set; }
+    public virtual DbSet<SpotifyConfig> SpotifyConfigs { get; set; }
+    public virtual DbSet<TwitchConfig> TwitchConfigs { get; set; }
+
 
     public PhipseyyDbContext()
+    {
+        if (!Directory.Exists(Path.GetDirectoryName(_dbPath)))
+            Directory.CreateDirectory(Path.GetDirectoryName(_dbPath) ?? throw new InvalidOperationException());
+    }
+    
+    public PhipseyyDbContext(DbContextOptions<PhipseyyDbContext> dbContextOptions = null)
     {
         if (!Directory.Exists(Path.GetDirectoryName(_dbPath)))
             Directory.CreateDirectory(Path.GetDirectoryName(_dbPath) ?? throw new InvalidOperationException());
@@ -20,6 +29,8 @@ public class PhipseyyDbContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder options)
     {
-        options.UseSqlite($"Data Source={_dbPath}");
+        options.UseSqlite($"Data Source={_dbPath}", x => { x.MigrationsAssembly("PhipseyyBot.Common"); });
+        base.OnConfiguring(options);
+        
     }
 }

@@ -23,8 +23,8 @@ public class PubSubService
     private static TwitchPubSub _pubSub;
     private static IBotCredentials _creds;
     public static bool IsConnected { get; private set; }
-    
-    
+
+
     public PubSubService(DiscordBot discordBot, IServiceProvider serviceProvider)
     {
         _dbContext = serviceProvider.GetRequiredService<PhipseyyDbContext>();
@@ -44,35 +44,35 @@ public class PubSubService
         _pubSub.OnChannelPointsRewardRedeemed += PubSub_OnChannelPointsRewardRedeemed;
         _pubSub.OnLog += PubSub_OnLog;
         _pubSub.OnPubSubServiceError += PubSub_OnPubSubServiceError;
-        
+
         _pubSub.Connect();
-        
+
         await Task.Delay(-1);
     }
 
 
     /* --- Helpers --- */
     private static void LogTwitchPubSub(string message)
-    {  
+    {
         Log.Information($"[TwitchPubSub] {Now:HH:mm:ss} {message}");
-        
+
         if (message.Contains("RECONNECT"))
         {
             Log.Information($"[TwitchPubSub] {Now:HH:mm:ss} Trying to reconnect rn. Blame Phil if this doesnt work :)");
             _discordBot.SendGlobalLogMessage($"Twitch-PubSub: PubSub Service requested a reconnect");
         }
     }
-    
+
     public static Task RestartService()
     {
         _pubSub.Disconnect();
         _pubSub.Connect();
-        
+
         return Task.CompletedTask;
     }
 
     /* --- PubSub Events --- */
-    
+
     private async void PubSub_OnServiceConnected(object sender, EventArgs e)
     {
         try
@@ -92,14 +92,14 @@ public class PubSubService
             _pubSub.SendTopics(_creds.TwitchAccessToken);
             IsConnected = true;
         }
-        catch (Exception exception)
+        catch (Exception ex)
         {
-            LogTwitchPubSub($" {exception.GetType()} // {exception.Message} // {exception.StackTrace}" +
-                            $" // {exception.Source} // {exception.InnerException} // {exception.Data} // {exception.HelpLink}");
+            LogTwitchPubSub($" {ex.GetType()} // {ex.Message} // {ex.StackTrace}" +
+                            $" // {ex.Source} // {ex.InnerException} // {ex.Data} // {ex.HelpLink}");
             await RestartService();
         }
     }
-    
+
     private async void PubSubOn_OnPubSubServiceClosed(object sender, EventArgs e)
     {
         try
@@ -115,7 +115,7 @@ public class PubSubService
         }
     }
 
-    
+
     private async void PubSub_OnStreamUp(object sender, OnStreamUpArgs e)
     {
         try
@@ -130,8 +130,10 @@ public class PubSubService
                 }
             };
 
-            var usersData = api.Helix.Channels.GetChannelInformationAsync(e.ChannelId, _creds.TwitchAccessToken).Result.Data.SingleOrDefault(x => x.BroadcasterId == e.ChannelId);
-            var user = api.Helix.Search.SearchChannelsAsync(usersData!.BroadcasterName).Result.Channels.SingleOrDefault(x => x.DisplayName == usersData.BroadcasterName);
+            var usersData = api.Helix.Channels.GetChannelInformationAsync(e.ChannelId, _creds.TwitchAccessToken).Result
+                .Data.SingleOrDefault(x => x.BroadcasterId == e.ChannelId);
+            var user = api.Helix.Search.SearchChannelsAsync(usersData!.BroadcasterName).Result.Channels
+                .SingleOrDefault(x => x.DisplayName == usersData.BroadcasterName);
             var twitchData = new TwitchStreamData(user!.DisplayName,
                 user!.Id,
                 user.Title,
@@ -148,11 +150,11 @@ public class PubSubService
             _discordBot.SendGlobalLogMessage($"OnStreamUp: {exception.Message}");
         }
     }
-    
+
     private void PubSubOnOnRewardRedeemed(object sender, OnRewardRedeemedArgs e)
     {
         var currentConfig = _dbContext.GetMainStreamGuildOfChannel(e.ChannelId);
-        
+
         if (e.RewardId.ToString() == currentConfig.SpotifySr && e.Status == "UNFULFILLED")
         {
             LogTwitchPubSub($"Song Request: {e.Message}");
@@ -160,11 +162,11 @@ public class PubSubService
             client.AddSongToQueue(e.Message);
         }
     }
-    
+
     private void PubSub_OnChannelPointsRewardRedeemed(object sender, OnChannelPointsRewardRedeemedArgs e)
     {
         var currentConfig = _dbContext.GetMainStreamGuildOfChannel(e.ChannelId);
-        
+
         if (e.RewardRedeemed.Redemption.Reward.Id.Equals(currentConfig.SpotifySr))
         {
             LogTwitchPubSub($"Song Request: {e.RewardRedeemed.Redemption.UserInput}");
@@ -172,18 +174,16 @@ public class PubSubService
             client.AddSongToQueue(e.RewardRedeemed.Redemption.UserInput);
         }
     }
-    
+
     private static void PubSub_OnLog(object sender, OnLogArgs e)
         => LogTwitchPubSub(e.Data);
-    
+
     private void PubSub_OnPubSubServiceError(object sender, OnPubSubServiceErrorArgs e)
     {
         LogTwitchPubSub($"PubSubService error: {e.Exception.Message}");
         IsConnected = false;
         RestartService();
     }
-    
-
 
     /* --- Features --- */
 
@@ -198,14 +198,14 @@ public class PubSubService
     {
         _spotifyClients.Add(guild, new SpotifyBot(guild.Id));
     }
-    
+
 
     public static void StartSpotifyForGuild(ulong guildId)
     {
         var guildPair = _spotifyClients.FirstOrDefault(pair => pair.Key.Id == guildId);
         if (guildPair.Key == null)
             return;
-        
+
         var threadSpotify = new Thread(guildPair.Value.RunBot().GetAwaiter().GetResult);
         threadSpotify.Start();
     }
@@ -226,19 +226,6 @@ public class PubSubService
     public static string GetSpotifyUsername(ulong guildId)
     {
         var (key, spotify) = _spotifyClients.FirstOrDefault(pair => pair.Key.Id == guildId && pair.Value.GetGuildId() == guildId);
-        if (key == null)
-            return "/";
-
-        try
-        {
-            return spotify.GetUsername();
-        }
-        catch (Exception e)
-        {
-            LogTwitchPubSub($"GetSpotifyUsername {e.GetType()} // {e.Message} // {e.StackTrace}" +
-                            $" // {e.Source} // {e.InnerException} // {e.Data} // {e.HelpLink}");
-            return "Unable to load name";
-        }
+        return key == null ? "/" : spotify.GetUsername();
     }
-
 }

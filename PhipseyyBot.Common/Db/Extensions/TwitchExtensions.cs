@@ -1,6 +1,7 @@
 ﻿#nullable disable
 using Discord.WebSocket;
 using PhipseyyBot.Common.Db.Models;
+using PhipseyyBot.Common.Exceptions;
 using PhipseyyBot.Common.Modules;
 using PhipseyyBot.Common.Services;
 
@@ -57,7 +58,7 @@ public static class TwitchExtensions
         return context.TwitchConfigs.FirstOrDefault(config => config.ChannelId == channelId && config.MainStream);
     }
 
-    public static async void FollowStream(
+    public static async Task FollowStream(
         this PhipseyyDbContext context,
         ulong guildId,
         string twitchName)
@@ -70,6 +71,7 @@ public static class TwitchExtensions
             MainStream = false,
             SpotifySr = ""
         };
+
         context.TwitchConfigs.Add(twitchConfig);
         await context.SaveChangesAsync();
     }
@@ -102,7 +104,7 @@ public static class TwitchExtensions
         await context.SaveChangesAsync();
     }
 
-    public static async Task<bool> SetMainStream(
+    public static async Task SetMainStream(
         this PhipseyyDbContext context,
         ulong guildId,
         string twitchName)
@@ -121,7 +123,7 @@ public static class TwitchExtensions
                 config.MainStream == true && config.GuildId != guildId &&
                 config.Username.ToLower().Equals(twitchName.ToLower()));
         if (alreadyExists != null)
-            return false;
+            throw new IsAlreadyMainStreamOnAnotherServerException(twitchName);
 
         var oldMainStream =
             context.TwitchConfigs.FirstOrDefault(config => config.GuildId == guildId && config.MainStream);
@@ -137,7 +139,6 @@ public static class TwitchExtensions
             context.TwitchConfigs.Add(twitchConfig);
 
         await context.SaveChangesAsync();
-        return true;
     }
 
     public static async void DeleteTwitchConfig(

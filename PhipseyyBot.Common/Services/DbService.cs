@@ -9,6 +9,7 @@ public static class DbService
     {
         var context = new PhipseyyDbContext();
         await context.Database.MigrateAsync();
+        await context.Database.EnsureCreatedAsync();
     }
     
     private static PhipseyyDbContext GetDbContextInternal()

@@ -17,17 +17,18 @@ namespace PhipseyyBot.Discord;
 
 public class DiscordBot
 {
-    private readonly IBotCredentials _creds;
-    private readonly BotCredsProvider _credsProvider;
-    private readonly PhipseyyDbContext _dbContext;
-    private DiscordSocketClient DcClient { get; }
-    private IServiceProvider Services { get; }
+    public IBotCredentials Creds { get; set; }
+    public IBotCredsProvider CredsProvider { get; set; }
+    public PhipseyyDbContext DbContext { get; set; }
+    public DiscordSocketClient DcClient { get; set; }
+    public IServiceProvider Services { get; set; }
+
 
     public DiscordBot()
     {
-        _credsProvider = new BotCredsProvider();
-        _creds = _credsProvider.GetCreds();
-        _dbContext = DbService.GetDbContext();
+        CredsProvider = new BotCredsProvider();
+        Creds = CredsProvider.GetCreds();
+        DbContext = DbService.GetDbContext();
 
         var commands = new CommandService(new CommandServiceConfig
         {
@@ -45,7 +46,7 @@ public class DiscordBot
         });
 
         var svcs = new ServiceCollection()
-            .AddSingleton(_creds)
+            .AddSingleton(Creds)
             .AddSingleton(DcClient)
             .AddSingleton(commands)
             .AddSingleton<PubSubService>()
@@ -67,9 +68,9 @@ public class DiscordBot
         DcClient.JoinedGuild += BotClientOnJoinedGuild;
         DcClient.SelectMenuExecuted += BotClientOnSelectMenuExecuted;
 
-        _credsProvider.ConfigfileEdited += CredsProviderOnConfigfileEdited;
+        CredsProvider.ConfigfileEdited += CredsProviderOnConfigfileEdited;
 
-        await DcClient.LoginAsync(TokenType.Bot, _creds.DiscordToken);
+        await DcClient.LoginAsync(TokenType.Bot, Creds.DiscordToken);
         await DcClient.StartAsync();
 
         var commandHandler = Services.GetRequiredService<CommandHandler>();
@@ -114,7 +115,7 @@ public class DiscordBot
     {
         foreach (var guild in DcClient.Guilds)
             await InitializeGuild(guild);
-        await DcClient.SetGameAsync(_creds.DiscordStatus, $"https://www.twitch.tv/{_creds.TwitchUsername}",
+        await DcClient.SetGameAsync(Creds.DiscordStatus, $"https://www.twitch.tv/{Creds.TwitchUsername}",
             ActivityType.Streaming);
         LogDiscord("---Bot is Ready!---");
     }
@@ -143,7 +144,7 @@ public class DiscordBot
 
     private async void CredsProviderOnConfigfileEdited(object sender, EventArgs e)
     {
-        await DcClient.SetGameAsync(_creds.DiscordStatus, $"https://www.twitch.tv/{_creds.TwitchUsername}",
+        await DcClient.SetGameAsync(Creds.DiscordStatus, $"https://www.twitch.tv/{Creds.TwitchUsername}",
             ActivityType.Streaming);
     }
 
@@ -152,7 +153,7 @@ public class DiscordBot
         if (arg.GuildId != null && arg.Data.CustomId == "rew-menu")
         {
             var guild = DcClient.Guilds.FirstOrDefault(currentGuild => currentGuild.Id == arg.GuildId.Value);
-            _dbContext.SetSongRequestForStream(guild, arg.Data.Values.ElementAt(0));
+            DbContext.SetSongRequestForStream(guild, arg.Data.Values.ElementAt(0));
             await arg.Message.DeleteAsync();
             await arg.RespondAsync(text: "Song Request has been set!", ephemeral: true);
         }
@@ -168,19 +169,19 @@ public class DiscordBot
             //var isMainStream = currentConfig != null && currentConfig.Equals(_dbContext.GetMainStreamOfGuild(guild));
             //var guildConfig = _dbContext.GetGuildConfig(guild);
             
-            var currentConfig = _dbContext.TwitchConfigs.FirstOrDefault(config =>
+            var currentConfig = DbContext.TwitchConfigs.FirstOrDefault(config =>
                 config.GuildId == guild.Id && config.ChannelId == streamData.ChannelId);
             var isMainStream = currentConfig != null && currentConfig.ChannelId == streamData.ChannelId && currentConfig.MainStream;
 
-            var guildConfig = _dbContext.GetGuildConfig(guild);
+            var guildConfig = DbContext.GetGuildConfig(guild);
             
             if (guildConfig == null || currentConfig == null) 
                 continue;
 
             try
             {
-                var liveChannel = _dbContext.GetLiveChannel(guild);
-                var partnerChannel = _dbContext.GetPartnerChannel(guild);
+                var liveChannel = DbContext.GetLiveChannel(guild);
+                var partnerChannel = DbContext.GetPartnerChannel(guild);
 
                 if (isMainStream && liveChannel != null)
                 {
@@ -213,7 +214,7 @@ public class DiscordBot
         {
             try
             {
-                var channel = _dbContext.GetLogChannel(guild);
+                var channel = DbContext.GetLogChannel(guild);
                 await channel.SendMessageAsync(message);
             }
             catch (Exception ex)
@@ -225,17 +226,17 @@ public class DiscordBot
 
     private async Task InitializeGuild(SocketGuild guild)
     {
-        var currentConfig = _dbContext.GetGuildConfig(guild);
+        var currentConfig = DbContext.GetGuildConfig(guild);
         if (currentConfig == null)
-            await SetupService.InitializeChannels(_dbContext, guild);
+            await SetupService.InitializeChannels(DbContext, guild);
         else
         {
-            await SetupService.VerifyChannels(_dbContext, guild);
-            await SetupService.VerifyMessages(_dbContext, guild);
+            await SetupService.VerifyChannels(DbContext, guild);
+            await SetupService.VerifyMessages(DbContext, guild);
         }
 
-        var twitchConfig = _dbContext.GetMainStreamOfGuild(guild);
-        var spotifyConfig = _dbContext.GetSpotifyConfigFromGuild(guild.Id);
+        var twitchConfig = DbContext.GetMainStreamOfGuild(guild);
+        var spotifyConfig = DbContext.GetSpotifyConfigFromGuild(guild.Id);
         if (spotifyConfig != null && twitchConfig != null)
         {
             PubSubService.AddSpotifyClient(guild);

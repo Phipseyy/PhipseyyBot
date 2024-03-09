@@ -72,20 +72,20 @@ public static class GuildExtensions
         await context.SaveChangesAsync();
     }
     
-    public static async Task<string> GetMainStreamNotification(
+    public static Task<string> GetMainStreamNotification(
         this PhipseyyDbContext context,
         SocketGuild guild)
     {
         var config = GetGuildConfig(context, guild);
-        return config != null ? config.MainStreamNotification : null;
+        return Task.FromResult(config?.MainStreamNotification);
     }
     
-    public static async Task<string> GetPartnerStreamNotification(
+    public static Task<string> GetPartnerStreamNotification(
         this PhipseyyDbContext context,
         SocketGuild guild)
     {
         var config = GetGuildConfig(context, guild);
-        return config != null ? config.PartnerStreamNotification : null;
+        return Task.FromResult(config?.PartnerStreamNotification);
     }
     
     public static async Task SetMainStreamNotification(
@@ -94,11 +94,10 @@ public static class GuildExtensions
         string notification)
     {
         var config = GetGuildConfig(context, guild);
-        if (config != null)
-        {
-            config.MainStreamNotification = notification;
-            await context.SaveChangesAsync();
-        }
+        if (config == null) return;
+        
+        config.MainStreamNotification = notification;
+        await context.SaveChangesAsync();
     }
     
     public static async Task SetPartnerStreamNotification(

@@ -9,6 +9,7 @@ namespace PhipseyyBot.Common.Services;
 
 public interface IBotCredsProvider
 {
+    event EventHandler ConfigfileEdited;
     public IBotCredentials GetCreds();
     public void Reload();
 }

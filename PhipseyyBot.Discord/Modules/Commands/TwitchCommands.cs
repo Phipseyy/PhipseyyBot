@@ -3,9 +3,11 @@ using System.Diagnostics.CodeAnalysis;
 using System.Net;
 using Discord;
 using Discord.Interactions;
+using Discord.WebSocket;
 using NHttp;
 using PhipseyyBot.Common.Db.Extensions;
 using PhipseyyBot.Common.Embeds;
+using PhipseyyBot.Common.Exceptions;
 using PhipseyyBot.Common.Modules;
 using PhipseyyBot.Common.Services;
 using PhipseyyBot.Discord.Services.PubSub;
@@ -30,7 +32,7 @@ public class TwitchCommands : InteractionModuleBase<SocketInteractionContext>
         var duplicate = follows.FirstOrDefault(config => config.Username.ToLower().Equals(twitchName.ToLower()));
         if (duplicate == null)
         {
-            dbContext.FollowStream(Context.Guild.Id, twitchName);
+            await dbContext.FollowStream(Context.Guild.Id, twitchName);
             PubSubService.FollowStream(twitchName);
             await RespondAsync(embed: SuccessEmbed.GetSuccessEmbed(Context.Client, $"Followed {twitchName}",
                     $"This server will now receive notifications when ``{twitchName}`` is live"),
@@ -81,13 +83,23 @@ public class TwitchCommands : InteractionModuleBase<SocketInteractionContext>
         public async Task SetStreamCommand(string twitchName)
         {
             var dbContext = DbService.GetDbContext();
-            if (dbContext.SetMainStream(Context.Guild.Id, twitchName).Result)
+            try
+            {
+                await dbContext.SetMainStream(Context.Guild.Id, twitchName);
                 await RespondAsync(
                     embed: SuccessEmbed.GetSuccessEmbed(Context.Client, "Main Streamer Set",
                         $"Main streamer has been set to ``{twitchName}``"), ephemeral: true);
-            else
+            }
+            catch (IsAlreadyMainStreamOnAnotherServerException e)
+            {
                 await RespondAsync(embed: Context.Client.GetErrorEmbed("Could not set main streamer",
-                    $"``{twitchName}`` is already the Main Stream from another Server"), ephemeral: true);
+                    $"{e.Message}"), ephemeral: true);
+            }
+            catch (Exception e)
+            {
+                await RespondAsync(embed: Context.Client.GetErrorEmbed("Error setting main streamer",
+                    $"{e.Message}"), ephemeral: true);
+            }
         }
         
         [SlashCommand("sr-reward", "Adds a Twitch Reward for the Song Requests")]
@@ -185,6 +197,51 @@ public class TwitchCommands : InteractionModuleBase<SocketInteractionContext>
             await RespondAsync(
                 text: "Changed the Live Notification Message!", ephemeral: true);
         }
+    }
+    
+    [SlashCommand("post-live", "Re-posts the live notification in case the bot missed it")]
+    public async Task TwitchDebugMainEmbedCommand()
+    {
+        var creds = new BotCredsProvider().GetCreds();
+        var dbContext = DbService.GetDbContext();
+        var notificationChannel = dbContext.GetLiveChannel(Context.Guild);
+        var mainStream = dbContext.GetMainStreamOfGuild(Context.Guild);
+
+        var api = new TwitchAPI
+        {
+            Settings =
+            {
+                AccessToken = creds.TwitchAccessToken,
+                ClientId = creds.TwitchClientId
+            }
+        };
+
+        var guildConfig = dbContext.GetGuildConfig(Context.Guild);
+
+        var usersData = api.Helix.Channels.GetChannelInformationAsync(mainStream.ChannelId, creds.TwitchAccessToken).Result.Data
+            .SingleOrDefault(x => x.BroadcasterId == mainStream.ChannelId);
+        var user = api.Helix.Search.SearchChannelsAsync(usersData!.BroadcasterName).Result.Channels
+            .SingleOrDefault(x => x.DisplayName == usersData.BroadcasterName);
+        var twitchData = new TwitchStreamData(user!.DisplayName,
+            user.Id,
+            user.Title,
+            user.ThumbnailUrl,
+            user.GameName,
+            user.StartedAt);
+        
+        var channel = Context.Client.GetChannel(notificationChannel.Id) as SocketTextChannel;
+
+        if (channel == null)
+        {
+            await RespondAsync("Could not find the notification channel");
+            return;
+        }
+
+        await RespondAsync("Fetched Data. Posting now");
+        await DeleteOriginalResponseAsync();
+        await channel.SendMessageAsync(text: TwitchStringHelper.ParseTwitchNotification(guildConfig.MainStreamNotification, twitchData),
+            embed: twitchData.GetDiscordEmbed());
+        
     }
 
     [RequireOwner]
