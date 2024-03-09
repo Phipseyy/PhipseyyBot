@@ -10,7 +10,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d07b2e5e-ae2c-44a2-b23d-765c3f6e2b0d" name="Changes" comment="">
+    <list default="true" id="d07b2e5e-ae2c-44a2-b23d-765c3f6e2b0d" name="Changes" comment="- Updated from .NET7 to .NET8&#10;- Updated dependencies &#10;- Fixed Build Pipeline, now with the right x64 and arm64 Linux builds with the releases&#10;- Cleaned some code">
       <change afterPath="$PROJECT_DIR$/PhipseyyBot.Common/Exceptions/IsAlreadyMainStreamOnAnotherServerException.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.github/workflows/dotnetBuild.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/dotnetBuild.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.PhipseyyBot/.idea/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.PhipseyyBot/.idea/.gitignore" afterDir="false" />
@@ -55,15 +55,23 @@
     <setting file="file://$PROJECT_DIR$/PhipseyyBot.Common/Const.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="mock://E:/Development/PhipseyyBot/PhipseyyBot.Common/Db/Extensions/GuildExtensions.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://E:/Development/PhipseyyBot/PhipseyyBot.Common/Db/Extensions/GuildExtensions.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://E:/Development/PhipseyyBot/PhipseyyBot.Common/Db/Extensions/GuildExtensions.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://E:/Development/PhipseyyBot/PhipseyyBot.Common/Db/Extensions/TwitchExtensions.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://E:/Development/PhipseyyBot/PhipseyyBot.Common/Db/PhipseyyDbContext.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/PhipseyyBot.Common/Embeds/SuccessEmbed.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="mock://E:/Development/PhipseyyBot/PhipseyyBot.Common/Services/BotCredsProvider.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://E:/Development/PhipseyyBot/PhipseyyBot.Common/Services/BotCredsProvider.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://E:/Development/PhipseyyBot/PhipseyyBot.Common/Services/BotCredsProvider.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://E:/Development/PhipseyyBot/PhipseyyBot.Common/Services/BotCredsProvider.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://E:/Development/PhipseyyBot/PhipseyyBot.Common/Services/DbService.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://E:/Development/PhipseyyBot/PhipseyyBot.Common/Services/DbService.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://E:/Development/PhipseyyBot/PhipseyyBot.Common/Services/DbService.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://E:/Development/PhipseyyBot/PhipseyyBot.Discord/DiscordBot.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/PhipseyyBot.Discord/DiscordBot.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="mock://E:/Development/PhipseyyBot/PhipseyyBot.Discord/DiscordBot.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://E:/Development/PhipseyyBot/PhipseyyBot.Discord/Modules/Commands/ChannelCommands.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://E:/Development/PhipseyyBot/PhipseyyBot.Discord/Modules/Commands/TwitchCommands.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://E:/Development/PhipseyyBot/PhipseyyBot.Discord/Services/PubSub/PubSubService.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/PhipseyyBot.Discord/Services/SetupService.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
@@ -352,7 +360,7 @@
       <workItem from="1707157349331" duration="39000" />
       <workItem from="1707157548176" duration="827000" />
       <workItem from="1710018588274" duration="1412000" />
-      <workItem from="1710020023918" duration="3092000" />
+      <workItem from="1710020023918" duration="3732000" />
     </task>
     <task id="LOCAL-00001" summary="Exception for reading the config file + cleanup">
       <created>1660749621376</created>
@@ -581,7 +589,15 @@
       <option name="project" value="LOCAL" />
       <updated>1688488628046</updated>
     </task>
-    <option name="localTasksCounter" value="33" />
+    <task id="LOCAL-00033" summary="- Updated from .NET7 to .NET8&#10;- Updated dependencies &#10;- Fixed Build Pipeline, now with the right x64 and arm64 Linux builds with the releases&#10;- Cleaned some code">
+      <option name="closed" value="true" />
+      <created>1710023770835</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1710023770835</updated>
+    </task>
+    <option name="localTasksCounter" value="34" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -635,17 +651,12 @@
     <MESSAGE value="Added custom live message support" />
     <MESSAGE value="Updated to .NET 7 and Plugins&#10;Fixed stream notifications&#10;Text Adjusments" />
     <MESSAGE value="Testing rollback" />
-    <option name="LAST_COMMIT_MESSAGE" value="Testing rollback" />
+    <MESSAGE value="- Updated from .NET7 to .NET8&#10;- Updated dependencies &#10;- Fixed Build Pipeline, now with the right x64 and arm64 Linux builds with the releases&#10;- Cleaned some code" />
+    <option name="LAST_COMMIT_MESSAGE" value="- Updated from .NET7 to .NET8&#10;- Updated dependencies &#10;- Fixed Build Pipeline, now with the right x64 and arm64 Linux builds with the releases&#10;- Cleaned some code" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/PhipseyyBot.Discord/Services/PubSub/PubSubService.cs</url>
-          <line>228</line>
-          <properties documentPath="E:\Programmierung\Visual Studio\PhipseyyBot\PhipseyyBot.Discord\Services\PubSub\PubSubService.cs" initialLine="193" containingFunctionPresentation="method 'GetSpotifyUsername'" />
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/PhipseyyBot.Discord/Modules/Commands/TwitchCommands.cs</url>
           <line>29</line>

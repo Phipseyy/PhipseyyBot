@@ -31,7 +31,7 @@ jobs:
       
     - name: Test
       run: dotnet test --no-build --verbosity normal
-¡
+
     - name: Publish Linux-arm64
       run: dotnet publish PhipseyyBot -r linux-arm64 -p:PublishSingleFile=true --self-contained 
       
