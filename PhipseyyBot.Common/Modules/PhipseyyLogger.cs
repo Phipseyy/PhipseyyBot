@@ -1,4 +1,6 @@
-﻿using Serilog;
+﻿using Microsoft.Extensions.Logging;
+using Serilog;
+using TwitchLib.PubSub;
 
 namespace PhipseyyBot.Common.Modules;
 
@@ -17,5 +19,16 @@ public static class PhipseyyLogger
     
     private static void SendStartupMessage()
         => Log.Information("--- Discord Bot ~ By Phipseyy ---");
+
+    public static ILogger<TwitchPubSub> GetTwitchLogger()
+    {
+        // Create a LoggerFactory and add the global Serilog logger to it
+        var factory = LoggerFactory.Create(builder => builder.AddSerilog(Log.Logger));
+        
+        // Create a logger for the specified category
+        var logger = factory.CreateLogger<TwitchPubSub>();
+
+        return logger;
+    }
 
 }

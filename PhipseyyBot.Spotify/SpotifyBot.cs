@@ -131,8 +131,10 @@ public class SpotifyBot
     {
         //SONG: https://open.spotify.com/track/2pyxICfn3Mu743C1GqjwpI?si=855fb73a4aa94639
         // URI: spotify:track:2pyxICfn3Mu743C1GqjwpI
+        // NEW: https://open.spotify.com/intl-de/track/4lrEOsjmbKG6mf0buc7eny?si=b98bb1ac29814438
+        // URI: spotify:track:4lrEOsjmbKG6mf0buc7eny?si=b98bb1ac29814438
         var uri = new Uri(url);
-        return "spotify:track:" + uri.Segments[2];
+        return "spotify:track:" + uri.Segments[^1];
     }
 
     public void AddSongToQueue(string url)

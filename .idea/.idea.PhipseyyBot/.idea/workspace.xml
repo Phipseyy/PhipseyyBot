@@ -10,30 +10,22 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d07b2e5e-ae2c-44a2-b23d-765c3f6e2b0d" name="Changes" comment="- Updated from .NET7 to .NET8&#10;- Updated dependencies &#10;- Fixed Build Pipeline, now with the right x64 and arm64 Linux builds with the releases&#10;- Cleaned some code">
-      <change afterPath="$PROJECT_DIR$/PhipseyyBot.Common/Exceptions/IsAlreadyMainStreamOnAnotherServerException.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.github/workflows/dotnetBuild.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/dotnetBuild.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.PhipseyyBot/.idea/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.PhipseyyBot/.idea/.gitignore" afterDir="false" />
+    <list default="true" id="d07b2e5e-ae2c-44a2-b23d-765c3f6e2b0d" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.PhipseyyBot/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.PhipseyyBot/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PhipseyyBot.Common/Db/Extensions/GuildExtensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Common/Db/Extensions/GuildExtensions.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PhipseyyBot.Common/Db/Extensions/TwitchExtensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Common/Db/Extensions/TwitchExtensions.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PhipseyyBot.Common/Db/PhipseyyDbContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Common/Db/PhipseyyDbContext.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PhipseyyBot.Common/Modules/PhipseyyLogger.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Common/Modules/PhipseyyLogger.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/PhipseyyBot.Common/PhipseyyBot.Common.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Common/PhipseyyBot.Common.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PhipseyyBot.Common/Services/BotCredsProvider.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Common/Services/BotCredsProvider.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PhipseyyBot.Common/Services/DbService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Common/Services/DbService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PhipseyyBot.Discord/DiscordBot.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Discord/DiscordBot.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PhipseyyBot.Discord/Modules/Commands/TwitchCommands.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Discord/Modules/Commands/TwitchCommands.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PhipseyyBot.Discord/PhipseyyBot.Discord.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Discord/PhipseyyBot.Discord.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PhipseyyBot.Discord/Modules/Commands/Owner/RestartTwitchService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Discord/Modules/Commands/Owner/RestartTwitchService.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/PhipseyyBot.Discord/Services/PubSub/PubSubService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Discord/Services/PubSub/PubSubService.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/PhipseyyBot.Spotify/PhipseyyBot.Spotify.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Spotify/PhipseyyBot.Spotify.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PhipseyyBot.Twitch/PhipseyyBot.Twitch.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Twitch/PhipseyyBot.Twitch.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PhipseyyBot.sln.DotSettings.user" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.sln.DotSettings.user" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PhipseyyBot/PhipseyyBot.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot/PhipseyyBot.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PhipseyyBot.Spotify/SpotifyBot.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Spotify/SpotifyBot.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="DpaMonitoringSettings">
+    <option name="autoShow" value="false" />
   </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
@@ -43,6 +35,12 @@
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;Phipseyy&quot;
+  }
+}</component>
   <component name="GithubProjectSettings">
     <option name="branchProtectionPatterns">
       <list>
@@ -50,27 +48,30 @@
       </list>
     </option>
   </component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/Phipseyy/PhipseyyBot.git&quot;,
+    &quot;accountId&quot;: &quot;a16ea089-2ddd-4309-a038-20a07ad761f0&quot;
+  }
+}</component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/4616c5f310a14452a4a3724a3f74d84935800/59/9a1d6bec/PlayerAddToQueueRequest.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/a805c4c361d44d8db61bda5470e14eda8e00/6d/c7250761/WebSocketClient.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/a805c4c361d44d8db61bda5470e14eda8e00/9b/1b66c8c7/Throttlers.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/ab63a6f807034ca2860631fe50280e238e00/1b/b08b308a/ClientOptions.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/ab63a6f807034ca2860631fe50280e238e00/2a/08fa33d6/ReconnectionPolicy.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/ab63a6f807034ca2860631fe50280e238e00/4e/7f51571b/Throttlers.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/ab63a6f807034ca2860631fe50280e238e00/fa/464e4f33/WebSocketClient.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/e5ba731c8a4f41d7a392a32574f6226d14a00/76/fa09aca8/TwitchPubSub.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/fc2de29b920b4475950c0adf08f18d9924910/37/05d21205/ILogger`1.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/e1dafc386a1bacc7b88ffabc20493e2d6ae8d49bc898a95b7d4cd962c71142f1/Log.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/PhipseyyBot.Common/BotCredentials.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/PhipseyyBot.Common/Const.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="mock://E:/Development/PhipseyyBot/PhipseyyBot.Common/Db/Extensions/GuildExtensions.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://E:/Development/PhipseyyBot/PhipseyyBot.Common/Db/Extensions/GuildExtensions.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://E:/Development/PhipseyyBot/PhipseyyBot.Common/Db/Extensions/GuildExtensions.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://E:/Development/PhipseyyBot/PhipseyyBot.Common/Db/Extensions/TwitchExtensions.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://E:/Development/PhipseyyBot/PhipseyyBot.Common/Db/PhipseyyDbContext.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/PhipseyyBot.Common/Embeds/SuccessEmbed.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="mock://E:/Development/PhipseyyBot/PhipseyyBot.Common/Services/BotCredsProvider.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://E:/Development/PhipseyyBot/PhipseyyBot.Common/Services/BotCredsProvider.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://E:/Development/PhipseyyBot/PhipseyyBot.Common/Services/BotCredsProvider.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://E:/Development/PhipseyyBot/PhipseyyBot.Common/Services/BotCredsProvider.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://E:/Development/PhipseyyBot/PhipseyyBot.Common/Services/DbService.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://E:/Development/PhipseyyBot/PhipseyyBot.Common/Services/DbService.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://E:/Development/PhipseyyBot/PhipseyyBot.Common/Services/DbService.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://E:/Development/PhipseyyBot/PhipseyyBot.Discord/DiscordBot.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://E:/Development/PhipseyyBot/PhipseyyBot.Common/Modules/PhipseyyLogger.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/PhipseyyBot.Discord/DiscordBot.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="mock://E:/Development/PhipseyyBot/PhipseyyBot.Discord/DiscordBot.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://E:/Development/PhipseyyBot/PhipseyyBot.Discord/Modules/Commands/ChannelCommands.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://E:/Development/PhipseyyBot/PhipseyyBot.Discord/Modules/Commands/TwitchCommands.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://E:/Development/PhipseyyBot/PhipseyyBot.Discord/Modules/Commands/Owner/RestartTwitchService.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://E:/Development/PhipseyyBot/PhipseyyBot.Discord/Services/PubSub/PubSubService.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/PhipseyyBot.Discord/Services/SetupService.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
@@ -92,35 +93,36 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    ".NET Project.PhipseyyBot.executor": "Run",
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "master",
-    "ignore.virus.scanning.warn.message": "true",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "RiderNuGetOptionsPageId",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;.NET Project.PhipseyyBot.executor&quot;: &quot;Run&quot;,
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;Publish to folder.Linux_x64.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File": [
-      "JSON",
-      "TEXT"
+  &quot;keyToStringList&quot;: {
+    &quot;com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File&quot;: [
+      &quot;JSON&quot;,
+      &quot;TEXT&quot;
     ],
-    "rider.external.source.directories": [
-      "C:\\Users\\bodo5\\AppData\\Roaming\\JetBrains\\Rider2023.3\\resharper-host\\DecompilerCache",
-      "C:\\Users\\bodo5\\AppData\\Roaming\\JetBrains\\Rider2023.3\\resharper-host\\SourcesCache",
-      "C:\\Users\\bodo5\\AppData\\Local\\Symbols\\src"
+    &quot;rider.external.source.directories&quot;: [
+      &quot;C:\\Users\\bodo5\\AppData\\Roaming\\JetBrains\\Rider2024.1\\resharper-host\\DecompilerCache&quot;,
+      &quot;C:\\Users\\bodo5\\AppData\\Roaming\\JetBrains\\Rider2024.1\\resharper-host\\SourcesCache&quot;,
+      &quot;C:\\Users\\bodo5\\AppData\\Local\\Symbols\\src&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RiderProblemsViewState">
     <option name="proportion" value="0.3931981" />
   </component>
@@ -361,6 +363,11 @@
       <workItem from="1707157548176" duration="827000" />
       <workItem from="1710018588274" duration="1412000" />
       <workItem from="1710020023918" duration="3732000" />
+      <workItem from="1716492931324" duration="3384000" />
+      <workItem from="1716918772085" duration="245000" />
+      <workItem from="1716926750082" duration="855000" />
+      <workItem from="1717444137398" duration="615000" />
+      <workItem from="1720708967136" duration="3103000" />
     </task>
     <task id="LOCAL-00001" summary="Exception for reading the config file + cleanup">
       <created>1660749621376</created>
@@ -604,6 +611,7 @@
     <option name="version" value="3" />
   </component>
   <component name="UnityCheckinConfiguration" checkUnsavedScenes="true" />
+  <component name="UnityProjectConfiguration" hasMinimizedUI="false" />
   <component name="UnityUnitTestConfiguration" currentTestLauncher="NUnit" />
   <component name="UnknownFeatures">
     <option featureType="dependencySupport" implementationName="dotnet:Microsoft.Identity.Client" />
@@ -660,13 +668,13 @@
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/PhipseyyBot.Discord/Modules/Commands/TwitchCommands.cs</url>
           <line>29</line>
-          <properties documentPath="E:\Programmierung\Visual Studio\PhipseyyBot\PhipseyyBot.Discord\Modules\Commands\TwitchCommands.cs" initialLine="27" containingFunctionPresentation="method 'FollowStreamCommand'" />
+          <properties documentPath="E:\Programmierung\Visual Studio\PhipseyyBot\PhipseyyBot.Discord\Modules\Commands\TwitchCommands.cs" containingFunctionPresentation="method 'FollowStreamCommand'" />
           <option name="timeStamp" value="10" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/PhipseyyBot.Discord/DiscordBot.cs</url>
           <line>169</line>
-          <properties documentPath="E:\Development\PhipseyyBot\PhipseyyBot.Discord\DiscordBot.cs" initialLine="171" containingFunctionPresentation="Method 'SendStreamNotification'">
+          <properties documentPath="E:\Development\PhipseyyBot\PhipseyyBot.Discord\DiscordBot.cs" containingFunctionPresentation="Method 'SendStreamNotification'">
             <startOffsets>
               <option value="5430" />
             </startOffsets>
@@ -679,27 +687,13 @@
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/PhipseyyBot.CommonTests/DbTests.cs</url>
           <line>38</line>
-          <properties documentPath="E:\Development\PhipseyyBot\PhipseyyBot.CommonTests\DbTests.cs" initialLine="31" containingFunctionPresentation="Method 'AddingGuild'">
-            <startOffsets>
-              <option value="879" />
-            </startOffsets>
-            <endOffsets>
-              <option value="928" />
-            </endOffsets>
-          </properties>
+          <properties documentPath="E:\Development\PhipseyyBot\PhipseyyBot.CommonTests\DbTests.cs" containingFunctionPresentation="Method 'AddingGuild'" />
           <option name="timeStamp" value="24" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/PhipseyyBot.CommonTests/DbTests.cs</url>
           <line>58</line>
-          <properties documentPath="E:\Development\PhipseyyBot\PhipseyyBot.CommonTests\DbTests.cs" initialLine="52" containingFunctionPresentation="Method 'OverwriteMainStream'">
-            <startOffsets>
-              <option value="1459" />
-            </startOffsets>
-            <endOffsets>
-              <option value="1521" />
-            </endOffsets>
-          </properties>
+          <properties documentPath="E:\Development\PhipseyyBot\PhipseyyBot.CommonTests\DbTests.cs" containingFunctionPresentation="Method 'OverwriteMainStream'" />
           <option name="timeStamp" value="29" />
         </line-breakpoint>
       </breakpoints>

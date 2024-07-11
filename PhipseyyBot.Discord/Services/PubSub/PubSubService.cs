@@ -30,8 +30,7 @@ public class PubSubService
         _dbContext = serviceProvider.GetRequiredService<PhipseyyDbContext>();
         _discordBot = discordBot;
         _spotifyClients = new Dictionary<SocketGuild, SpotifyBot>();
-        _pubSub = new TwitchPubSub();
-
+        _pubSub = new TwitchPubSub(PhipseyyLogger.GetTwitchLogger());
         _creds = new BotCredsProvider().GetCreds();
     }
 
@@ -41,7 +40,6 @@ public class PubSubService
         _pubSub.OnPubSubServiceClosed += PubSubOn_OnPubSubServiceClosed;
         _pubSub.OnStreamUp += PubSub_OnStreamUp;
         _pubSub.OnRewardRedeemed += PubSubOnOnRewardRedeemed;
-        _pubSub.OnChannelPointsRewardRedeemed += PubSub_OnChannelPointsRewardRedeemed;
         _pubSub.OnLog += PubSub_OnLog;
         _pubSub.OnPubSubServiceError += PubSub_OnPubSubServiceError;
 
@@ -63,22 +61,40 @@ public class PubSubService
         }
     }
 
-    public static Task RestartService()
+    public static void RestartService()
     {
-        _pubSub.Disconnect();
-        _pubSub.Connect();
-
-        return Task.CompletedTask;
+        try
+        { 
+            if (IsConnected)
+            {
+                _pubSub.Disconnect();
+                LogTwitchPubSub("b");
+            }
+            else
+            {
+                _pubSub = new TwitchPubSub(PhipseyyLogger.GetTwitchLogger());
+                _pubSub.Connect();
+            }
+        }
+        catch (OperationCanceledException ex)
+        {
+            LogTwitchPubSub($"Operation was cancelled. Message: {ex.Message}, StackTrace: {ex.StackTrace}");
+            LogTwitchPubSub("e");
+            LogTwitchPubSub(ex.HelpLink);
+        }
+        catch (Exception ex)
+        {
+            LogTwitchPubSub($"An exception occurred. Type: {ex.GetType()}, Message: {ex.Message}, StackTrace: {ex.StackTrace} // {ex.InnerException} // {ex.Data} // {ex.HelpLink} // {ex.Source} // {ex.TargetSite}");
+        }
     }
 
     /* --- PubSub Events --- */
 
-    private async void PubSub_OnServiceConnected(object sender, EventArgs e)
+    private void PubSub_OnServiceConnected(object sender, EventArgs e)
     {
         try
         {
             LogTwitchPubSub("---PubSub Connected!---");
-            _discordBot.SendGlobalLogMessage("PubSub Service online!");
 
             var streams = _dbContext.GetListOfAllStreamIds();
 
@@ -91,22 +107,22 @@ public class PubSubService
 
             _pubSub.SendTopics(_creds.TwitchAccessToken);
             IsConnected = true;
+            _discordBot.SendGlobalLogMessage("Twitch-PubSub: PubSub Service (re)started successfully!");
         }
         catch (Exception ex)
         {
             LogTwitchPubSub($" {ex.GetType()} // {ex.Message} // {ex.StackTrace}" +
                             $" // {ex.Source} // {ex.InnerException} // {ex.Data} // {ex.HelpLink}");
-            await RestartService();
         }
     }
 
-    private async void PubSubOn_OnPubSubServiceClosed(object sender, EventArgs e)
+    private void PubSubOn_OnPubSubServiceClosed(object sender, EventArgs e)
     {
         try
         {
             LogTwitchPubSub("PubSubService got closed! Restarting...");
             IsConnected = false;
-            await RestartService();
+            RestartService();
         }
         catch (Exception exception)
         {
@@ -120,7 +136,6 @@ public class PubSubService
     {
         try
         {
-            LogTwitchPubSub("Stream is up now!");
             var api = new TwitchAPI
             {
                 Settings =
@@ -163,26 +178,19 @@ public class PubSubService
         }
     }
 
-    private void PubSub_OnChannelPointsRewardRedeemed(object sender, OnChannelPointsRewardRedeemedArgs e)
-    {
-        var currentConfig = _dbContext.GetMainStreamGuildOfChannel(e.ChannelId);
-
-        if (e.RewardRedeemed.Redemption.Reward.Id.Equals(currentConfig.SpotifySr))
-        {
-            LogTwitchPubSub($"Song Request: {e.RewardRedeemed.Redemption.UserInput}");
-            var client = _spotifyClients.FirstOrDefault(pair => pair.Key.Id == currentConfig.GuildId).Value;
-            client.AddSongToQueue(e.RewardRedeemed.Redemption.UserInput);
-        }
-    }
-
     private static void PubSub_OnLog(object sender, OnLogArgs e)
         => LogTwitchPubSub(e.Data);
 
     private void PubSub_OnPubSubServiceError(object sender, OnPubSubServiceErrorArgs e)
     {
-        LogTwitchPubSub($"PubSubService error: {e.Exception.Message}");
-        IsConnected = false;
-        RestartService();
+        if (e.Exception is OperationCanceledException)
+        {
+            LogTwitchPubSub($"Operation was cancelled. Message: {e.Exception.Message}, StackTrace: {e.Exception.StackTrace}");
+        }
+        else
+        {
+            LogTwitchPubSub($"PubSubService error: {e.Exception.Message} / {e.Exception.StackTrace} / {e.Exception.Source} / {e.Exception.InnerException} / {e.Exception.Data} / {e.Exception.HelpLink}");
+        }
     }
 
     /* --- Features --- */

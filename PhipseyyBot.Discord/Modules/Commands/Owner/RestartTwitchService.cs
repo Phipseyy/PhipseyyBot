@@ -14,8 +14,13 @@ public class RestartTwitchService : InteractionModuleBase<SocketInteractionConte
     public async Task RestartTwitchServiceCommand()
     {
         await RespondAsync("Restarting service");
-        await PubSubService.RestartService();
-        await ReplyAsync("Service restarted!");
+        PubSubService.RestartService();
+        //wait 5 seconds for the service to restart
+        await Task.Delay(5000);
+        if (PubSubService.IsConnected)
+            await ReplyAsync("Service online again!");
+        else
+            await ReplyAsync("Service failed to restart! Check logs for more info.");
     }
 
 }
