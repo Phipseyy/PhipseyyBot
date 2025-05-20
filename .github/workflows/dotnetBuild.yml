@@ -16,9 +16,9 @@ jobs:
       contents: write
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v3.5.3
       - name: Setup .NET
-        uses: actions/setup-dotnet@v2
+        uses: actions/setup-dotnet@v2.3.0
         with:
           dotnet-version: 8.0.x
 
@@ -41,19 +41,19 @@ jobs:
         run: dotnet publish PhipseyyBot -r win-x64 -p:PublishSingleFile=true --self-contained
 
       - name: Upload Linux-arm64 Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v3.1.3
         with:
           name: Artifact_linux-arm64
           path: PhipseyyBot/bin/Release/net8.0/linux-arm64/publish/
 
       - name: Upload Linux-x64 Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v3.1.3
         with:
           name: Artifact_linux-x64
           path: PhipseyyBot/bin/Release/net8.0/linux-x64/publish/
 
       - name: Upload Win-x64 Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v3.1.3
         with:
           name: Artifact_win-x64
           path: PhipseyyBot/bin/Release/net8.0/win-x64/publish/
@@ -68,19 +68,19 @@ jobs:
 
     steps:
       - name: Download Linux-arm64 Artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v3.1.3
         with:
           name: Artifact_linux-arm64
           path: linux-arm64
 
       - name: Download Linux-x64 Artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v3.1.3
         with:
           name: Artifact_linux-x64
           path: linux-x64
 
       - name: Download Win-x64 Artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v3.1.3
         with:
           name: Artifact_win-x64
           path: win-x64
