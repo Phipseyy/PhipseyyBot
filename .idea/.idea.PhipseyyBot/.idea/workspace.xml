@@ -10,31 +10,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d07b2e5e-ae2c-44a2-b23d-765c3f6e2b0d" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.PhipseyyBot/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.PhipseyyBot/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PhipseyyBot.Common/Db/Extensions/GuildExtensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Common/Db/Extensions/GuildExtensions.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PhipseyyBot.Common/Db/Extensions/SpotifyExtensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Common/Db/Extensions/SpotifyExtensions.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PhipseyyBot.Common/Db/Extensions/TwitchExtensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Common/Db/Extensions/TwitchExtensions.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PhipseyyBot.Common/Db/Models/GuildConfig.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Common/Db/Models/GuildConfig.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PhipseyyBot.Common/Db/Models/SpotifyConfig.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Common/Db/Models/SpotifyConfig.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PhipseyyBot.Common/Db/Models/TwitchConfig.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Common/Db/Models/TwitchConfig.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PhipseyyBot.Common/Db/PhipseyyDbContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Common/Db/PhipseyyDbContext.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PhipseyyBot.Common/Embeds/InfoEmbed.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Common/Embeds/InfoEmbed.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PhipseyyBot.Common/PhipseyyBot.Common.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Common/PhipseyyBot.Common.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PhipseyyBot.Common/Services/DbService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Common/Services/DbService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PhipseyyBot.Discord/DiscordBot.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Discord/DiscordBot.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PhipseyyBot.Discord/Modules/Commands/ChannelCommands.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Discord/Modules/Commands/ChannelCommands.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PhipseyyBot.Discord/Modules/Commands/Owner/SendGlobalMessage.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Discord/Modules/Commands/Owner/SendGlobalMessage.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PhipseyyBot.Discord/Modules/Commands/SettingsCommands.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Discord/Modules/Commands/SettingsCommands.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PhipseyyBot.Discord/Modules/Commands/SpotifyCommands.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Discord/Modules/Commands/SpotifyCommands.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PhipseyyBot.Discord/Modules/Commands/TwitchCommands.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Discord/Modules/Commands/TwitchCommands.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PhipseyyBot.Discord/Services/PubSub/PubSubService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Discord/Services/PubSub/PubSubService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PhipseyyBot.Discord/Services/SetupService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Discord/Services/SetupService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PhipseyyBot.Spotify/SpotifyBot.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Spotify/SpotifyBot.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PhipseyyBot.sln" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.sln" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PhipseyyBot.sln.DotSettings.user" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.sln.DotSettings.user" afterDir="false" />
-    </list>
+    <list default="true" id="d07b2e5e-ae2c-44a2-b23d-765c3f6e2b0d" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -405,7 +381,7 @@
       <workItem from="1745684314564" duration="63000" />
       <workItem from="1745684389240" duration="1499000" />
       <workItem from="1747403650313" duration="837000" />
-      <workItem from="1747764397588" duration="1064000" />
+      <workItem from="1747764397588" duration="1346000" />
     </task>
     <task id="LOCAL-00001" summary="Exception for reading the config file + cleanup">
       <created>1660749621376</created>
@@ -642,7 +618,15 @@
       <option name="project" value="LOCAL" />
       <updated>1710023770835</updated>
     </task>
-    <option name="localTasksCounter" value="34" />
+    <task id="LOCAL-00034" summary="Refactor database access methods to use async/await pattern and improve configuration handling">
+      <option name="closed" value="true" />
+      <created>1747765642341</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1747765642341</updated>
+    </task>
+    <option name="localTasksCounter" value="35" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -673,7 +657,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="Exception for reading the config file + cleanup" />
     <MESSAGE value="Example config" />
     <MESSAGE value="Test Commit" />
     <MESSAGE value="lkjl" />
@@ -698,7 +681,8 @@
     <MESSAGE value="Updated to .NET 7 and Plugins&#10;Fixed stream notifications&#10;Text Adjusments" />
     <MESSAGE value="Testing rollback" />
     <MESSAGE value="- Updated from .NET7 to .NET8&#10;- Updated dependencies &#10;- Fixed Build Pipeline, now with the right x64 and arm64 Linux builds with the releases&#10;- Cleaned some code" />
-    <option name="LAST_COMMIT_MESSAGE" value="- Updated from .NET7 to .NET8&#10;- Updated dependencies &#10;- Fixed Build Pipeline, now with the right x64 and arm64 Linux builds with the releases&#10;- Cleaned some code" />
+    <MESSAGE value="Refactor database access methods to use async/await pattern and improve configuration handling" />
+    <option name="LAST_COMMIT_MESSAGE" value="Refactor database access methods to use async/await pattern and improve configuration handling" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
