@@ -11,6 +11,7 @@ using PhipseyyBot.Common.Exceptions;
 using PhipseyyBot.Common.Modules;
 using PhipseyyBot.Common.Services;
 using PhipseyyBot.Discord.Services.PubSub;
+using Serilog;
 using TwitchLib.Api;
 using TwitchLib.Api.Core.Enums;
 
@@ -28,11 +29,11 @@ public class TwitchCommands : InteractionModuleBase<SocketInteractionContext>
     public async Task FollowStreamCommand(string twitchName)
     {
         var dbContext = DbService.GetDbContext();
-        var follows = dbContext.GetListOfFollowedStreams(Context.Guild.Id);
+        var follows = await dbContext.GetGuildFollowedStreamsAsync(Context.Guild.Id);
         var duplicate = follows.FirstOrDefault(config => config.Username.ToLower().Equals(twitchName.ToLower()));
         if (duplicate == null)
         {
-            await dbContext.FollowStream(Context.Guild.Id, twitchName);
+            await dbContext.FollowStreamAsync(Context.Guild.Id, twitchName);
             PubSubService.FollowStream(twitchName);
             await RespondAsync(embed: SuccessEmbed.GetSuccessEmbed(Context.Client, $"Followed {twitchName}",
                     $"This server will now receive notifications when ``{twitchName}`` is live"),
@@ -51,7 +52,7 @@ public class TwitchCommands : InteractionModuleBase<SocketInteractionContext>
     {
         var dbContext = DbService.GetDbContext();
 
-        if (!dbContext.IsFollowingStream(Context.Guild.Id, twitchName))
+        if (!await dbContext.IsFollowingStreamAsync(Context.Guild.Id, twitchName))
         {
             await RespondAsync(embed: Context.Client.GetErrorEmbed("Streamer Not Found",
                     $"Cannot unfollow ``{twitchName}`` since this guild does not follow them in the first place"),
@@ -59,7 +60,7 @@ public class TwitchCommands : InteractionModuleBase<SocketInteractionContext>
             return;
         }
 
-        var mainStream = dbContext.GetMainStreamOfGuild(Context.Guild);
+        var mainStream = await dbContext.GetMainStreamOfGuildAsync(Context.Guild);
         if (mainStream != null && twitchName.Equals(mainStream.Username))
         {
             await RespondAsync(embed: Context.Client.GetErrorEmbed("Cannot unfollow Main Streamer",
@@ -68,13 +69,13 @@ public class TwitchCommands : InteractionModuleBase<SocketInteractionContext>
         }
         else
         {
-            dbContext.UnfollowStream(Context.Guild.Id, twitchName);
+            await dbContext.UnfollowStreamAsync(Context.Guild.Id, twitchName);
             await RespondAsync(embed: SuccessEmbed.GetSuccessEmbed(Context.Client, $"Unfollowed {twitchName}",
                     $"This server will no longer receive notifications when ``{twitchName}`` is live"),
                 ephemeral: true);
         }
     }
-    
+
 
     [Group("set", "Set stuff")]
     public class SetSettings : InteractionModuleBase<SocketInteractionContext>
@@ -85,29 +86,31 @@ public class TwitchCommands : InteractionModuleBase<SocketInteractionContext>
             var dbContext = DbService.GetDbContext();
             try
             {
-                await dbContext.SetMainStream(Context.Guild.Id, twitchName);
+                await dbContext.SetMainStreamAsync(Context.Guild.Id, twitchName);
                 await RespondAsync(
                     embed: SuccessEmbed.GetSuccessEmbed(Context.Client, "Main Streamer Set",
                         $"Main streamer has been set to ``{twitchName}``"), ephemeral: true);
             }
             catch (IsAlreadyMainStreamOnAnotherServerException e)
             {
+                Log.Debug(e, "Error setting main streamer");
                 await RespondAsync(embed: Context.Client.GetErrorEmbed("Could not set main streamer",
                     $"{e.Message}"), ephemeral: true);
             }
             catch (Exception e)
             {
+                Log.Debug(e, "Error setting main streamer");
                 await RespondAsync(embed: Context.Client.GetErrorEmbed("Error setting main streamer",
                     $"{e.Message}"), ephemeral: true);
             }
         }
-        
+
         [SlashCommand("sr-reward", "Adds a Twitch Reward for the Song Requests")]
         public async Task SetSongRequestRewardCommand()
         {
             var creds = new BotCredsProvider().GetCreds();
             var dbContext = DbService.GetDbContext();
-            var config = dbContext.GetMainStreamOfGuild(Context.Guild);
+            var config = await dbContext.GetMainStreamOfGuildAsync(Context.Guild);
 
             var api = new TwitchAPI
             {
@@ -172,7 +175,7 @@ public class TwitchCommands : InteractionModuleBase<SocketInteractionContext>
             server.Start();
         }
     }
-    
+
     [Group("notification", "Set stuff")]
     public class SetNotificationSettings : InteractionModuleBase<SocketInteractionContext>
     {
@@ -180,32 +183,32 @@ public class TwitchCommands : InteractionModuleBase<SocketInteractionContext>
         public async Task SetLiveChannelMessageCommand(string message)
         {
             var dbService = DbService.GetDbContext();
-            await dbService.SetMainStreamNotification(Context.Guild, message);
+            await dbService.SetMainStreamNotificationAsync(Context.Guild, message);
 
             await dbService.SaveChangesAsync();
             await RespondAsync(
                 text: "Changed the Live Notification Message!", ephemeral: true);
         }
-            
+
         [SlashCommand("partner-channel", "Changes the message for partner live notifications")]
         public async Task SetPartnerChannelMessageCommand(string message)
         {
             var dbService = DbService.GetDbContext();
-            await dbService.SetPartnerStreamNotification(Context.Guild, message);
+            await dbService.SetPartnerStreamNotificationAsync(Context.Guild, message);
 
             await dbService.SaveChangesAsync();
             await RespondAsync(
                 text: "Changed the Live Notification Message!", ephemeral: true);
         }
     }
-    
+
     [SlashCommand("post-live", "Re-posts the live notification in case the bot missed it")]
     public async Task TwitchDebugMainEmbedCommand()
     {
         var creds = new BotCredsProvider().GetCreds();
         var dbContext = DbService.GetDbContext();
-        var notificationChannel = dbContext.GetLiveChannel(Context.Guild);
-        var mainStream = dbContext.GetMainStreamOfGuild(Context.Guild);
+        var notificationChannel = await dbContext.GetLiveChannelAsync(Context.Guild);
+        var mainStream = await dbContext.GetMainStreamOfGuildAsync(Context.Guild);
 
         var api = new TwitchAPI
         {
@@ -216,9 +219,10 @@ public class TwitchCommands : InteractionModuleBase<SocketInteractionContext>
             }
         };
 
-        var guildConfig = dbContext.GetGuildConfig(Context.Guild);
+        var guildConfig = await dbContext.GetGuildConfigAsync(Context.Guild);
 
-        var usersData = api.Helix.Channels.GetChannelInformationAsync(mainStream.ChannelId, creds.TwitchAccessToken).Result.Data
+        var usersData = api.Helix.Channels.GetChannelInformationAsync(mainStream.ChannelId, creds.TwitchAccessToken)
+            .Result.Data
             .SingleOrDefault(x => x.BroadcasterId == mainStream.ChannelId);
         var user = api.Helix.Search.SearchChannelsAsync(usersData!.BroadcasterName).Result.Channels
             .SingleOrDefault(x => x.DisplayName == usersData.BroadcasterName);
@@ -228,7 +232,7 @@ public class TwitchCommands : InteractionModuleBase<SocketInteractionContext>
             user.ThumbnailUrl,
             user.GameName,
             user.StartedAt);
-        
+
         var channel = Context.Client.GetChannel(notificationChannel.Id) as SocketTextChannel;
 
         if (channel == null)
@@ -239,9 +243,9 @@ public class TwitchCommands : InteractionModuleBase<SocketInteractionContext>
 
         await RespondAsync("Fetched Data. Posting now");
         await DeleteOriginalResponseAsync();
-        await channel.SendMessageAsync(text: TwitchStringHelper.ParseTwitchNotification(guildConfig.MainStreamNotification, twitchData),
+        await channel.SendMessageAsync(
+            text: TwitchStringHelper.ParseTwitchNotification(guildConfig.MainStreamNotification, twitchData),
             embed: twitchData.GetDiscordEmbed());
-        
     }
 
     [RequireOwner]
@@ -264,7 +268,7 @@ public class TwitchCommands : InteractionModuleBase<SocketInteractionContext>
                 }
             };
 
-            var guildConfig = dbContext.GetGuildConfig(Context.Guild);
+            var guildConfig = await dbContext.GetGuildConfigAsync(Context.Guild);
 
             var usersData = api.Helix.Channels.GetChannelInformationAsync(id, creds.TwitchAccessToken).Result.Data
                 .SingleOrDefault(x => x.BroadcasterId == id);
@@ -300,7 +304,7 @@ public class TwitchCommands : InteractionModuleBase<SocketInteractionContext>
                 }
             };
 
-            var guildConfig = dbContext.GetGuildConfig(Context.Guild);
+            var guildConfig = await dbContext.GetGuildConfigAsync(Context.Guild);
 
             var usersData = api.Helix.Channels.GetChannelInformationAsync(id, creds.TwitchAccessToken).Result.Data
                 .SingleOrDefault(x => x.BroadcasterId == id);

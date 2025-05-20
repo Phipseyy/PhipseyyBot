@@ -1,20 +1,17 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using Discord;
 using Discord.Interactions;
-using Discord.WebSocket;
 using PhipseyyBot.Common.Db.Extensions;
 using PhipseyyBot.Common.Services;
 
 namespace PhipseyyBot.Discord.Modules.Commands;
 
-
 [SuppressMessage("ReSharper", "UnusedType.Global")]
 [SuppressMessage("ReSharper", "UnusedMember.Global")]
-
 [RequireUserPermission(GuildPermission.Administrator)]
 [Group("channel", "Settings for the channels")]
 [EnabledInDm(false)]
-public class ChannelCommands: InteractionModuleBase<SocketInteractionContext>
+public class ChannelCommands : InteractionModuleBase<SocketInteractionContext>
 {
     [Group("set", "Sets channels for the notifications")]
     public class SetSettings : InteractionModuleBase<SocketInteractionContext>
@@ -23,7 +20,7 @@ public class ChannelCommands: InteractionModuleBase<SocketInteractionContext>
         public async Task SetLogChannelCommand([ChannelTypes(ChannelType.News, ChannelType.Text)] IGuildChannel channel)
         {
             var dbService = DbService.GetDbContext();
-            var guildConfig = dbService.GetGuildConfig(Context.Guild);
+            var guildConfig = await dbService.GetGuildConfigAsync(Context.Guild);
             guildConfig.LogChannel = channel.Id;
 
             await dbService.SaveChangesAsync();
@@ -33,10 +30,11 @@ public class ChannelCommands: InteractionModuleBase<SocketInteractionContext>
         
         
         [SlashCommand("main-channel", "Changes the main channel for live notifications")]
-        public async Task SetLiveChannelCommand([ChannelTypes(ChannelType.News, ChannelType.Text)] IGuildChannel channel)
+        public async Task SetLiveChannelCommand(
+            [ChannelTypes(ChannelType.News, ChannelType.Text)] IGuildChannel channel)
         {
             var dbService = DbService.GetDbContext();
-            var guildConfig = dbService.GetGuildConfig(Context.Guild);
+            var guildConfig = await dbService.GetGuildConfigAsync(Context.Guild);
             guildConfig.LiveChannel = channel.Id;
 
             await dbService.SaveChangesAsync();
@@ -45,19 +43,19 @@ public class ChannelCommands: InteractionModuleBase<SocketInteractionContext>
         }
 
         [SlashCommand("partner-channel", "Changes the partner channel for live notifications")]
-        public async Task SetPartnerChannelCommand([ChannelTypes(ChannelType.News, ChannelType.Text)] IGuildChannel channel)
+        public async Task SetPartnerChannelCommand(
+            [ChannelTypes(ChannelType.News, ChannelType.Text)] IGuildChannel channel)
         {
             var dbService = DbService.GetDbContext();
-            var guildConfig = dbService.GetGuildConfig(Context.Guild);
+            var guildConfig = await dbService.GetGuildConfigAsync(Context.Guild);
             guildConfig.PartnerChannel = channel.Id;
 
             await dbService.SaveChangesAsync();
             await RespondAsync(
                 text: $"Changed the Partner Live Notification channel to <#{channel.Id}>", ephemeral: true);
         }
-
     }
-    
+
     [RequireUserPermission(GuildPermission.Administrator)]
     public class ClearChannel : InteractionModuleBase<SocketInteractionContext>
     {
@@ -72,5 +70,4 @@ public class ChannelCommands: InteractionModuleBase<SocketInteractionContext>
             await DeleteOriginalResponseAsync();
         }
     }
-    
 }

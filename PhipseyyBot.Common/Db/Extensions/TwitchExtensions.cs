@@ -1,5 +1,5 @@
-﻿#nullable disable
-using Discord.WebSocket;
+﻿using Discord.WebSocket;
+using Microsoft.EntityFrameworkCore;
 using PhipseyyBot.Common.Db.Models;
 using PhipseyyBot.Common.Exceptions;
 using PhipseyyBot.Common.Modules;
@@ -9,56 +9,67 @@ namespace PhipseyyBot.Common.Db.Extensions;
 
 public static class TwitchExtensions
 {
-    public static List<string> GetListOfAllStreamIds(
-        this PhipseyyDbContext context)
-    {
-        return context.TwitchConfigs.Select(config => config.ChannelId).Distinct().ToList();
-    }
+    private static IQueryable<TwitchConfig> MainStreamFilter(this IQueryable<TwitchConfig> query) =>
+        query.Where(config => config.MainStream);
 
-    public static List<TwitchConfig> GetListOfAllMainStreams(
-        this PhipseyyDbContext context)
-    {
-        return context.TwitchConfigs.Where(config => config.MainStream).Distinct().ToList();
-    }
+    private static IQueryable<TwitchConfig> GuildFilter(this IQueryable<TwitchConfig> query, ulong guildId) =>
+        query.Where(config => config.GuildId == guildId);
 
-    public static List<TwitchConfig> GetListOfFollowedStreams(
+    private static IQueryable<TwitchConfig> UsernameFilter(this IQueryable<TwitchConfig> query, string username) =>
+        query.Where(config => config.Username.ToLower() == username.ToLower());
+
+    public static async Task<List<string>> GetAllStreamIdsAsync(
+        this PhipseyyDbContext context) =>
+        await context.TwitchConfigs
+            .Select(config => config.ChannelId)
+            .Distinct()
+            .ToListAsync();
+
+    public static async Task<List<TwitchConfig>> GetAllMainStreamIdsAsync(
+        this PhipseyyDbContext context) =>
+        await context.TwitchConfigs
+            .MainStreamFilter()
+            .ToListAsync();
+
+    public static async Task<List<TwitchConfig>> GetGuildFollowedStreamsAsync(
         this PhipseyyDbContext context,
-        ulong guildId)
-    {
-        return context.TwitchConfigs.Where(config => config.GuildId == guildId).ToList();
-    }
+        ulong guildId) =>
+        await context.TwitchConfigs
+            .GuildFilter(guildId)
+            .ToListAsync();
 
-    public static TwitchConfig GetTwitchConfig(
+    public static async Task<TwitchConfig?> GetTwitchConfigAsync(
         this PhipseyyDbContext context,
-        SocketGuild guild)
-    {
-        return context.TwitchConfigs.FirstOrDefault(config => config.GuildId == guild.Id);
-    }
+        SocketGuild guild) =>
+        await context.TwitchConfigs
+            .GuildFilter(guild.Id)
+            .FirstOrDefaultAsync();
 
-    public static TwitchConfig GetTwitchConfigForStream(
+    public static async Task<TwitchConfig?> GetTwitchConfigForStreamAsync(
         this PhipseyyDbContext context,
         SocketGuild guild,
-        TwitchStreamData streamData)
-    {
-        return context.TwitchConfigs.FirstOrDefault(config =>
-            config.GuildId == guild.Id && config.ChannelId == streamData.ChannelId);
-    }
+        TwitchStreamData streamData) =>
+        await context.TwitchConfigs
+            .Where(config => config.GuildId == guild.Id && config.ChannelId == streamData.ChannelId)
+            .FirstOrDefaultAsync();
 
-    public static TwitchConfig GetMainStreamOfGuild(
+    public static async Task<TwitchConfig?>
+        GetMainStreamOfGuildAsync(this PhipseyyDbContext context, SocketGuild guild) =>
+        await context.TwitchConfigs
+            .GuildFilter(guild.Id)
+            .MainStreamFilter()
+            .FirstOrDefaultAsync();
+
+    public static async Task<TwitchConfig?> GetMainStreamByChannelIdAsync(
         this PhipseyyDbContext context,
-        SocketGuild guild)
-    {
-        return context.TwitchConfigs.FirstOrDefault(config => config.GuildId == guild.Id && config.MainStream);
-    }
+        string channelId
+    ) =>
+        await context.TwitchConfigs
+            .Where(config => config.ChannelId == channelId)
+            .MainStreamFilter()
+            .FirstOrDefaultAsync();
 
-    public static TwitchConfig GetMainStreamGuildOfChannel(
-        this PhipseyyDbContext context,
-        string channelId)
-    {
-        return context.TwitchConfigs.FirstOrDefault(config => config.ChannelId == channelId && config.MainStream);
-    }
-
-    public static async Task FollowStream(
+    public static async Task FollowStreamAsync(
         this PhipseyyDbContext context,
         ulong guildId,
         string twitchName)
@@ -76,94 +87,116 @@ public static class TwitchExtensions
         await context.SaveChangesAsync();
     }
 
-    public static bool IsFollowingStream(
+    public static async Task<bool> IsFollowingStreamAsync(
         this PhipseyyDbContext context,
         ulong guildId,
         string twitchName)
     {
-        var stream =
-            context.TwitchConfigs.FirstOrDefault(config =>
-                config.GuildId == guildId && config.Username.ToLower().Equals(twitchName.ToLower()));
+        var stream = await context.TwitchConfigs
+            .GuildFilter(guildId)
+            .UsernameFilter(twitchName)
+            .FirstOrDefaultAsync();
 
         return stream != null;
     }
 
-    public static async void UnfollowStream(
+    public static async Task UnfollowStreamAsync(
         this PhipseyyDbContext context,
         ulong guildId,
         string twitchName)
     {
-        var channel = context.TwitchConfigs.FirstOrDefault(config =>
-            config.GuildId == guildId && config.Username.ToLower().Equals(twitchName.ToLower()));
+        var channel = await context.TwitchConfigs
+            .GuildFilter(guildId)
+            .UsernameFilter(twitchName)
+            .FirstOrDefaultAsync();
+
         if (channel != null)
         {
             context.Attach(channel);
             context.Remove(channel);
+            await context.SaveChangesAsync();
         }
-
-        await context.SaveChangesAsync();
     }
 
-    public static async Task SetMainStream(
+    public static async Task SetMainStreamAsync(
         this PhipseyyDbContext context,
         ulong guildId,
         string twitchName)
     {
-        var twitchConfig = new TwitchConfig
+        var guildConfig = await context.GuildConfigs.FirstOrDefaultAsync(g => g.GuildId == guildId);
+        if (guildConfig == null)
         {
-            Username = twitchName,
-            ChannelId = TwitchConverter.GetTwitchIdFromName(twitchName),
-            GuildId = guildId,
-            MainStream = true,
-            SpotifySr = ""
-        };
+            guildConfig = new GuildConfig { GuildId = guildId };
+            context.GuildConfigs.Add(guildConfig);
+            await context.SaveChangesAsync();
+        }
 
-        var alreadyExists =
-            context.TwitchConfigs.FirstOrDefault(config =>
-                config.MainStream == true && config.GuildId != guildId &&
-                config.Username.ToLower().Equals(twitchName.ToLower()));
-        if (alreadyExists != null)
+        var alreadyExists = await context.TwitchConfigs
+            .Where(config => config.MainStream && config.GuildId != guildId)
+            .UsernameFilter(twitchName)
+            .AnyAsync();
+
+        if (alreadyExists)
             throw new IsAlreadyMainStreamOnAnotherServerException(twitchName);
 
-        var oldMainStream =
-            context.TwitchConfigs.FirstOrDefault(config => config.GuildId == guildId && config.MainStream);
+        var oldMainStream = await context.TwitchConfigs
+            .GuildFilter(guildId)
+            .MainStreamFilter()
+            .FirstOrDefaultAsync();
+
         if (oldMainStream != null)
             oldMainStream.MainStream = false;
 
-        var existingStream =
-            context.TwitchConfigs.FirstOrDefault(config =>
-                config.GuildId == guildId && config.Username.ToLower().Equals(twitchName.ToLower()));
+        var existingStream = await context.TwitchConfigs
+            .GuildFilter(guildId)
+            .UsernameFilter(twitchName)
+            .FirstOrDefaultAsync();
+
         if (existingStream != null)
-            existingStream.MainStream = true;
-        else
-            context.TwitchConfigs.Add(twitchConfig);
-
-        await context.SaveChangesAsync();
-    }
-
-    public static async void DeleteTwitchConfig(
-        this PhipseyyDbContext context,
-        ulong guildId)
-    {
-        var twitchConfigs = context.TwitchConfigs.Where(config => config.GuildId == guildId);
-        foreach (var config in twitchConfigs)
         {
-            context.Attach(config);
-            context.Remove(config);
+            existingStream.MainStream = true;
+        }
+        else
+        {
+            var twitchConfig = new TwitchConfig
+            {
+                Username = twitchName,
+                ChannelId = TwitchConverter.GetTwitchIdFromName(twitchName),
+                GuildId = guildId,
+                GuildConfig = guildConfig,
+                MainStream = true
+            };
+            context.TwitchConfigs.Add(twitchConfig);
         }
 
         await context.SaveChangesAsync();
     }
 
+    public static async Task DeleteTwitchConfigsForGuildAsync(
+        this PhipseyyDbContext context,
+        ulong guildId)
+    {
+        var twitchConfigs = await context.TwitchConfigs
+            .GuildFilter(guildId)
+            .ToListAsync();
 
-    public static async void SetSongRequestForStream(
+        if (twitchConfigs.Any())
+        {
+            context.TwitchConfigs.RemoveRange(twitchConfigs);
+            await context.SaveChangesAsync();
+        }
+    }
+
+    public static async Task SetSongRequestForStreamAsync(
         this PhipseyyDbContext context,
         SocketGuild guild,
         string rewardId)
     {
-        var config = context.GetMainStreamOfGuild(guild);
-        config.SpotifySr = rewardId;
-
-        await context.SaveChangesAsync();
+        var config = await context.GetMainStreamOfGuildAsync(guild);
+        if (config != null)
+        {
+            config.SpotifySr = rewardId;
+            await context.SaveChangesAsync();
+        }
     }
 }

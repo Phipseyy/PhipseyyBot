@@ -15,7 +15,7 @@ public static class InfoEmbed
                 IconUrl = client.CurrentUser.GetAvatarUrl()
             },
             Title = "How to setup your Stream message",
-            Description = "Use ``/settings set main-channel-noti`` or ``/settings set partner-channel-noti`` to change your live message for the notifications! \n" +
+            Description = "Use ``/twitch notification main-channel`` or ``/twitch notification partner-channel message`` to change your live message for the notifications! \n" +
                 "You can also use the following variables in your message: \n" +
                 "``{Username}``: Username of the streamer \n" +
                 "``{Game}``: Game for the Stream \n" +

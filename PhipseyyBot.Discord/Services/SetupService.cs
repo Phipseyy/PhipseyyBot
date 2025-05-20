@@ -15,7 +15,7 @@ public static class SetupService
     {
         var logRequest = socketGuild.TextChannels.FirstOrDefault(channel => channel.Name.Contains("log"));
         var logChannel = logRequest ?? await CreatePrivateTextChannelAsync(socketGuild, "log");
-        
+
         var liveRequest = socketGuild.TextChannels.FirstOrDefault(channel => channel.Name.Contains("stream"));
         var liveChannel = liveRequest ?? await CreatePrivateTextChannelAsync(socketGuild, "stream-notifications");
 
@@ -24,8 +24,7 @@ public static class SetupService
             Color = Const.Main,
             Title = "H0i",
             Description =
-                $"Thank you for using PhipseyyBot! \nIf you encounter any bugs or errors, please contact {Const.OwnerPing}"
-            ,
+                $"Thank you for using PhipseyyBot! \nIf you encounter any bugs or errors, please contact {Const.OwnerPing}",
             ImageUrl = "https://media.giphy.com/media/8U8LDibipKRDq/giphy.gif",
             Footer = new EmbedFooterBuilder
             {
@@ -36,22 +35,22 @@ public static class SetupService
         try
         {
             await logChannel.SendMessageAsync(embed: welcomeMessage.Build());
-            await context.AddGuildToDb(socketGuild.Id, logChannel.Id, liveChannel.Id, liveChannel.Id);
+            await context.AddOrUpdateGuildConfigAsync(socketGuild.Id, logChannel.Id, liveChannel.Id, liveChannel.Id);
         }
         catch (Exception e)
         {
             LogDiscordStartup(e.Message);
         }
     }
-    
+
     /// <summary>
     /// Fancy Console Output
     /// </summary>
     /// <param name="message"></param>
     private static void LogDiscordStartup(string message)
         => Log.Information($"[Discord] [Startup] {message}");
-    
-    
+
+
     private static async Task<SocketTextChannel> CreatePrivateTextChannelAsync(
         SocketGuild socketGuild,
         string channelName)
@@ -60,7 +59,7 @@ public static class SetupService
         await channel.AddPermissionOverwriteAsync(
             socketGuild.Roles.FirstOrDefault(role => role.Name == "@everyone"),
             OverwritePermissions.DenyAll(channel));
-        
+
         return socketGuild.GetTextChannel(channel.Id);
     }
 
@@ -73,36 +72,34 @@ public static class SetupService
     /// <param name="socketGuild"></param>
     public static async Task VerifyChannels(PhipseyyDbContext context, SocketGuild socketGuild)
     {
-        var config = context.GetGuildConfig(socketGuild);
+        var config = await context.GetGuildConfigAsync(socketGuild);
 
-        var logRequest = context.GetLogChannel(socketGuild);
+        var logRequest = await context.GetLogChannelAsync(socketGuild);
         var logChannel = logRequest ?? CreatePrivateTextChannelAsync(socketGuild, "log").Result;
 
-        var liveRequest = context.GetLiveChannel(socketGuild);
+        var liveRequest = await context.GetLiveChannelAsync(socketGuild);
         var liveChannel = liveRequest ?? CreatePrivateTextChannelAsync(socketGuild, "stream-notifications").Result;
 
-        var partnerRequest = context.GetPartnerChannel(socketGuild);
+        var partnerRequest = await context.GetPartnerChannelAsync(socketGuild);
         var partnerChannel = partnerRequest ?? liveChannel;
-        
-        
+
+
         if (logChannel.Id != config.LogChannel || liveChannel.Id != config.LiveChannel || partnerRequest == null)
-            await context.AddGuildToDb(socketGuild.Id, logChannel.Id, liveChannel.Id, partnerChannel.Id);
+            await context.AddOrUpdateGuildConfigAsync(socketGuild.Id, logChannel.Id, liveChannel.Id, partnerChannel.Id);
     }
 
     public static async Task VerifyMessages(PhipseyyDbContext context, SocketGuild socketGuild)
     {
-        var config = context.GetGuildConfig(socketGuild);
+        var config = await context.GetGuildConfigAsync(socketGuild);
 
         if (IsNullOrEmpty(config.MainStreamNotification))
         {
-            await context.SetMainStreamNotification(socketGuild, "Hey @everyone! {Username} is now live!");
+            await context.SetMainStreamNotificationAsync(socketGuild, "Hey @everyone! {Username} is now live!");
         }
 
         if (IsNullOrEmpty(config.PartnerStreamNotification))
         {
-            await context.SetPartnerStreamNotification(socketGuild, "Hey @here! {Username} is now live!");
+            await context.SetPartnerStreamNotificationAsync(socketGuild, "Hey @here! {Username} is now live!");
         }
-
     }
-
 }

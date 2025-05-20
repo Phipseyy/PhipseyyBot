@@ -23,12 +23,12 @@ public class SettingsCommands : InteractionModuleBase<SocketInteractionContext>
     public async Task ShowSettingsCommand()
     {
         var dbContext = DbService.GetDbContext();
-        var logChannel = dbContext.GetLogChannel(Context.Guild);
-        var liveChannel = dbContext.GetLiveChannel(Context.Guild);
-        var partnerChannel = dbContext.GetPartnerChannel(Context.Guild);
-        var spotifyConfig = dbContext.GetSpotifyConfigFromGuild(Context.Guild.Id);
+        var logChannel = await dbContext.GetLogChannelAsync(Context.Guild);
+        var liveChannel = await dbContext.GetLiveChannelAsync(Context.Guild);
+        var partnerChannel = await dbContext.GetPartnerChannelAsync(Context.Guild);
+        var spotifyConfig = await dbContext.GetSpotifyConfigAsync(Context.Guild.Id);
         var isSpotifyActiveEmoji = PubSubService.IsSpotifyActive(Context.Guild.Id)? "✅" : "❌";
-        var streams = dbContext.GetListOfFollowedStreams(Context.Guild.Id);
+        var streams = await dbContext.GetGuildFollowedStreamsAsync(Context.Guild.Id);
         var isPubSubActiveEmoji = PubSubService.IsConnected? " ✅" : "❌";
 
         var embed = new EmbedBuilder
@@ -93,7 +93,7 @@ public class SettingsCommands : InteractionModuleBase<SocketInteractionContext>
         {
             var dbContext = DbService.GetDbContext();
             PubSubService.DeleteSpotifyConfig(Context.Guild.Id);
-            dbContext.DeleteSpotifyConfig(Context.Guild.Id);
+            await dbContext.DeleteSpotifyConfigAsync(Context.Guild.Id);
             await RespondAsync(embed: SuccessEmbed.GetSuccessEmbed(Context.Client, "Spotify Settings Reset",
                 "Your spotify data has been deleted from the database"), ephemeral: true);
         }
@@ -102,7 +102,7 @@ public class SettingsCommands : InteractionModuleBase<SocketInteractionContext>
         public async Task ResetTwitchCommand()
         {
             var dbContext = DbService.GetDbContext();
-            dbContext.DeleteTwitchConfig(Context.Guild.Id);
+            await dbContext.DeleteTwitchConfigsForGuildAsync(Context.Guild.Id);
             await RespondAsync(embed: SuccessEmbed.GetSuccessEmbed(Context.Client,"Twitch Settings Reset",
                 "Your twitch data has been deleted from the database"), ephemeral: true);
         }
@@ -112,10 +112,10 @@ public class SettingsCommands : InteractionModuleBase<SocketInteractionContext>
         {
             var dbContext = DbService.GetDbContext();
             var guild = Context.Guild;
-        
-            dbContext.DeleteGuildConfig(guild.Id);
-            dbContext.DeleteTwitchConfig(guild.Id);
-            dbContext.DeleteSpotifyConfig(guild.Id);
+            
+            await dbContext.DeleteGuildConfigAsync(guild.Id);
+            await dbContext.DeleteTwitchConfigsForGuildAsync(guild.Id);
+            await dbContext.DeleteSpotifyConfigAsync(guild.Id);
             var invite = $"https://discord.com/api/oauth2/authorize?client_id={Context.Client.CurrentUser.Id}&permissions=8&scope=bot";
         
             await RespondAsync(embed: SuccessEmbed.GetSuccessEmbed(Context.Client,"Server Settings Reset",

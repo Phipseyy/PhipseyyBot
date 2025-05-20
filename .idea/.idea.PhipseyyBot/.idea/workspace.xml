@@ -11,13 +11,29 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d07b2e5e-ae2c-44a2-b23d-765c3f6e2b0d" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.PhipseyyBot/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.PhipseyyBot/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PhipseyyBot.Common/Modules/PhipseyyLogger.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Common/Modules/PhipseyyLogger.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PhipseyyBot.Common/Db/Extensions/GuildExtensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Common/Db/Extensions/GuildExtensions.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PhipseyyBot.Common/Db/Extensions/SpotifyExtensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Common/Db/Extensions/SpotifyExtensions.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PhipseyyBot.Common/Db/Extensions/TwitchExtensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Common/Db/Extensions/TwitchExtensions.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PhipseyyBot.Common/Db/Models/GuildConfig.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Common/Db/Models/GuildConfig.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PhipseyyBot.Common/Db/Models/SpotifyConfig.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Common/Db/Models/SpotifyConfig.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PhipseyyBot.Common/Db/Models/TwitchConfig.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Common/Db/Models/TwitchConfig.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PhipseyyBot.Common/Db/PhipseyyDbContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Common/Db/PhipseyyDbContext.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PhipseyyBot.Common/Embeds/InfoEmbed.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Common/Embeds/InfoEmbed.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/PhipseyyBot.Common/PhipseyyBot.Common.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Common/PhipseyyBot.Common.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PhipseyyBot.Discord/Modules/Commands/Owner/RestartTwitchService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Discord/Modules/Commands/Owner/RestartTwitchService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PhipseyyBot.Common/Services/DbService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Common/Services/DbService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PhipseyyBot.Discord/DiscordBot.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Discord/DiscordBot.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PhipseyyBot.Discord/Modules/Commands/ChannelCommands.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Discord/Modules/Commands/ChannelCommands.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PhipseyyBot.Discord/Modules/Commands/Owner/SendGlobalMessage.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Discord/Modules/Commands/Owner/SendGlobalMessage.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PhipseyyBot.Discord/Modules/Commands/SettingsCommands.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Discord/Modules/Commands/SettingsCommands.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PhipseyyBot.Discord/Modules/Commands/SpotifyCommands.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Discord/Modules/Commands/SpotifyCommands.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PhipseyyBot.Discord/Modules/Commands/TwitchCommands.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Discord/Modules/Commands/TwitchCommands.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/PhipseyyBot.Discord/Services/PubSub/PubSubService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Discord/Services/PubSub/PubSubService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PhipseyyBot.Spotify/PhipseyyBot.Spotify.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Spotify/PhipseyyBot.Spotify.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PhipseyyBot.Discord/Services/SetupService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Discord/Services/SetupService.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/PhipseyyBot.Spotify/SpotifyBot.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.Spotify/SpotifyBot.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PhipseyyBot.sln" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.sln" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PhipseyyBot.sln.DotSettings.user" beforeDir="false" afterPath="$PROJECT_DIR$/PhipseyyBot.sln.DotSettings.user" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,7 +41,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="DpaMonitoringSettings">
-    <option name="autoShow" value="false" />
+    <option name="firstShow" value="false" />
   </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
@@ -55,25 +71,35 @@
   }
 }</component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/4616c5f310a14452a4a3724a3f74d84935800/59/9a1d6bec/PlayerAddToQueueRequest.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/a805c4c361d44d8db61bda5470e14eda8e00/6d/c7250761/WebSocketClient.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/a805c4c361d44d8db61bda5470e14eda8e00/9b/1b66c8c7/Throttlers.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/ab63a6f807034ca2860631fe50280e238e00/1b/b08b308a/ClientOptions.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/ab63a6f807034ca2860631fe50280e238e00/2a/08fa33d6/ReconnectionPolicy.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/ab63a6f807034ca2860631fe50280e238e00/4e/7f51571b/Throttlers.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/ab63a6f807034ca2860631fe50280e238e00/fa/464e4f33/WebSocketClient.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/e5ba731c8a4f41d7a392a32574f6226d14a00/76/fa09aca8/TwitchPubSub.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/fc2de29b920b4475950c0adf08f18d9924910/37/05d21205/ILogger`1.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/e1dafc386a1bacc7b88ffabc20493e2d6ae8d49bc898a95b7d4cd962c71142f1/Log.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/PhipseyyBot.Common/BotCredentials.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/PhipseyyBot.Common/Const.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock://C:/Projekte/PhipseyyBot/PhipseyyBot.Common/Db/Extensions/GuildExtensions.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Projekte/PhipseyyBot/PhipseyyBot.Common/Db/Extensions/SpotifyExtensions.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Projekte/PhipseyyBot/PhipseyyBot.Common/Db/Extensions/TwitchExtensions.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Projekte/PhipseyyBot/PhipseyyBot.Common/Db/Models/GuildConfig.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Projekte/PhipseyyBot/PhipseyyBot.Common/Db/Models/SpotifyConfig.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Projekte/PhipseyyBot/PhipseyyBot.Common/Db/Models/TwitchConfig.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Projekte/PhipseyyBot/PhipseyyBot.Common/Db/PhipseyyDbContext.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Projekte/PhipseyyBot/PhipseyyBot.Common/Embeds/InfoEmbed.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/PhipseyyBot.Common/Embeds/SuccessEmbed.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="mock://E:/Development/PhipseyyBot/PhipseyyBot.Common/Modules/PhipseyyLogger.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Projekte/PhipseyyBot/PhipseyyBot.Common/Services/DbService.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Projekte/PhipseyyBot/PhipseyyBot.Discord/DiscordBot.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/PhipseyyBot.Discord/DiscordBot.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="mock://E:/Development/PhipseyyBot/PhipseyyBot.Discord/DiscordBot.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://E:/Development/PhipseyyBot/PhipseyyBot.Discord/Modules/Commands/Owner/RestartTwitchService.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://E:/Development/PhipseyyBot/PhipseyyBot.Discord/Services/PubSub/PubSubService.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Projekte/PhipseyyBot/PhipseyyBot.Discord/Modules/Commands/ChannelCommands.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Projekte/PhipseyyBot/PhipseyyBot.Discord/Modules/Commands/Owner/SendGlobalMessage.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Projekte/PhipseyyBot/PhipseyyBot.Discord/Modules/Commands/SettingsCommands.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Projekte/PhipseyyBot/PhipseyyBot.Discord/Modules/Commands/SpotifyCommands.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Projekte/PhipseyyBot/PhipseyyBot.Discord/Modules/Commands/TwitchCommands.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Projekte/PhipseyyBot/PhipseyyBot.Discord/Services/PubSub/PubSubService.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/PhipseyyBot.Discord/Services/SetupService.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock://C:/Projekte/PhipseyyBot/PhipseyyBot.Discord/Services/SetupService.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Projekte/PhipseyyBot/PhipseyyBot.Spotify/SpotifyBot.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/PhipseyyBot/Program.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/1b9c16d893c14bd88616afe84671ce8739200/c0/81e9b8d4/InteractionModuleBase`1.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/5aeb6167299d4cfba30c86624130edbcc90938/18/4cea11d2/Dictionary`2.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/a6ca83fd68634bcf88b36fa07a3599b426a020/24/6e661bef/DbContext.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/a6ca83fd68634bcf88b36fa07a3599b426a020/47/ac193747/DbSet`1.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/4b21fc3f8a3abb5d25f06c622276fbec0fd3932f169cc6af520bf5abc6a46b4/DbSet.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -86,7 +112,7 @@
   &quot;associatedIndex&quot;: 6
 }</component>
   <component name="ProjectId" id="2DNnwuLevWrd8ywFGNgdZAf9LRv" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+  <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
   </component>
   <component name="ProjectViewState">
@@ -100,6 +126,7 @@
     &quot;Publish to folder.Linux_x64.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
     &quot;git-widget-placeholder&quot;: &quot;master&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
@@ -113,13 +140,9 @@
   },
   &quot;keyToStringList&quot;: {
     &quot;com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File&quot;: [
+      &quot;GitIgnore&quot;,
       &quot;JSON&quot;,
       &quot;TEXT&quot;
-    ],
-    &quot;rider.external.source.directories&quot;: [
-      &quot;C:\\Users\\bodo5\\AppData\\Roaming\\JetBrains\\Rider2024.1\\resharper-host\\DecompilerCache&quot;,
-      &quot;C:\\Users\\bodo5\\AppData\\Roaming\\JetBrains\\Rider2024.1\\resharper-host\\SourcesCache&quot;,
-      &quot;C:\\Users\\bodo5\\AppData\\Local\\Symbols\\src&quot;
     ]
   }
 }</component>
@@ -166,8 +189,13 @@
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/PhipseyyBot/bin/Debug/net8.0" />
       <option name="PASS_PARENT_ENVS" value="1" />
       <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="ENV_FILE_PATHS" value="" />
+      <option name="REDIRECT_INPUT_PATH" value="" />
+      <option name="PTY_MODE" value="Auto" />
       <option name="USE_MONO" value="0" />
       <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="AUTO_ATTACH_CHILDREN" value="0" />
+      <option name="MIXED_MODE_DEBUG" value="0" />
       <option name="PROJECT_PATH" value="$PROJECT_DIR$/PhipseyyBot/PhipseyyBot.csproj" />
       <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
       <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
@@ -368,6 +396,16 @@
       <workItem from="1716926750082" duration="855000" />
       <workItem from="1717444137398" duration="615000" />
       <workItem from="1720708967136" duration="3103000" />
+      <workItem from="1745609321233" duration="200000" />
+      <workItem from="1745609531522" duration="503000" />
+      <workItem from="1745610045320" duration="58000" />
+      <workItem from="1745610160242" duration="1634000" />
+      <workItem from="1745671244229" duration="4136000" />
+      <workItem from="1745675425283" duration="6441000" />
+      <workItem from="1745684314564" duration="63000" />
+      <workItem from="1745684389240" duration="1499000" />
+      <workItem from="1747403650313" duration="837000" />
+      <workItem from="1747764397588" duration="1064000" />
     </task>
     <task id="LOCAL-00001" summary="Exception for reading the config file + cleanup">
       <created>1660749621376</created>
@@ -667,22 +705,16 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/PhipseyyBot.Discord/Modules/Commands/TwitchCommands.cs</url>
-          <line>29</line>
-          <properties documentPath="E:\Programmierung\Visual Studio\PhipseyyBot\PhipseyyBot.Discord\Modules\Commands\TwitchCommands.cs" containingFunctionPresentation="method 'FollowStreamCommand'" />
-          <option name="timeStamp" value="10" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/PhipseyyBot.Discord/DiscordBot.cs</url>
-          <line>169</line>
-          <properties documentPath="E:\Development\PhipseyyBot\PhipseyyBot.Discord\DiscordBot.cs" containingFunctionPresentation="Method 'SendStreamNotification'">
+          <line>30</line>
+          <properties documentPath="E:\Programmierung\Visual Studio\PhipseyyBot\PhipseyyBot.Discord\Modules\Commands\TwitchCommands.cs" containingFunctionPresentation="Method 'FollowStreamCommand'">
             <startOffsets>
-              <option value="5430" />
+              <option value="955" />
             </startOffsets>
             <endOffsets>
-              <option value="5481" />
+              <option value="996" />
             </endOffsets>
           </properties>
-          <option name="timeStamp" value="21" />
+          <option name="timeStamp" value="10" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/PhipseyyBot.CommonTests/DbTests.cs</url>
@@ -696,6 +728,135 @@
           <properties documentPath="E:\Development\PhipseyyBot\PhipseyyBot.CommonTests\DbTests.cs" containingFunctionPresentation="Method 'OverwriteMainStream'" />
           <option name="timeStamp" value="29" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/PhipseyyBot.Discord/Modules/Commands/TwitchCommands.cs</url>
+          <line>101</line>
+          <properties documentPath="C:\Projekte\PhipseyyBot\PhipseyyBot.Discord\Modules\Commands\TwitchCommands.cs" containingFunctionPresentation="Method 'SetStreamCommand'">
+            <startOffsets>
+              <option value="4286" />
+            </startOffsets>
+            <endOffsets>
+              <option value="4330" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="36" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/PhipseyyBot.Common/Db/Extensions/SpotifyExtensions.cs</url>
+          <line>107</line>
+          <properties documentPath="C:\Projekte\PhipseyyBot\PhipseyyBot.Common\Db\Extensions\SpotifyExtensions.cs" containingFunctionPresentation="Method 'DeleteSpotifyConfigAsync'">
+            <startOffsets>
+              <option value="3548" />
+            </startOffsets>
+            <endOffsets>
+              <option value="3664" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="37" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/PhipseyyBot.Discord/Modules/Commands/SettingsCommands.cs</url>
+          <line>93</line>
+          <properties documentPath="C:\Projekte\PhipseyyBot\PhipseyyBot.Discord\Modules\Commands\SettingsCommands.cs" containingFunctionPresentation="Method 'ResetSpotifyCommand'">
+            <startOffsets>
+              <option value="3670" />
+            </startOffsets>
+            <endOffsets>
+              <option value="3711" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="38" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/PhipseyyBot.Discord/Services/PubSub/PubSubService.cs</url>
+          <line>247</line>
+          <properties documentPath="C:\Projekte\PhipseyyBot\PhipseyyBot.Discord\Services\PubSub\PubSubService.cs" containingFunctionPresentation="Method 'DeleteSpotifyConfig'">
+            <startOffsets>
+              <option value="8675" />
+            </startOffsets>
+            <endOffsets>
+              <option value="8753" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="39" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/PhipseyyBot.Discord/Services/PubSub/PubSubService.cs</url>
+          <line>230</line>
+          <properties documentPath="C:\Projekte\PhipseyyBot\PhipseyyBot.Discord\Services\PubSub\PubSubService.cs" containingFunctionPresentation="Method 'StartSpotifyForGuild'">
+            <startOffsets>
+              <option value="8129" />
+            </startOffsets>
+            <endOffsets>
+              <option value="8208" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="40" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/PhipseyyBot.Spotify/SpotifyBot.cs</url>
+          <line>50</line>
+          <properties documentPath="C:\Projekte\PhipseyyBot\PhipseyyBot.Spotify\SpotifyBot.cs" containingFunctionPresentation="Method 'StartSpotify'">
+            <startOffsets>
+              <option value="1288" />
+            </startOffsets>
+            <endOffsets>
+              <option value="1357" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="41" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/PhipseyyBot.Spotify/SpotifyBot.cs</url>
+          <line>39</line>
+          <properties documentPath="C:\Projekte\PhipseyyBot\PhipseyyBot.Spotify\SpotifyBot.cs" containingFunctionPresentation="Method 'Start'">
+            <startOffsets>
+              <option value="1006" />
+            </startOffsets>
+            <endOffsets>
+              <option value="1075" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="42" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/PhipseyyBot.Spotify/SpotifyBot.cs</url>
+          <line>33</line>
+          <properties documentPath="C:\Projekte\PhipseyyBot\PhipseyyBot.Spotify\SpotifyBot.cs" containingFunctionPresentation="Method 'RunBot'">
+            <startOffsets>
+              <option value="909" />
+            </startOffsets>
+            <endOffsets>
+              <option value="923" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="43" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/PhipseyyBot.Discord/DiscordBot.cs</url>
+          <line>233</line>
+          <properties documentPath="C:\Projekte\PhipseyyBot\PhipseyyBot.Discord\DiscordBot.cs" containingFunctionPresentation="Method 'InitializeGuild'">
+            <startOffsets>
+              <option value="7709" />
+            </startOffsets>
+            <endOffsets>
+              <option value="7777" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="44" />
+        </line-breakpoint>
+        <breakpoint enabled="true" type="DotNet_Exception_Breakpoints">
+          <properties exception="System.OperationCanceledException" breakIfHandledByOtherCode="false" displayValue="System.OperationCanceledException" />
+          <option name="timeStamp" value="30" />
+        </breakpoint>
+        <breakpoint enabled="true" type="DotNet_Exception_Breakpoints">
+          <properties exception="System.Threading.Tasks.TaskCanceledException" breakIfHandledByOtherCode="false" displayValue="System.Threading.Tasks.TaskCanceledException" />
+          <option name="timeStamp" value="31" />
+        </breakpoint>
+        <breakpoint enabled="true" type="DotNet_Exception_Breakpoints">
+          <properties exception="System.Threading.ThreadAbortException" breakIfHandledByOtherCode="false" displayValue="System.Threading.ThreadAbortException" />
+          <option name="timeStamp" value="32" />
+        </breakpoint>
       </breakpoints>
     </breakpoint-manager>
     <pin-to-top-manager>

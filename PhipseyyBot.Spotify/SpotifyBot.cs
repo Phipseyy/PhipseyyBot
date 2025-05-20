@@ -37,7 +37,7 @@ public class SpotifyBot
 
     private async Task Start()
     {
-        var spotifyConfig = _dbContext.GetSpotifyConfigFromGuild(_guildId);
+        var spotifyConfig = await _dbContext.GetSpotifyConfigAsync(_guildId);
         if (spotifyConfig != null)
             await StartSpotify();
         else
@@ -48,13 +48,13 @@ public class SpotifyBot
     {
         try
         {
-            var spotifyConfig = _dbContext.GetSpotifyConfigFromGuild(_guildId);
+            var spotifyConfig = await _dbContext.GetSpotifyConfigAsync(_guildId);
             if (spotifyConfig == null) throw new Exception("No Spotify Config found in DB");
 
-            var token = _dbContext.GetSpotifyToken(_guildId);
+            var token = await _dbContext.GetSpotifyTokenAsync(_guildId);
 
             var authenticator = new PKCEAuthenticator(spotifyConfig.SpotifyClientId, token!);
-            authenticator.TokenRefreshed += (_, response) => _dbContext.SetSpotifyDataToDb(_guildId, response, spotifyConfig.SpotifyClientId, spotifyConfig.SpotifyClientSecret);
+            authenticator.TokenRefreshed += async (_, response) => await _dbContext.SaveSpotifyConfigAsync(_guildId, response, spotifyConfig.SpotifyClientId, spotifyConfig.SpotifyClientSecret);
 
             var config = SpotifyClientConfig.CreateDefault().WithAuthenticator(authenticator);
             _spotify = new SpotifyClient(config);
@@ -67,7 +67,7 @@ public class SpotifyBot
         {
             LogSpotify(e.Message);
             LogSpotify("WE NEED A NEW TOKEN - TRYING TO CREATE ONE");
-            var spotifyConfig = _dbContext.GetSpotifyConfigFromGuild(_guildId);
+            var spotifyConfig = await _dbContext.GetSpotifyConfigAsync(_guildId);
             if (spotifyConfig == null) throw new Exception("No Spotify Config found in DB");
             
             var newResponse = await new OAuthClient().RequestToken(
@@ -75,7 +75,7 @@ public class SpotifyBot
                     spotifyConfig.RefreshToken)
             );
 
-            _dbContext.SetSpotifyDataToDb(_guildId, newResponse, spotifyConfig.SpotifyClientId, spotifyConfig.SpotifyClientSecret);
+            await _dbContext.SaveSpotifyConfigAsync(_guildId, newResponse, spotifyConfig.SpotifyClientId, spotifyConfig.SpotifyClientSecret);
 
             _spotify = new SpotifyClient(newResponse.AccessToken);
             var me = await _spotify.UserProfile.Current();
@@ -91,7 +91,7 @@ public class SpotifyBot
     private async Task StartAuthentication()
     {
         var (verifier, challenge) = PKCEUtil.GenerateCodes();
-        var spotifyConfig = _dbContext.GetSpotifyConfigFromGuild(_guildId);
+        var spotifyConfig = await _dbContext.GetSpotifyConfigAsync(_guildId);
         if (spotifyConfig == null) throw new Exception("No Spotify Config found in DB");
         
         await _server.Start();
@@ -99,7 +99,7 @@ public class SpotifyBot
         {
             await _server.Stop();
             var token = await new OAuthClient().RequestToken(new PKCETokenRequest(spotifyConfig.SpotifyClientId, response.Code, _server.BaseUri, verifier));
-            _dbContext.SetSpotifyDataToDb(_guildId, token, spotifyConfig.SpotifyClientId, spotifyConfig.SpotifyClientSecret);
+            await _dbContext.SaveSpotifyConfigAsync(_guildId, token, spotifyConfig.SpotifyClientId, spotifyConfig.SpotifyClientSecret);
             await Start();
         };
 

@@ -1,4 +1,4 @@
-﻿#nullable disable
+﻿using Microsoft.EntityFrameworkCore;
 using PhipseyyBot.Common.Db.Models;
 using SpotifyAPI.Web;
 
@@ -6,71 +6,127 @@ namespace PhipseyyBot.Common.Db.Extensions;
 
 public static class SpotifyExtensions
 {
-    public static async void SetSpotifyDataToDb(
+    private static IQueryable<SpotifyConfig> ByGuildId(this IQueryable<SpotifyConfig> query, ulong guildId) =>
+        query.Where(config => config.GuildId == guildId);
+
+    public static async Task<SpotifyConfig?> GetSpotifyConfigAsync(
+        this PhipseyyDbContext context,
+        ulong guildId) =>
+        await context.SpotifyConfigs
+            .ByGuildId(guildId)
+            .FirstOrDefaultAsync();
+    
+    private static async Task<GuildConfig> EnsureGuildConfigExistsAsync(
+        this PhipseyyDbContext context,
+        ulong guildId)
+    {
+        var guildConfig = await context.GuildConfigs
+            .FirstOrDefaultAsync(g => g.GuildId == guildId);
+
+        if (guildConfig is not null) return guildConfig;
+        
+        guildConfig = new GuildConfig { GuildId = guildId };
+        context.GuildConfigs.Add(guildConfig);
+        await context.SaveChangesAsync();
+        return guildConfig;
+    }
+
+    public static async Task SaveSpotifyConfigAsync(
         this PhipseyyDbContext context,
         ulong guildId,
         PKCETokenResponse token,
         string clientId,
         string clientSecret)
     {
-        var spotifyConfig = new SpotifyConfig
-        {
-            GuildId = guildId,
-            SpotifyClientId = clientId,
-            SpotifyClientSecret = clientSecret,
-            Scope = token.Scope,
-            AccessToken = token.AccessToken,
-            CreatedAt = token.CreatedAt,
-            ExpiresIn = token.ExpiresIn,
-            RefreshToken = token.RefreshToken,
-            TokenType = token.TokenType
-        };
+        var guildConfig = await context.EnsureGuildConfigExistsAsync(guildId);
 
-        var oldSpotifyConfig = context.SpotifyConfigs.FirstOrDefault(config => config.GuildId == guildId);
-        if (oldSpotifyConfig == null)
+        var spotifyConfig = await context.SpotifyConfigs
+            .ByGuildId(guildId)
+            .FirstOrDefaultAsync();
+
+        if (spotifyConfig == null)
         {
+            spotifyConfig = new SpotifyConfig
+            {
+                GuildId = guildId,
+                GuildConfigId = guildConfig.Id
+            };
             context.SpotifyConfigs.Add(spotifyConfig);
         }
-        else
+
+        spotifyConfig.SpotifyClientId = clientId;
+        spotifyConfig.SpotifyClientSecret = clientSecret;
+        spotifyConfig.Scope = token.Scope;
+        spotifyConfig.AccessToken = token.AccessToken;
+        spotifyConfig.CreatedAt = token.CreatedAt;
+        spotifyConfig.ExpiresIn = token.ExpiresIn;
+        spotifyConfig.RefreshToken = token.RefreshToken;
+        spotifyConfig.TokenType = token.TokenType;
+
+        await context.SaveChangesAsync();
+    }
+
+    public static async Task SaveSpotifyConfigAsync(
+        this PhipseyyDbContext context,
+        ulong guildId,
+        AuthorizationCodeRefreshResponse token,
+        string clientId,
+        string clientSecret)
+    {
+        var guildConfig = await context.EnsureGuildConfigExistsAsync(guildId);
+
+        var spotifyConfig = await context.SpotifyConfigs
+            .ByGuildId(guildId)
+            .FirstOrDefaultAsync();
+
+        if (spotifyConfig == null)
         {
-            oldSpotifyConfig.SpotifyClientId = spotifyConfig.SpotifyClientId;
-            oldSpotifyConfig.SpotifyClientSecret = spotifyConfig.SpotifyClientSecret;
-            oldSpotifyConfig.Scope = token.Scope;
-            oldSpotifyConfig.AccessToken = token.AccessToken;
-            oldSpotifyConfig.CreatedAt = token.CreatedAt;
-            oldSpotifyConfig.ExpiresIn = token.ExpiresIn;
-            oldSpotifyConfig.RefreshToken = token.RefreshToken;
-            oldSpotifyConfig.TokenType = token.TokenType;
+            spotifyConfig = new SpotifyConfig
+            {
+                GuildId = guildId,
+                GuildConfigId = guildConfig.Id
+            };
+            context.SpotifyConfigs.Add(spotifyConfig);
         }
 
+        spotifyConfig.SpotifyClientId = clientId;
+        spotifyConfig.SpotifyClientSecret = clientSecret;
+        spotifyConfig.Scope = token.Scope;
+        spotifyConfig.AccessToken = token.AccessToken;
+        spotifyConfig.CreatedAt = token.CreatedAt;
+        spotifyConfig.ExpiresIn = token.ExpiresIn;
+        spotifyConfig.RefreshToken = token.RefreshToken;
+        spotifyConfig.TokenType = token.TokenType;
+
         await context.SaveChangesAsync();
     }
 
-    public static async void DeleteSpotifyConfig(
+    public static async Task DeleteSpotifyConfigAsync(
         this PhipseyyDbContext context,
         ulong guildId)
     {
-        var spotifyConfig = context.SpotifyConfigs.FirstOrDefault(config => config.GuildId == guildId);
-        if (spotifyConfig == null) return;
-        context.Attach(spotifyConfig);
-        context.Remove(spotifyConfig);
-        await context.SaveChangesAsync();
+        var spotifyConfig = await context.SpotifyConfigs
+            .ByGuildId(guildId)
+            .FirstOrDefaultAsync();
+
+        if (spotifyConfig != null)
+        {
+            context.SpotifyConfigs.Remove(spotifyConfig);
+            await context.SaveChangesAsync();
+        }
     }
 
-    public static SpotifyConfig GetSpotifyConfigFromGuild(this PhipseyyDbContext context, ulong guildId)
-    {
-        return context.SpotifyConfigs.FirstOrDefault(config => config.GuildId == guildId);
-    }
-
-
-    public static PKCETokenResponse GetSpotifyToken(
+    public static async Task<PKCETokenResponse?> GetSpotifyTokenAsync(
         this PhipseyyDbContext context,
         ulong guildId)
     {
-        var spotifyConfig = context.SpotifyConfigs.FirstOrDefault(config => config.GuildId == guildId);
+        var spotifyConfig = await context.SpotifyConfigs
+            .ByGuildId(guildId)
+            .FirstOrDefaultAsync();
 
         if (spotifyConfig == null) return null;
-        var token = new PKCETokenResponse
+
+        return new PKCETokenResponse
         {
             Scope = spotifyConfig.Scope,
             AccessToken = spotifyConfig.AccessToken,
@@ -79,47 +135,5 @@ public static class SpotifyExtensions
             RefreshToken = spotifyConfig.RefreshToken,
             TokenType = spotifyConfig.TokenType
         };
-        return token;
-    }
-
-
-    public static async void SetSpotifyDataToDb(
-        this PhipseyyDbContext context,
-        ulong guildId,
-        AuthorizationCodeRefreshResponse token,
-        string clientId,
-        string clientSecret)
-    {
-        var spotifyConfig = new SpotifyConfig
-        {
-            GuildId = guildId,
-            SpotifyClientId = clientId,
-            SpotifyClientSecret = clientSecret,
-            Scope = token.Scope,
-            AccessToken = token.AccessToken,
-            CreatedAt = token.CreatedAt,
-            ExpiresIn = token.ExpiresIn,
-            RefreshToken = token.RefreshToken,
-            TokenType = token.TokenType
-        };
-
-        var oldSpotifyConfig = context.SpotifyConfigs.FirstOrDefault(config => config.GuildId == guildId);
-        if (oldSpotifyConfig == null)
-        {
-            context.SpotifyConfigs.Add(spotifyConfig);
-        }
-        else
-        {
-            oldSpotifyConfig.SpotifyClientId = spotifyConfig.SpotifyClientId;
-            oldSpotifyConfig.SpotifyClientSecret = spotifyConfig.SpotifyClientSecret;
-            oldSpotifyConfig.Scope = token.Scope;
-            oldSpotifyConfig.AccessToken = token.AccessToken;
-            oldSpotifyConfig.CreatedAt = token.CreatedAt;
-            oldSpotifyConfig.ExpiresIn = token.ExpiresIn;
-            oldSpotifyConfig.RefreshToken = token.RefreshToken;
-            oldSpotifyConfig.TokenType = token.TokenType;
-        }
-
-        await context.SaveChangesAsync();
     }
 }

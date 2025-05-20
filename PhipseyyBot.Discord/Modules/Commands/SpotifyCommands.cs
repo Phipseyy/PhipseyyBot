@@ -44,7 +44,7 @@ public class SpotifyCommands : InteractionModuleBase<SocketInteractionContext>
                 new PKCETokenRequest(clientId, response.Code, server.BaseUri, verifier)
             );
 
-            dbContext.SetSpotifyDataToDb(Context.Guild.Id, token, clientId, clientSecret);
+            await dbContext.SaveSpotifyConfigAsync(Context.Guild.Id, token, clientId, clientSecret);
             await FollowupAsync(
                 text: "Settings saved!",
                 ephemeral: true);

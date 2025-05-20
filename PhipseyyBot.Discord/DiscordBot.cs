@@ -153,7 +153,7 @@ public class DiscordBot
         if (arg.GuildId != null && arg.Data.CustomId == "rew-menu")
         {
             var guild = DcClient.Guilds.FirstOrDefault(currentGuild => currentGuild.Id == arg.GuildId.Value);
-            DbContext.SetSongRequestForStream(guild, arg.Data.Values.ElementAt(0));
+            await DbContext.SetSongRequestForStreamAsync(guild, arg.Data.Values.ElementAt(0));
             await arg.Message.DeleteAsync();
             await arg.RespondAsync(text: "Song Request has been set!", ephemeral: true);
         }
@@ -165,23 +165,19 @@ public class DiscordBot
     {
         foreach (var guild in DcClient.Guilds)
         {
-            //var currentConfig = _dbContext.GetTwitchConfigForStream(guild, streamData);
-            //var isMainStream = currentConfig != null && currentConfig.Equals(_dbContext.GetMainStreamOfGuild(guild));
-            //var guildConfig = _dbContext.GetGuildConfig(guild);
-            
             var currentConfig = DbContext.TwitchConfigs.FirstOrDefault(config =>
                 config.GuildId == guild.Id && config.ChannelId == streamData.ChannelId);
             var isMainStream = currentConfig != null && currentConfig.ChannelId == streamData.ChannelId && currentConfig.MainStream;
 
-            var guildConfig = DbContext.GetGuildConfig(guild);
+            var guildConfig = await DbContext.GetGuildConfigAsync(guild);
             
             if (guildConfig == null || currentConfig == null) 
                 continue;
 
             try
             {
-                var liveChannel = DbContext.GetLiveChannel(guild);
-                var partnerChannel = DbContext.GetPartnerChannel(guild);
+                var liveChannel = await DbContext.GetLiveChannelAsync(guild);
+                var partnerChannel = await DbContext.GetPartnerChannelAsync(guild);
 
                 if (isMainStream && liveChannel != null)
                 {
@@ -208,13 +204,13 @@ public class DiscordBot
         }
     }
 
-    public async void SendGlobalLogMessage(string message)
+    public async Task SendGlobalLogMessage(string message)
     {
         foreach (var guild in DcClient.Guilds)
         {
             try
             {
-                var channel = DbContext.GetLogChannel(guild);
+                var channel = await DbContext.GetLogChannelAsync(guild);
                 await channel.SendMessageAsync(message);
             }
             catch (Exception ex)
@@ -226,7 +222,7 @@ public class DiscordBot
 
     private async Task InitializeGuild(SocketGuild guild)
     {
-        var currentConfig = DbContext.GetGuildConfig(guild);
+        var currentConfig = await DbContext.GetGuildConfigAsync(guild);
         if (currentConfig == null)
             await SetupService.InitializeChannels(DbContext, guild);
         else
@@ -235,8 +231,8 @@ public class DiscordBot
             await SetupService.VerifyMessages(DbContext, guild);
         }
 
-        var twitchConfig = DbContext.GetMainStreamOfGuild(guild);
-        var spotifyConfig = DbContext.GetSpotifyConfigFromGuild(guild.Id);
+        var twitchConfig = await DbContext.GetMainStreamOfGuildAsync(guild);
+        var spotifyConfig = await DbContext.GetSpotifyConfigAsync(guild.Id);
         if (spotifyConfig != null && twitchConfig != null)
         {
             PubSubService.AddSpotifyClient(guild);

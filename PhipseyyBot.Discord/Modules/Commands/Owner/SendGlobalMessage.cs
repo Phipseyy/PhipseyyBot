@@ -46,7 +46,7 @@ public class SendGlobalMessage : InteractionModuleBase<SocketInteractionContext>
         {
             try
             {
-                var channel = dbContext.GetLogChannel(guild);
+                var channel = await dbContext.GetLogChannelAsync(guild);
                 await channel.SendMessageAsync(text: "@everyone", embed: embed.Build());
             }
             catch (Exception ex)
@@ -70,7 +70,7 @@ public class SendGlobalMessage : InteractionModuleBase<SocketInteractionContext>
         {
             try
             {
-                var channel = dbContext.GetLogChannel(guild);
+                var channel = await dbContext.GetLogChannelAsync(guild);
                 await channel.SendMessageAsync(message);
             }
             catch (Exception ex)

@@ -33,4 +33,29 @@ public class PhipseyyDbContext : DbContext
         base.OnConfiguring(options);
         
     }
+    
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
+    
+        modelBuilder.Entity<GuildConfig>()
+            .HasMany(g => g.TwitchConfigs)
+            .WithOne(t => t.GuildConfig)
+            .HasForeignKey(t => t.GuildConfigId)
+            .OnDelete(DeleteBehavior.Cascade);
+    
+        modelBuilder.Entity<GuildConfig>()
+            .HasOne(g => g.SpotifyConfig)
+            .WithOne(s => s.GuildConfig)
+            .HasForeignKey<SpotifyConfig>(s => s.GuildConfigId)
+            .OnDelete(DeleteBehavior.Cascade);
+    
+        modelBuilder.Entity<GuildConfig>()
+            .HasIndex(g => g.GuildId)
+            .IsUnique();
+        
+        modelBuilder.Entity<TwitchConfig>()
+            .HasIndex(t => t.ChannelId);
+    }
+
 }
