@@ -64,7 +64,7 @@ jobs:
     needs: build-bot
     permissions:
       contents: write
-    if: startsWith(github.ref, 'refs/tags/')
+    if: github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/tags/')
 
     steps:
       - name: Download Linux-arm64 Artifact
