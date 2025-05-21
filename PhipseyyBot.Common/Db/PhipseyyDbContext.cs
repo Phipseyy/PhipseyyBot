@@ -41,13 +41,13 @@ public class PhipseyyDbContext : DbContext
         modelBuilder.Entity<GuildConfig>()
             .HasMany(g => g.TwitchConfigs)
             .WithOne(t => t.GuildConfig)
-            .HasForeignKey(t => t.GuildConfigId)
+            .HasForeignKey(t => t.GuildId)
             .OnDelete(DeleteBehavior.Cascade);
     
         modelBuilder.Entity<GuildConfig>()
             .HasOne(g => g.SpotifyConfig)
             .WithOne(s => s.GuildConfig)
-            .HasForeignKey<SpotifyConfig>(s => s.GuildConfigId)
+            .HasForeignKey<SpotifyConfig>(s => s.GuildId)
             .OnDelete(DeleteBehavior.Cascade);
     
         modelBuilder.Entity<GuildConfig>()

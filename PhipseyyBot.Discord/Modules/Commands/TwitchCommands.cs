@@ -248,7 +248,7 @@ public class TwitchCommands : InteractionModuleBase<SocketInteractionContext>
             embed: twitchData.GetDiscordEmbed());
     }
 
-    [RequireOwner]
+    [RequireUserPermission(GuildPermission.Administrator)]
     [Group("debug", "Debugging")]
     public class ResetSettings : InteractionModuleBase<SocketInteractionContext>
     {

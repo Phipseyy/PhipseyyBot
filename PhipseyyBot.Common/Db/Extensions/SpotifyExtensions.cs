@@ -49,7 +49,6 @@ public static class SpotifyExtensions
             spotifyConfig = new SpotifyConfig
             {
                 GuildId = guildId,
-                GuildConfigId = guildConfig.Id
             };
             context.SpotifyConfigs.Add(spotifyConfig);
         }
@@ -83,8 +82,7 @@ public static class SpotifyExtensions
         {
             spotifyConfig = new SpotifyConfig
             {
-                GuildId = guildId,
-                GuildConfigId = guildConfig.Id
+                GuildId = guildId
             };
             context.SpotifyConfigs.Add(spotifyConfig);
         }

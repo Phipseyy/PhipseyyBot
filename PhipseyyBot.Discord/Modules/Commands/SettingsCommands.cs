@@ -1,7 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using Discord;
 using Discord.Interactions;
-using Discord.WebSocket;
 using PhipseyyBot.Common;
 using PhipseyyBot.Common.Db.Extensions;
 using PhipseyyBot.Common.Embeds;
@@ -13,7 +12,6 @@ namespace PhipseyyBot.Discord.Modules.Commands;
 
 [SuppressMessage("ReSharper", "UnusedType.Global")]
 [SuppressMessage("ReSharper", "UnusedMember.Global")]
-
 [RequireUserPermission(GuildPermission.Administrator)]
 [Group("settings", "Settings for the Server")]
 [EnabledInDm(false)]

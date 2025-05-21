@@ -10,11 +10,8 @@ public class SpotifyConfig
     public int Id { get; set; }
     
     [Required]
-    public ulong GuildId { get; set; }
-    
-    // This is the foreign key to GuildConfig
     [ForeignKey("GuildConfig")]
-    public int GuildConfigId { get; set; }
+    public ulong GuildId { get; set; }
     
     public string SpotifyClientId { get; set; }
     public string SpotifyClientSecret { get; set; }

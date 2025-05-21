@@ -16,11 +16,8 @@ public class TwitchConfig
     public string Username { get; set; }
     
     [Required]
-    public ulong GuildId { get; set; }
-    
-    // This is the foreign key to GuildConfig
     [ForeignKey("GuildConfig")]
-    public int GuildConfigId { get; set; }
+    public ulong GuildId { get; set; }
     
     public bool MainStream { get; set; }
     public string? SpotifySr { get; set; }
