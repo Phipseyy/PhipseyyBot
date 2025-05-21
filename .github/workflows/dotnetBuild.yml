@@ -2,8 +2,6 @@ name: ReleaseAndBuild
 
 on:
   push:
-    tags:
-      - '*'
     branches: [ "master" ]
   pull_request:
     branches: [ "master" ]
@@ -64,9 +62,19 @@ jobs:
     needs: build-bot
     permissions:
       contents: write
-    if: github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/tags/')
+    if: github.ref == 'refs/heads/master' && github.event_name == 'push'
 
     steps:
+      - uses: actions/checkout@v4
+
+      - name: Create Tag
+        run: |
+          git config --global user.name 'GitHub Actions'
+          git config --global user.email 'actions@github.com'
+          tag_name="v0.0.${{ github.run_number }}"
+          git tag $tag_name
+          git push origin $tag_name
+
       - name: Download Linux-arm64 Artifact
         uses: actions/download-artifact@v4
         with:
@@ -94,8 +102,9 @@ jobs:
       - name: Create Release
         uses: softprops/action-gh-release@v1
         with:
+          tag_name: v0.0.${{ github.run_number }}
           files: |
             linux-arm64.zip
             linux-x64.zip
             win-x64.zip
-          name: Release V0.0.${{ github.run_number }}
+          name: Release v0.0.${{ github.run_number }}
